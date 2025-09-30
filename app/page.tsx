@@ -1,7 +1,7 @@
 import { FileText } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
-import { ModeToggle } from '@/components/ui/mode-toggle'
+import { Button } from '@components/ui/button'
+import { ModeToggle } from '@components/ui/mode-toggle'
 
 export default function Home() {
   return (

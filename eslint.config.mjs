@@ -55,7 +55,7 @@ export default defineConfig([
           groups: [
             ['^react$', '^react/'],
             ['^@?\\w'],
-            ['^@/'],
+            ['^@components', '^@lib', '^@hooks'],
             ['^\\.\\.(?!/?$)', '^\\./'],
             ['\\.css$', '\\.scss$', '\\.less$'],
           ],
