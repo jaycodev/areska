@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
+import NextTopLoader from 'nextjs-toploader'
 
 import './globals.css'
 
@@ -34,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="es" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -60,6 +61,7 @@ export default function RootLayout({
           disableTransitionOnChange
           enableColorScheme
         >
+          <NextTopLoader color="var(--ring)" height={2} easing="linear" showSpinner={false} />
           {children}
         </ThemeProvider>
       </body>
