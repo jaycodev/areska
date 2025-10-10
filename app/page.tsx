@@ -1,7 +1,7 @@
 import { FileText } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { ModeToggle } from '@/components/ui/mode-toggle'
+import { ThemeToggle } from '@/components/ui/theme-toggle'
 
 export default function Home() {
   return (
@@ -126,7 +126,7 @@ export default function Home() {
       </div>
 
       <div className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8">
-        <ModeToggle />
+        <ThemeToggle />
       </div>
     </main>
   )
