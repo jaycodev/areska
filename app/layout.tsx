@@ -3,6 +3,9 @@ import { Inter } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import NextTopLoader from 'nextjs-toploader'
 
+import { Footer } from '@/components/layout/footer'
+import { Navbar } from '@/components/layout/navbar'
+
 import './globals.css'
 
 const inter = Inter({
@@ -13,8 +16,11 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Next.js + shadcn/ui Starter',
-  description: 'Starter template with Next.js 15, Tailwind CSS v4, and shadcn/ui.',
+  title: {
+    default: 'Areska',
+    template: '%s - Areska',
+  },
+  description: 'E-commerce platform for buying and selling peripherals and computer components.',
   icons: {
     icon: [
       { url: '/favicon-light.svg', media: '(prefers-color-scheme: light)', type: 'image/svg+xml' },
@@ -62,7 +68,9 @@ export default function RootLayout({
           enableColorScheme
         >
           <NextTopLoader color="var(--ring)" height={2} easing="linear" showSpinner={false} />
+          <Navbar />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
