@@ -3,9 +3,6 @@ import { Inter } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import NextTopLoader from 'nextjs-toploader'
 
-import { Footer } from '@/components/layout/footer'
-import { Navbar } from '@/components/layout/navbar'
-
 import './globals.css'
 
 const inter = Inter({
@@ -22,16 +19,13 @@ export const metadata: Metadata = {
   },
   description: 'E-commerce platform for buying and selling peripherals and computer components.',
   icons: {
-    icon: [
-      { url: '/favicon-light.svg', media: '(prefers-color-scheme: light)', type: 'image/svg+xml' },
-      { url: '/favicon-dark.svg', media: '(prefers-color-scheme: dark)', type: 'image/svg+xml' },
-    ],
+    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
   },
 }
 
 export function generateViewport() {
   return {
-    themeColor: [{ color: 'oklch(0.141 0.005 285.823)' }],
+    themeColor: [{ color: 'oklch(1 0 0)' }],
   }
 }
 
@@ -63,14 +57,12 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           disableTransitionOnChange
           enableColorScheme
         >
           <NextTopLoader color="var(--ring)" height={2} easing="linear" showSpinner={false} />
-          <Navbar />
           {children}
-          <Footer />
         </ThemeProvider>
       </body>
     </html>

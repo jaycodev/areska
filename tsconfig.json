@@ -19,6 +19,10 @@
       }
     ],
     "paths": {
+      "@auth/*": ["./features/auth/*"],
+      "@public/*": ["./features/public/*"],
+      "@admin/*": ["./features/admin/*"],
+      "@error/*": ["./features/error/*"],
       "@/*": ["./*"]
     }
   },
