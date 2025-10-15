@@ -4,8 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { Logo } from '@/components/shared/logo'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Form,
   FormControl,
@@ -56,64 +56,62 @@ export function ResetPasswordPage({ className, ...props }: React.ComponentPropsW
   })
 
   const onSubmit = (data: ResetPasswordFormValues) => {
-    console.log('Datos para crear contraseña nueva:', data)
+    console.warn('Datos para crear contraseña nueva:', data)
   }
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col items-center gap-2">
-              <div className="flex flex-col items-center gap-2 font-medium">
-                <Logo className="size-10" />
-                <span className="sr-only">Areska</span>
+      <Card>
+        <CardHeader className="text-center">
+          <CardTitle className="text-xl">Crear contraseña nueva</CardTitle>
+          <CardDescription>
+            Ingresa la contraseña nueva para tu cuenta de Areska a continuación.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <div className="flex flex-col gap-6">
+                <FormField
+                  control={form.control}
+                  name="newPassword"
+                  render={({ field, fieldState }) => (
+                    <FormItem>
+                      <FormLabel>Contraseña nueva</FormLabel>
+                      <FormControl>
+                        <PasswordInput
+                          placeholder="Contraseña nueva"
+                          autoComplete="new-password"
+                          {...field}
+                        />
+                      </FormControl>
+                      {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="confirmNewPassword"
+                  render={({ field, fieldState }) => (
+                    <FormItem>
+                      <FormLabel>Confirmar contraseña nueva</FormLabel>
+                      <FormControl>
+                        <PasswordInput
+                          placeholder="Confirmar contraseña nueva"
+                          autoComplete="new-password"
+                          {...field}
+                        />
+                      </FormControl>
+                      {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit">Crear contraseña</Button>
               </div>
-              <h1 className="text-xl font-bold">Crear contraseña nueva</h1>
-              <div className="text-center text-sm">
-                Ingresa la contraseña nueva para tu cuenta de Areska a continuación.
-              </div>
-            </div>
-            <div className="flex flex-col gap-6">
-              <FormField
-                control={form.control}
-                name="newPassword"
-                render={({ field, fieldState }) => (
-                  <FormItem>
-                    <FormLabel>Contraseña nueva</FormLabel>
-                    <FormControl>
-                      <PasswordInput
-                        placeholder="Contraseña nueva"
-                        autoComplete="new-password"
-                        {...field}
-                      />
-                    </FormControl>
-                    {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="confirmNewPassword"
-                render={({ field, fieldState }) => (
-                  <FormItem>
-                    <FormLabel>Confirmar contraseña nueva</FormLabel>
-                    <FormControl>
-                      <PasswordInput
-                        placeholder="Confirmar contraseña nueva"
-                        autoComplete="new-password"
-                        {...field}
-                      />
-                    </FormControl>
-                    {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
-                  </FormItem>
-                )}
-              />
-              <Button type="submit">Crear contraseña</Button>
-            </div>
-          </div>
-        </form>
-      </Form>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
     </div>
   )
 }
