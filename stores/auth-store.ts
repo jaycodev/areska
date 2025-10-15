@@ -26,8 +26,8 @@ export const useAuthStore = create<AuthStore>()(
         const mockUser: User = {
           id: '1',
           email,
-          firstName: 'John',
-          lastName: 'Doe',
+          firstName: 'Admin',
+          lastName: 'Test',
         }
 
         set({ user: mockUser, isLoading: false })

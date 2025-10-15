@@ -12,6 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/ui/password-input'
 import { cn } from '@/lib/utils'
+import { useAuthStore } from '@/stores/auth-store'
 
 const loginSchema = z.object({
   email: z.email({ message: 'Correo electrónico inválido' }).trim(),
@@ -22,6 +23,7 @@ type LoginFormValues = z.infer<typeof loginSchema>
 
 export function LoginPage({ className, ...props }: React.ComponentProps<'div'>) {
   const router = useRouter()
+  const { login, isLoading } = useAuthStore()
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -32,8 +34,8 @@ export function LoginPage({ className, ...props }: React.ComponentProps<'div'>) 
     },
   })
 
-  const onSubmit = (data: LoginFormValues) => {
-    console.warn('Datos de login:', data)
+  const onSubmit = async (data: LoginFormValues) => {
+    await login(data.email, data.password)
     router.push('/')
   }
 
@@ -113,7 +115,9 @@ export function LoginPage({ className, ...props }: React.ComponentProps<'div'>) 
                   )}
                 />
                 <Field>
-                  <Button type="submit">Iniciar Sesión</Button>
+                  <Button type="submit" disabled={isLoading}>
+                    {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+                  </Button>
                   <FieldDescription className="text-center">
                     ¿No tienes una cuenta? <a href="/registrarse">Regístrate</a>
                   </FieldDescription>
