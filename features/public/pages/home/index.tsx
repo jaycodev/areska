@@ -1,4 +1,3 @@
-import { Categories } from './components/categories'
 import { FeaturedProducts } from './components/featured-products'
 import { Hero } from './components/hero'
 import { Newsletter } from './components/newsletter'
@@ -8,7 +7,6 @@ export function HomePage() {
     <>
       <Hero />
       <FeaturedProducts />
-      <Categories />
       <Newsletter />
     </>
   )

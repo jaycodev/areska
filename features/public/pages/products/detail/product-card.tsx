@@ -12,7 +12,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   return (
-    <div className="group overflow-hidden rounded-xl bg-card border shadow-sm">
+    <div className="group overflow-hidden rounded-xl border shadow-sm">
       <div className="relative aspect-square overflow-hidden">
         {product.badge && <Badge className="absolute top-3 left-3 z-10">{product.badge}</Badge>}
         <button className="absolute top-3 right-3 z-10 flex size-8 items-center justify-center rounded-full bg-card opacity-0 transition-opacity group-hover:opacity-100">
@@ -27,7 +27,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </Link>
       </div>
 
-      <div className="p-4">
+      <div className="p-4 border-t">
         <Link href={`/productos/${product.id}`}>
           <h3 className="mb-2 line-clamp-2">{product.name}</h3>
         </Link>

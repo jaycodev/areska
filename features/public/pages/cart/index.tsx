@@ -30,14 +30,14 @@ export function CartPage() {
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
       <h1 className="mb-8 text-3xl font-bold">Carrito de compras</h1>
 
-      <div className="overflow-hidden rounded-xl bg-card border">
+      <div className="overflow-hidden rounded-xl bg-card border shadow-sm">
         <div className="divide-y divide-border">
           {items.map((item) => (
             <div key={item.id} className="flex items-center space-x-4 p-6">
               <img
                 src={item.image || '/images/placeholder.svg'}
                 alt={item.name}
-                className="size-20 rounded-lg object-cover bg-muted"
+                className="size-20 rounded-lg object-cover border"
               />
 
               <div className="flex-1">
@@ -53,7 +53,7 @@ export function CartPage() {
                 >
                   <Minus />
                 </Button>
-                <span className="w-5 text-center font-semibold">{item.quantity}</span>
+                <span className="w-5 text-center">{item.quantity}</span>
                 <Button
                   variant="outline"
                   size="icon"

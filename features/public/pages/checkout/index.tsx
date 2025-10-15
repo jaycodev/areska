@@ -1,20 +1,87 @@
 'use client'
 
+import { useState } from 'react'
+
+import { zodResolver } from '@hookform/resolvers/zod'
 import { CreditCard } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
 
 import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useForm } from '@/hooks/use-form'
-import { CheckoutSchema } from '@/lib/schemas'
 import { useCartStore } from '@/stores/cart-store'
+
+const checkoutSchema = z.object({
+  email: z.string().email('Por favor, ingresa un correo electrónico válido'),
+  firstName: z.string().min(1, 'El nombre es requerido'),
+  lastName: z.string().min(1, 'El apellido es requerido'),
+  address: z.string().min(1, 'La dirección es requerida'),
+  city: z.string().min(1, 'La ciudad es requerida'),
+  state: z.string().min(1, 'La provincia/estado es requerida'),
+  zipCode: z.string().min(5, 'El código postal debe tener al menos 5 caracteres'),
+  cardNumber: z.string().min(16, 'El número de tarjeta debe tener al menos 16 dígitos'),
+  expiryDate: z.string().regex(/^\d{2}\/\d{2}$/, 'Por favor ingresa el formato MM/AA'),
+  cvv: z.string().min(3, 'El CVV debe tener al menos 3 dígitos'),
+})
+
+type CheckoutFormValues = z.infer<typeof checkoutSchema>
 
 export function CheckoutPage() {
   const { items, getTotal, clearCart } = useCartStore()
-  const { data, errors, isSubmitting, setValue, handleSubmit } = useForm(CheckoutSchema)
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
-  const onSubmit = async () => {
+  const form = useForm<CheckoutFormValues>({
+    resolver: zodResolver(checkoutSchema),
+    defaultValues: {
+      email: '',
+      firstName: '',
+      lastName: '',
+      address: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      cardNumber: '',
+      expiryDate: '',
+      cvv: '',
+    },
+  })
+
+  const onSubmit = async (data: CheckoutFormValues) => {
     await new Promise((resolve) => setTimeout(resolve, 2000))
+    console.warn('Pedido realizado:', data)
     clearCart()
+    setIsSubmitted(true)
+  }
+
+  if (isSubmitted) {
+    return (
+      <div className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 lg:px-8">
+        <div className="rounded-lg border bg-card shadow-sm p-8">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+            <CreditCard className="size-8" />
+          </div>
+          <h2 className="mb-2 text-2xl font-bold">¡Pedido realizado con éxito!</h2>
+          <p className="mb-4 text-muted-foreground">
+            Gracias por tu compra. Recibirás un correo de confirmación pronto.
+          </p>
+          <Button
+            onClick={() => setIsSubmitted(false)}
+            variant="outline"
+            className="bg-transparent"
+          >
+            Realizar otro pedido
+          </Button>
+        </div>
+      </div>
+    )
   }
 
   const subtotal = getTotal()
@@ -28,150 +95,179 @@ export function CheckoutPage() {
 
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
         <div>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              handleSubmit(onSubmit)
-            }}
-            className="space-y-6"
-          >
-            <div>
-              <h2 className="mb-4 text-lg">Información de contacto</h2>
+          <Form {...form}>
+            <div className="space-y-6">
               <div>
-                <Input
-                  type="email"
-                  placeholder="Correo electrónico"
-                  value={data.email || ''}
-                  onChange={(e) => setValue('email', e.target.value)}
-                  className={errors.email ? 'border-destructive' : ''}
+                <h2 className="mb-4 text-lg">Información de contacto</h2>
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field, fieldState }) => (
+                    <FormItem>
+                      <FormLabel required>Correo electrónico</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="correo@ejemplo.com" {...field} />
+                      </FormControl>
+                      {fieldState.error && <FormMessage />}
+                    </FormItem>
+                  )}
                 />
-                {errors.email && <p className="mt-1 text-sm text-destructive">{errors.email}</p>}
               </div>
-            </div>
 
-            <div>
-              <h2 className="mb-4 text-lg">Dirección de envío</h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div>
-                  <Input
-                    type="text"
-                    placeholder="Nombre"
-                    value={data.firstName || ''}
-                    onChange={(e) => setValue('firstName', e.target.value)}
-                    className={errors.firstName ? 'border-destructive' : ''}
-                  />
-                  {errors.firstName && (
-                    <p className="mt-1 text-sm text-destructive">{errors.firstName}</p>
-                  )}
-                </div>
-                <div>
-                  <Input
-                    type="text"
-                    placeholder="Apellido"
-                    value={data.lastName || ''}
-                    onChange={(e) => setValue('lastName', e.target.value)}
-                    className={errors.lastName ? 'border-destructive' : ''}
-                  />
-                  {errors.lastName && (
-                    <p className="mt-1 text-sm text-destructive">{errors.lastName}</p>
-                  )}
-                </div>
-              </div>
-              <div className="mt-4">
-                <Input
-                  type="text"
-                  placeholder="Dirección"
-                  value={data.address || ''}
-                  onChange={(e) => setValue('address', e.target.value)}
-                  className={errors.address ? 'border-destructive' : ''}
-                />
-                {errors.address && (
-                  <p className="mt-1 text-sm text-destructive">{errors.address}</p>
-                )}
-              </div>
-              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <div>
-                  <Input
-                    type="text"
-                    placeholder="Ciudad"
-                    value={data.city || ''}
-                    onChange={(e) => setValue('city', e.target.value)}
-                    className={errors.city ? 'border-destructive' : ''}
-                  />
-                  {errors.city && <p className="mt-1 text-sm text-destructive">{errors.city}</p>}
-                </div>
-                <div>
-                  <Input
-                    type="text"
-                    placeholder="Provincia / Estado"
-                    value={data.state || ''}
-                    onChange={(e) => setValue('state', e.target.value)}
-                    className={errors.state ? 'border-destructive' : ''}
-                  />
-                  {errors.state && <p className="mt-1 text-sm text-destructive">{errors.state}</p>}
-                </div>
-                <div>
-                  <Input
-                    type="text"
-                    placeholder="Código postal"
-                    value={data.zipCode || ''}
-                    onChange={(e) => setValue('zipCode', e.target.value)}
-                    className={errors.zipCode ? 'border-destructive' : ''}
-                  />
-                  {errors.zipCode && (
-                    <p className="mt-1 text-sm text-destructive">{errors.zipCode}</p>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h2 className="mb-4 text-lg">Información de pago</h2>
-              <div className="space-y-4">
-                <div>
-                  <Input
-                    type="text"
-                    placeholder="Número de tarjeta"
-                    value={data.cardNumber || ''}
-                    onChange={(e) => setValue('cardNumber', e.target.value)}
-                    className={errors.cardNumber ? 'border-destructive' : ''}
-                  />
-                  {errors.cardNumber && (
-                    <p className="mt-1 text-sm text-destructive">{errors.cardNumber}</p>
-                  )}
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Input
-                      type="text"
-                      placeholder="MM/AA"
-                      value={data.expiryDate || ''}
-                      onChange={(e) => setValue('expiryDate', e.target.value)}
-                      className={errors.expiryDate ? 'border-destructive' : ''}
-                    />
-                    {errors.expiryDate && (
-                      <p className="mt-1 text-sm text-destructive">{errors.expiryDate}</p>
+              <div>
+                <h2 className="mb-4 text-lg">Dirección de envío</h2>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 items-start">
+                  <FormField
+                    control={form.control}
+                    name="firstName"
+                    render={({ field, fieldState }) => (
+                      <FormItem>
+                        <FormLabel required>Nombre</FormLabel>
+                        <FormControl>
+                          <Input type="text" placeholder="Ingrese un nombre" {...field} />
+                        </FormControl>
+                        {fieldState.error && <FormMessage />}
+                      </FormItem>
                     )}
-                  </div>
-                  <div>
-                    <Input
-                      type="text"
-                      placeholder="CVV"
-                      value={data.cvv || ''}
-                      onChange={(e) => setValue('cvv', e.target.value)}
-                      className={errors.cvv ? 'border-destructive' : ''}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="lastName"
+                    render={({ field, fieldState }) => (
+                      <FormItem>
+                        <FormLabel required>Apellido</FormLabel>
+                        <FormControl>
+                          <Input type="text" placeholder="Ingrese un apellido" {...field} />
+                        </FormControl>
+                        {fieldState.error && <FormMessage />}
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="mt-4">
+                  <FormField
+                    control={form.control}
+                    name="address"
+                    render={({ field, fieldState }) => (
+                      <FormItem>
+                        <FormLabel required>Dirección</FormLabel>
+                        <FormControl>
+                          <Input type="text" placeholder="Calle y número" {...field} />
+                        </FormControl>
+                        {fieldState.error && <FormMessage />}
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3 items-start">
+                  <FormField
+                    control={form.control}
+                    name="city"
+                    render={({ field, fieldState }) => (
+                      <FormItem>
+                        <FormLabel required>Ciudad</FormLabel>
+                        <FormControl>
+                          <Input type="text" placeholder="Ciudad" {...field} />
+                        </FormControl>
+                        {fieldState.error && <FormMessage />}
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="state"
+                    render={({ field, fieldState }) => (
+                      <FormItem>
+                        <FormLabel required>Provincia / Estado</FormLabel>
+                        <FormControl>
+                          <Input type="text" placeholder="Provincia" {...field} />
+                        </FormControl>
+                        {fieldState.error && <FormMessage />}
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="zipCode"
+                    render={({ field, fieldState }) => (
+                      <FormItem>
+                        <FormLabel required>Código postal</FormLabel>
+                        <FormControl>
+                          <Input type="text" placeholder="12345" {...field} />
+                        </FormControl>
+                        {fieldState.error && <FormMessage />}
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <h2 className="mb-4 text-lg">Información de pago</h2>
+                <div className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="cardNumber"
+                    render={({ field, fieldState }) => (
+                      <FormItem>
+                        <FormLabel required>Número de tarjeta</FormLabel>
+                        <FormControl>
+                          <Input type="text" placeholder="1234 5678 9012 3456" {...field} />
+                        </FormControl>
+                        {fieldState.error && <FormMessage />}
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="grid grid-cols-2 gap-4 items-start">
+                    <FormField
+                      control={form.control}
+                      name="expiryDate"
+                      render={({ field, fieldState }) => (
+                        <FormItem>
+                          <FormLabel required>Fecha de expiración</FormLabel>
+                          <FormControl>
+                            <Input type="text" placeholder="MM/AA" {...field} />
+                          </FormControl>
+                          {fieldState.error && <FormMessage />}
+                        </FormItem>
+                      )}
                     />
-                    {errors.cvv && <p className="mt-1 text-sm text-destructive">{errors.cvv}</p>}
+
+                    <FormField
+                      control={form.control}
+                      name="cvv"
+                      render={({ field, fieldState }) => (
+                        <FormItem>
+                          <FormLabel required>CVV</FormLabel>
+                          <FormControl>
+                            <Input type="text" placeholder="123" {...field} />
+                          </FormControl>
+                          {fieldState.error && <FormMessage />}
+                        </FormItem>
+                      )}
+                    />
                   </div>
                 </div>
               </div>
-            </div>
 
-            <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
-              <CreditCard />
-              {isSubmitting ? 'Procesando...' : 'Realizar pedido'}
-            </Button>
-          </form>
+              <Button
+                type="button"
+                onClick={form.handleSubmit(onSubmit)}
+                className="w-full"
+                size="lg"
+                disabled={form.formState.isSubmitting}
+              >
+                <CreditCard />
+                {form.formState.isSubmitting ? 'Procesando...' : 'Realizar pedido'}
+              </Button>
+            </div>
+          </Form>
         </div>
 
         <div>
@@ -184,7 +280,7 @@ export function CheckoutPage() {
                   <img
                     src={item.image || '/images/placeholder.svg'}
                     alt={item.name}
-                    className="h-16 w-16 rounded-lg object-cover"
+                    className="h-16 w-16 rounded-lg object-cover border"
                   />
                   <div className="flex-1">
                     <h3 className="font-medium">{item.name}</h3>

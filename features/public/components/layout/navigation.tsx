@@ -12,39 +12,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu'
-
-const categories: { title: string; href: string; description: string }[] = [
-  {
-    title: 'Hombre',
-    href: '/category/men',
-    description: 'Ropa, zapatos y accesorios para hombre.',
-  },
-  {
-    title: 'Mujer',
-    href: '/category/women',
-    description: 'Moda elegante y cómoda para mujer.',
-  },
-  {
-    title: 'Niños',
-    href: '/category/kids',
-    description: 'Ropa divertida y funcional para niños de todas las edades.',
-  },
-  {
-    title: 'Hogar y Vida',
-    href: '/category/home',
-    description: 'Decoración, artículos de cocina y productos para el hogar.',
-  },
-  {
-    title: 'Belleza',
-    href: '/category/beauty',
-    description: 'Cuidado de la piel, cosméticos y esenciales de cuidado personal.',
-  },
-  {
-    title: 'Electrónica',
-    href: '/category/electronics',
-    description: 'Gadgets, accesorios y dispositivos inteligentes.',
-  },
-]
+import { categories } from '@/lib/data'
 
 function ListItem({
   title,
@@ -105,8 +73,12 @@ export function Navigation() {
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-2 md:grid-cols-2 lg:w-[550px]">
               {categories.map((category) => (
-                <ListItem key={category.title} title={category.title} href={category.href}>
-                  {category.description}
+                <ListItem
+                  key={category.name}
+                  title={category.name}
+                  href={`/productos?categoria=${category.value}`}
+                >
+                  {category.count}
                 </ListItem>
               ))}
             </ul>

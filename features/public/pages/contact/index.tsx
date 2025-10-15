@@ -185,7 +185,7 @@ export function ContactPage() {
                     name="firstName"
                     render={({ field, fieldState }) => (
                       <FormItem>
-                        <FormLabel>Nombre *</FormLabel>
+                        <FormLabel required>Nombre</FormLabel>
                         <FormControl>
                           <Input placeholder="Ingrese un nombre" {...field} />
                         </FormControl>
@@ -199,7 +199,7 @@ export function ContactPage() {
                     name="lastName"
                     render={({ field, fieldState }) => (
                       <FormItem>
-                        <FormLabel>Apellido *</FormLabel>
+                        <FormLabel required>Apellido</FormLabel>
                         <FormControl>
                           <Input placeholder="Ingrese un apellido" {...field} />
                         </FormControl>
@@ -215,7 +215,7 @@ export function ContactPage() {
                     name="email"
                     render={({ field, fieldState }) => (
                       <FormItem>
-                        <FormLabel>Correo electrónico *</FormLabel>
+                        <FormLabel required>Correo electrónico</FormLabel>
                         <FormControl>
                           <Input type="email" placeholder="correo@ejemplo.com" {...field} />
                         </FormControl>
@@ -245,7 +245,7 @@ export function ContactPage() {
                     name="subject"
                     render={({ field, fieldState }) => (
                       <FormItem>
-                        <FormLabel>Asunto *</FormLabel>
+                        <FormLabel required>Asunto</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger className="w-full">
@@ -286,7 +286,7 @@ export function ContactPage() {
                   name="message"
                   render={({ field, fieldState }) => (
                     <FormItem>
-                      <FormLabel>Mensaje *</FormLabel>
+                      <FormLabel required>Mensaje</FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="Describe tu consulta en detalle..."

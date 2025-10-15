@@ -67,9 +67,13 @@ export function ProductsPage() {
 
   const categories = {
     todos: { label: 'Todos los productos', value: null },
+    perifericos: { label: 'Periféricos', value: 'perifericos' },
     audio: { label: 'Audio', value: 'audio' },
-    wearables: { label: 'Wearables', value: 'wearables' },
-    accesorios: { label: 'Accesorios', value: 'accessories' },
+    monitores: { label: 'Monitores', value: 'monitores' },
+    streaming: { label: 'Streaming', value: 'streaming' },
+    muebles: { label: 'Muebles Gaming', value: 'muebles' },
+    iluminacion: { label: 'Iluminación', value: 'iluminacion' },
+    accesorios: { label: 'Accesorios', value: 'accesorios' },
   } as const
 
   const filteredProducts = products

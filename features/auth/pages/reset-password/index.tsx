@@ -77,7 +77,7 @@ export function ResetPasswordPage({ className, ...props }: React.ComponentPropsW
                   name="newPassword"
                   render={({ field, fieldState }) => (
                     <FormItem>
-                      <FormLabel>Contraseña nueva</FormLabel>
+                      <FormLabel required>Contraseña nueva</FormLabel>
                       <FormControl>
                         <PasswordInput
                           placeholder="Contraseña nueva"
@@ -94,7 +94,7 @@ export function ResetPasswordPage({ className, ...props }: React.ComponentPropsW
                   name="confirmNewPassword"
                   render={({ field, fieldState }) => (
                     <FormItem>
-                      <FormLabel>Confirmar contraseña nueva</FormLabel>
+                      <FormLabel required>Confirmar contraseña nueva</FormLabel>
                       <FormControl>
                         <PasswordInput
                           placeholder="Confirmar contraseña nueva"

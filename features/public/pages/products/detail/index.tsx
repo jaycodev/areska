@@ -48,7 +48,7 @@ export function ProductDetailPage({ product, relatedProducts }: Props) {
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
         {/* Product Images */}
         <div className="space-y-4">
-          <div className="aspect-square overflow-hidden rounded-xl bg-muted">
+          <div className="aspect-square overflow-hidden rounded-xl border">
             <img
               src={productImages[selectedImage] || '/images/placeholder.svg'}
               alt={product.name}
@@ -60,8 +60,8 @@ export function ProductDetailPage({ product, relatedProducts }: Props) {
               <button
                 key={index}
                 onClick={() => setSelectedImage(index)}
-                className={`aspect-square overflow-hidden rounded-lg border-2 bg-muted ${
-                  selectedImage === index ? 'border-primary' : 'border-transparent'
+                className={`aspect-square overflow-hidden rounded-lg border-1 cursor-pointer ${
+                  selectedImage === index ? 'border-primary' : 'border'
                 }`}
               >
                 <img

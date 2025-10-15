@@ -1,144 +1,276 @@
-import { type Product, ProductSchema } from './schemas'
+import { type Category, CategorySchema, type Product, ProductSchema } from './schemas'
 
-// Sample products data - types are automatically inferred
 export const sampleProducts = [
   {
     id: '1',
-    name: 'Premium Wireless Headphones',
-    price: 299.99,
-    originalPrice: 399.99,
-    image: 'https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg',
-    category: 'audio',
-    badge: 'Best Seller',
+    name: 'Teclado Mecánico RGB Gaming',
+    price: 149.99,
+    originalPrice: 199.99,
+    image: '/images/products/keyboards/teclado-mecanico-rgb-1.png',
+    category: 'perifericos',
+    badge: 'Más Vendido',
     description:
-      'Experience exceptional sound quality with our premium wireless headphones. Featuring advanced noise cancellation, 30-hour battery life, and premium materials for ultimate comfort.',
+      'Teclado mecánico gaming con switches azules, iluminación RGB personalizable y reposamuñecas magnético. Diseñado para gamers profesionales con teclas anti-ghosting y construcción de aluminio premium.',
     images: [
-      '/images/placeholder.svg?height=600&width=600',
-      '/images/placeholder.svg?height=600&width=600',
-      '/images/placeholder.svg?height=600&width=600',
-      '/images/placeholder.svg?height=600&width=600',
+      '/images/products/keyboards/teclado-mecanico-rgb-1.png',
+      '/images/products/keyboards/teclado-mecanico-rgb-2.png',
+      '/images/products/keyboards/teclado-mecanico-rgb-3.png',
+      '/images/products/keyboards/teclado-mecanico-rgb-4.webp',
     ],
     colors: [
-      { name: 'Black', value: '#000000' },
-      { name: 'White', value: '#FFFFFF' },
-      { name: 'Silver', value: '#C0C0C0' },
-      { name: 'Rose Gold', value: '#E8B4B8' },
+      { name: 'Negro', value: '#000000' },
+      { name: 'Blanco', value: '#FFFFFF' },
+      { name: 'RGB', value: '#FF00FF' },
     ],
-    sizes: ['One Size'],
+    sizes: ['Tamaño Completo', 'TKL', '60%'],
     features: [
-      'Active Noise Cancellation',
-      '30-hour battery life',
-      'Premium leather ear cups',
-      'Wireless charging case',
-      'Hi-Res Audio certified',
+      'Switches mecánicos Cherry MX',
+      'Iluminación RGB por tecla',
+      'Anti-ghosting completo',
+      'Cable trenzado desmontable',
+      'Reposamuñecas magnético',
     ],
   },
   {
     id: '2',
-    name: 'Smart Fitness Watch',
-    price: 199.99,
-    image: 'https://images.pexels.com/photos/22434765/pexels-photo-22434765.jpeg',
-    category: 'wearables',
-    badge: 'New',
-  },
-  {
-    id: '3',
-    name: 'Minimalist Backpack',
+    name: 'Mouse Gaming Inalámbrico Pro',
     price: 89.99,
     originalPrice: 119.99,
-    image: 'https://burst.shopifycdn.com/photos/bright-purple-t-shirt.jpg',
-    category: 'accessories',
+    image: '/images/products/mice/mouse-gaming-pro-1.png',
+    category: 'perifericos',
+    badge: 'Nuevo',
+    description:
+      'Mouse gaming inalámbrico de alta precisión con sensor óptico de 25,600 DPI, batería de 70 horas y peso ajustable.',
+    images: [
+      '/images/products/mice/mouse-gaming-pro-1.png',
+      '/images/products/mice/mouse-gaming-pro-2.png',
+      '/images/products/mice/mouse-gaming-pro-3.webp',
+    ],
+    colors: [
+      { name: 'Negro', value: '#000000' },
+      { name: 'Blanco', value: '#FFFFFF' },
+    ],
+    features: [
+      'Sensor óptico 25,600 DPI',
+      'Batería 70 horas',
+      'Conexión inalámbrica 2.4GHz',
+      '8 botones programables',
+      'Peso ajustable',
+    ],
+  },
+
+  {
+    id: '3',
+    name: 'Auriculares Gaming 7.1 Surround',
+    price: 179.99,
+    image: '/images/products/headsets/auriculares-71.png',
+    category: 'audio',
+    badge: 'Popular',
+    description:
+      'Auriculares gaming con sonido envolvente 7.1, micrófono retráctil con cancelación de ruido y almohadillas de gel refrigerante.',
+    features: [
+      'Sonido envolvente 7.1',
+      'Micrófono con cancelación de ruido',
+      'Almohadillas de gel refrigerante',
+      'RGB personalizable',
+      'Compatible multi-plataforma',
+    ],
   },
   {
     id: '4',
-    name: 'Wireless Charging Pad',
-    price: 49.99,
-    image:
-      'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    category: 'accessories',
+    name: 'Monitor Gaming 27" 165Hz',
+    price: 329.99,
+    originalPrice: 399.99,
+    image: '/images/products/monitors/monitor-27-165hz.png',
+    category: 'monitores',
+    badge: 'Oferta',
+    description:
+      'Monitor gaming QHD 27 pulgadas con panel IPS, 165Hz, 1ms de respuesta y soporte para G-Sync/FreeSync.',
+    features: [
+      'Resolución 2560x1440 (QHD)',
+      'Tasa de refresco 165Hz',
+      'Tiempo de respuesta 1ms',
+      'Panel IPS con HDR400',
+      'Compatible G-Sync y FreeSync',
+    ],
   },
   {
     id: '5',
-    name: 'Bluetooth Speaker',
-    price: 129.99,
-    image:
-      'https://images.unsplash.com/photo-1623998021446-45cd9b269056?q=80&w=1179&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    category: 'audio',
-    badge: 'Popular',
+    name: 'Silla Gaming Ergonómica Pro',
+    price: 299.99,
+    image: '/images/products/chairs/silla-gaming-pro.png',
+    category: 'muebles',
+    badge: 'Premium',
+    description:
+      'Silla gaming ergonómica con soporte lumbar ajustable, reposabrazos 4D y reclinación hasta 180 grados.',
+    features: [
+      'Soporte lumbar ajustable',
+      'Reposabrazos 4D',
+      'Reclinación hasta 180°',
+      'Cojín de espuma de memoria',
+      'Base de acero resistente',
+    ],
   },
   {
     id: '6',
-    name: 'USB-C Hub',
-    price: 79.99,
-    originalPrice: 99.99,
-    image:
-      'https://images.unsplash.com/photo-1511499767150-a48a237f0083?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    category: 'accessories',
+    name: 'Mousepad XXL Gaming',
+    price: 29.99,
+    originalPrice: 39.99,
+    image: '/images/products/mousepads/mousepad-xxl.png',
+    category: 'accesorios',
+    description:
+      'Mousepad de tamaño extendido con superficie optimizada para gaming, base antideslizante y bordes cosidos.',
+    features: [
+      'Tamaño XXL: 90x40cm',
+      'Base de goma antideslizante',
+      'Superficie de control suave',
+      'Bordes cosidos resistentes',
+      'Fácil de limpiar',
+    ],
   },
   {
     id: '7',
-    name: 'USB-C Hub',
-    price: 79.99,
-    originalPrice: 99.99,
-    image:
-      'https://plus.unsplash.com/premium_photo-1676914336000-f8b2f9edd56a?q=80&w=784&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    category: 'accessories',
+    name: 'Webcam 4K Streaming',
+    price: 119.99,
+    image: '/images/products/webcams/webcam-4k-streaming.png',
+    category: 'streaming',
+    badge: 'Nuevo',
+    description:
+      'Webcam 4K con enfoque automático, corrección de luz y micrófono estéreo integrado, ideal para streaming profesional.',
+    features: [
+      'Resolución 4K a 30fps',
+      'Enfoque automático',
+      'Corrección automática de luz',
+      'Micrófono estéreo dual',
+      'Compatible con OBS/Streamlabs',
+    ],
   },
   {
     id: '8',
-    name: 'USB-C Hub',
-    price: 79.99,
-    originalPrice: 99.99,
-    image:
-      'https://plus.unsplash.com/premium_photo-1680859126131-d91874d9f5e8?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    category: 'accessories',
+    name: 'Micrófono Condensador USB',
+    price: 89.99,
+    originalPrice: 129.99,
+    image: '/images/products/microphones/microfono-condensador-usb.png',
+    category: 'streaming',
+    description:
+      'Micrófono condensador profesional con patrón cardioide, monitoreo en tiempo real y filtro anti-pop incluido.',
+    features: [
+      'Patrón cardioide profesional',
+      'Conexión USB plug-and-play',
+      'Monitoreo sin latencia',
+      'Filtro anti-pop incluido',
+      'Brazo articulado ajustable',
+    ],
   },
   {
     id: '9',
-    name: 'USB-C Hub',
-    price: 79.99,
-    originalPrice: 99.99,
-    image:
-      'https://plus.unsplash.com/premium_photo-1681711647066-ef84575c0d95?q=80&w=700&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    category: 'accessories',
+    name: 'Hub USB-C Gaming 7 en 1',
+    price: 69.99,
+    image: '/images/products/hubs/hub-usbc-7en1.png',
+    category: 'accesorios',
+    description:
+      'Hub USB-C multifunción con puertos USB 3.0, HDMI 4K, lector SD/microSD y carga rápida PD 100W.',
+    features: [
+      '3 puertos USB 3.0',
+      'Salida HDMI 4K@60Hz',
+      'Lector SD/microSD',
+      'Puerto Ethernet Gigabit',
+      'Carga rápida PD 100W',
+    ],
+  },
+  {
+    id: '10',
+    name: 'Tira LED RGB Gaming 3m',
+    price: 34.99,
+    image: '/images/products/leds/tira-led-rgb-3m.png',
+    category: 'iluminacion',
+    badge: 'Popular',
+    description:
+      'Tira LED RGB inteligente con control por app, sincronización con música y 16 millones de colores.',
+    features: [
+      '3 metros de longitud',
+      'Control WiFi por app',
+      'Sincronización con música',
+      '16 millones de colores',
+      'Compatible con Alexa/Google',
+    ],
+  },
+  {
+    id: '11',
+    name: 'Soporte para Monitor Gaming',
+    price: 49.99,
+    image: '/images/products/stands/soporte-monitor-brazo.png',
+    category: 'accesorios',
+    description:
+      'Brazo articulado para monitor con movimiento completo 360°, soporta hasta 32" y 9kg de peso.',
+    features: [
+      'Movimiento 360° completo',
+      'Soporta monitores hasta 32"',
+      'Capacidad de carga 9kg',
+      'Gestión de cables integrada',
+      'Montaje VESA estándar',
+    ],
+  },
+  {
+    id: '12',
+    name: 'Controlador Pro Inalámbrico',
+    price: 69.99,
+    originalPrice: 89.99,
+    image: '/images/products/controllers/controlador-pro-inalambrico.png',
+    category: 'accesorios',
+    badge: 'Oferta',
+    description:
+      'Controlador inalámbrico premium con gatillos adaptativos, vibración HD y batería de 12 horas.',
+    features: [
+      'Conexión Bluetooth/USB-C',
+      'Batería 12 horas',
+      'Gatillos adaptativos',
+      'Vibración HD',
+      'Compatible PC/consolas',
+    ],
   },
 ] as const
 
 export const products: Product[] = sampleProducts.map((product) => ProductSchema.parse(product))
 
-// Categories data with inferred types
-export const categories = [
+const sampleCategories = [
+  {
+    name: 'Periféricos',
+    value: 'perifericos',
+    count: '150+ productos',
+  },
   {
     name: 'Audio',
-    href: '/productos?categoria=audio',
-    count: '120+ products',
+    value: 'audio',
+    count: '85+ productos',
   },
   {
-    name: 'Wearables',
-    href: '/productos?categoria=wearables',
-    count: '85+ products',
+    name: 'Monitores',
+    value: 'monitores',
+    count: '60+ productos',
   },
   {
-    name: 'Accessories',
-    href: '/productos?categoria=accessories',
-    count: '200+ products',
+    name: 'Streaming',
+    value: 'streaming',
+    count: '45+ productos',
   },
   {
-    name: 'Mobile',
-    href: '/productos?categoria=mobile',
-    count: '95+ products',
+    name: 'Muebles Gaming',
+    value: 'muebles',
+    count: '30+ productos',
   },
   {
-    name: 'Photography',
-    href: '/productos?categoria=photography',
-    count: '60+ products',
+    name: 'Iluminación',
+    value: 'iluminacion',
+    count: '40+ productos',
   },
   {
-    name: 'Gaming',
-    href: '/productos?categoria=gaming',
-    count: '150+ products',
+    name: 'Accesorios',
+    value: 'accesorios',
+    count: '200+ productos',
   },
 ] as const
 
-// Export inferred types
-export type Category = (typeof categories)[number]
+export const categories: Category[] = sampleCategories.map((category) =>
+  CategorySchema.parse(category)
+)

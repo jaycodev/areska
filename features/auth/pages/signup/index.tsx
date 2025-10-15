@@ -81,7 +81,7 @@ export function SignUpPage({ className, ...props }: React.ComponentProps<'div'>)
                   name="name"
                   render={({ field, fieldState }) => (
                     <FormItem>
-                      <FormLabel>Nombre</FormLabel>
+                      <FormLabel required>Nombre</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
@@ -99,7 +99,7 @@ export function SignUpPage({ className, ...props }: React.ComponentProps<'div'>)
                   name="email"
                   render={({ field, fieldState }) => (
                     <FormItem>
-                      <FormLabel>Correo electrónico</FormLabel>
+                      <FormLabel required>Correo electrónico</FormLabel>
                       <FormControl>
                         <Input
                           type="email"
@@ -117,7 +117,7 @@ export function SignUpPage({ className, ...props }: React.ComponentProps<'div'>)
                   name="password"
                   render={({ field, fieldState }) => (
                     <FormItem>
-                      <FormLabel>Contraseña</FormLabel>
+                      <FormLabel required>Contraseña</FormLabel>
                       <FormControl>
                         <PasswordInput
                           placeholder="Contraseña"
@@ -134,7 +134,7 @@ export function SignUpPage({ className, ...props }: React.ComponentProps<'div'>)
                   name="confirmPassword"
                   render={({ field, fieldState }) => (
                     <FormItem>
-                      <FormLabel>Confirmar contraseña</FormLabel>
+                      <FormLabel required>Confirmar contraseña</FormLabel>
                       <FormControl>
                         <PasswordInput
                           placeholder="Confirmar Contraseña"
