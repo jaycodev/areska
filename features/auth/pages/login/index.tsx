@@ -14,7 +14,7 @@ import { PasswordInput } from '@/components/ui/password-input'
 import { cn } from '@/lib/utils'
 
 const loginSchema = z.object({
-  email: z.string().email({ message: 'Correo electrónico inválido' }).trim(),
+  email: z.email({ message: 'Correo electrónico inválido' }).trim(),
   password: z.string().trim().min(8, { message: 'La contraseña debe tener al menos 8 caracteres' }),
 })
 
