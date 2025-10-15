@@ -18,7 +18,10 @@ export function CartCount() {
   }
 
   return (
-    <Badge className="absolute -top-2.5 -right-2.5 h-5 min-w-5 rounded-full px-1 tabular-nums">
+    <Badge
+      variant="destructive"
+      className="bg-destructive absolute -top-2.5 -right-2.5 h-5 min-w-5 rounded-full px-1 tabular-nums"
+    >
       {itemCount}
     </Badge>
   )
