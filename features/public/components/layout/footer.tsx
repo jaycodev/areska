@@ -44,7 +44,7 @@ export function Footer() {
                     <Mail />
                   </InputGroupAddon>
                 </InputGroup>
-                <Button>
+                <Button variant="secondary">
                   <Bell />
                   Suscribirse
                 </Button>
