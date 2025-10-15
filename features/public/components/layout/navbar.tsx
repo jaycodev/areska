@@ -76,7 +76,7 @@ export function Navbar() {
               </div>
             ) : (
               <Link href="/iniciar-sesion">
-                <Button>Iniciar Sesión</Button>
+                <Button>Iniciar sesión</Button>
               </Link>
             )}
 
@@ -97,13 +97,13 @@ export function Navbar() {
           <div className="border-t bg-background py-4 md:hidden">
             <div className="flex flex-col space-y-4">
               <Link href="/" className="hover:text-primary transition-colors">
-                Home
+                Inicio
               </Link>
               <Link href="/productos" className="hover:text-primary transition-colors">
-                Shop
+                Tienda
               </Link>
               <Link href="/about" className="hover:text-primary transition-colors">
-                About
+                Acerca de
               </Link>
               <div className="border-t pt-4">
                 <input

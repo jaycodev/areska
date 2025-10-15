@@ -13,10 +13,10 @@ export const sampleProducts = [
     description:
       'Experience exceptional sound quality with our premium wireless headphones. Featuring advanced noise cancellation, 30-hour battery life, and premium materials for ultimate comfort.',
     images: [
-      '/placeholder.svg?height=600&width=600',
-      '/placeholder.svg?height=600&width=600',
-      '/placeholder.svg?height=600&width=600',
-      '/placeholder.svg?height=600&width=600',
+      '/images/placeholder.svg?height=600&width=600',
+      '/images/placeholder.svg?height=600&width=600',
+      '/images/placeholder.svg?height=600&width=600',
+      '/images/placeholder.svg?height=600&width=600',
     ],
     colors: [
       { name: 'Black', value: '#000000' },

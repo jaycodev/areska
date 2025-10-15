@@ -2,191 +2,205 @@ export function TermsOfServicePage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="prose prose-gray max-w-none">
-        <h1 className="mb-8 text-4xl font-bold">Terms of Service</h1>
+        <h1 className="mb-8 text-4xl font-bold">Términos del servicio</h1>
         <p className="text-muted-foreground mb-8 text-lg">
-          Last updated: {new Date().toLocaleDateString()}
+          Última actualización: {new Date().toLocaleDateString()}
         </p>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">1. Acceptance of Terms</h2>
+          <h2 className="mb-4 text-2xl font-semibold">1. Aceptación de términos</h2>
           <div className="space-y-4 text-muted-foreground">
             <p>
-              By accessing and using this website, you accept and agree to be bound by the terms and
-              provision of this agreement. If you do not agree to abide by the above, please do not
-              use this service.
+              Al acceder y usar este sitio web, aceptas y estás de acuerdo en cumplir con los
+              términos y disposiciones de este acuerdo. Si no estás de acuerdo con lo anterior, por
+              favor no uses este servicio.
             </p>
           </div>
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">2. Use License</h2>
+          <h2 className="mb-4 text-2xl font-semibold">2. Licencia de uso</h2>
           <div className="space-y-4 text-muted-foreground">
             <p>
-              Permission is granted to temporarily download one copy of the materials on Store&#39;s
-              website for personal, non-commercial transitory viewing only. This is the grant of a
-              license, not a transfer of title, and under this license you may not:
+              Se otorga permiso para descargar temporalmente una copia de los materiales del sitio
+              web de la Tienda solo para visualización personal y no comercial. Esta es la concesión
+              de una licencia, no una transferencia de título, y bajo esta licencia no puedes:
             </p>
             <ul className="list-disc space-y-2 pl-6">
-              <li>Modify or copy the materials</li>
-              <li>Use the materials for any commercial purpose or for any public display</li>
-              <li>Attempt to reverse engineer any software contained on the website</li>
-              <li>Remove any copyright or other proprietary notations from the materials</li>
+              <li>Modificar o copiar los materiales</li>
+              <li>
+                Usar los materiales para cualquier propósito comercial o para exhibición pública
+              </li>
+              <li>
+                Intentar realizar ingeniería inversa de cualquier software contenido en el sitio web
+              </li>
+              <li>
+                Eliminar cualquier nota de derechos de autor u otras notaciones de propiedad de los
+                materiales
+              </li>
             </ul>
           </div>
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">3. Product Information</h2>
+          <h2 className="mb-4 text-2xl font-semibold">3. Información del producto</h2>
           <div className="space-y-4 text-muted-foreground">
             <p>
-              We strive to provide accurate product information, including descriptions, prices, and
-              availability. However:
+              Nos esforzamos por proporcionar información precisa del producto, incluyendo
+              descripciones, precios y disponibilidad. Sin embargo:
             </p>
             <ul className="list-disc space-y-2 pl-6">
-              <li>Product colors may vary due to monitor settings</li>
-              <li>We reserve the right to correct any errors in pricing or product information</li>
-              <li>Product availability is subject to change without notice</li>
-              <li>We may limit quantities available for purchase</li>
+              <li>Los colores del producto pueden variar debido a la configuración del monitor</li>
+              <li>
+                Nos reservamos el derecho de corregir cualquier error en precios o información del
+                producto
+              </li>
+              <li>La disponibilidad del producto está sujeta a cambios sin previo aviso</li>
+              <li>Podemos limitar las cantidades disponibles para compra</li>
             </ul>
           </div>
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">4. Orders and Payment</h2>
+          <h2 className="mb-4 text-2xl font-semibold">4. Pedidos y pago</h2>
           <div className="space-y-4 text-muted-foreground">
-            <h3 className="text-xl font-medium">Order Acceptance</h3>
+            <h3 className="text-xl font-medium">Aceptación de pedidos</h3>
             <p>
-              All orders are subject to acceptance by us. We reserve the right to refuse or cancel
-              any order for any reason, including but not limited to product availability, errors in
-              product or pricing information, or suspected fraudulent activity.
+              Todos los pedidos están sujetos a nuestra aceptación. Nos reservamos el derecho de
+              rechazar o cancelar cualquier pedido por cualquier motivo, incluyendo pero no limitado
+              a disponibilidad del producto, errores en información del producto o precios, o
+              actividad fraudulenta sospechosa.
             </p>
 
-            <h3 className="mt-6 text-xl font-medium">Payment Terms</h3>
+            <h3 className="mt-6 text-xl font-medium">Términos de pago</h3>
             <ul className="list-disc space-y-2 pl-6">
-              <li>Payment is due at the time of order</li>
-              <li>We accept major credit cards and PayPal</li>
-              <li>All prices are in USD unless otherwise specified</li>
-              <li>You are responsible for any applicable taxes</li>
+              <li>El pago vence al momento del pedido</li>
+              <li>Aceptamos las principales tarjetas de crédito y PayPal</li>
+              <li>Todos los precios están en USD a menos que se especifique lo contrario</li>
+              <li>Eres responsable de cualquier impuesto aplicable</li>
             </ul>
           </div>
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">5. Shipping and Delivery</h2>
+          <h2 className="mb-4 text-2xl font-semibold">5. Envío y entrega</h2>
           <div className="space-y-4 text-muted-foreground">
             <p>
-              Shipping times and costs vary based on your location and selected shipping method. We
-              are not responsible for delays caused by shipping carriers or customs processing.
+              Los tiempos y costos de envío varían según tu ubicación y el método de envío
+              seleccionado. No somos responsables de retrasos causados por transportistas o
+              procesamiento aduanero.
             </p>
             <ul className="list-disc space-y-2 pl-6">
-              <li>Standard shipping: 5-7 business days</li>
-              <li>Express shipping: 2-3 business days</li>
-              <li>Overnight shipping: 1 business day</li>
-              <li>International shipping: 7-21 business days</li>
+              <li>Envío estándar: 5-7 días hábiles</li>
+              <li>Envío exprés: 2-3 días hábiles</li>
+              <li>Envío nocturno: 1 día hábil</li>
+              <li>Envío internacional: 7-21 días hábiles</li>
             </ul>
           </div>
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">6. Returns and Refunds</h2>
+          <h2 className="mb-4 text-2xl font-semibold">6. Devoluciones y reembolsos</h2>
           <div className="space-y-4 text-muted-foreground">
             <p>
-              Please see our{' '}
+              Por favor consulta nuestra{' '}
               <a href="/devoluciones" className="text-primary hover:underline">
-                Returns Policy
+                Política de devoluciones
               </a>{' '}
-              for detailed information about returns, exchanges, and refunds.
+              para información detallada sobre devoluciones, intercambios y reembolsos.
             </p>
           </div>
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">7. User Accounts</h2>
+          <h2 className="mb-4 text-2xl font-semibold">7. Cuentas de usuario</h2>
           <div className="space-y-4 text-muted-foreground">
             <p>
-              When you create an account with us, you must provide accurate and complete
-              information. You are responsible for:
+              Cuando creas una cuenta con nosotros, debes proporcionar información precisa y
+              completa. Eres responsable de:
             </p>
             <ul className="list-disc space-y-2 pl-6">
-              <li>Maintaining the confidentiality of your account credentials</li>
-              <li>All activities that occur under your account</li>
-              <li>Notifying us immediately of any unauthorized use</li>
-              <li>Ensuring your account information remains current</li>
+              <li>Mantener la confidencialidad de las credenciales de tu cuenta</li>
+              <li>Todas las actividades que ocurran bajo tu cuenta</li>
+              <li>Notificarnos inmediatamente de cualquier uso no autorizado</li>
+              <li>Asegurar que la información de tu cuenta se mantenga actualizada</li>
             </ul>
           </div>
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">8. Prohibited Uses</h2>
+          <h2 className="mb-4 text-2xl font-semibold">8. Usos prohibidos</h2>
           <div className="space-y-4 text-muted-foreground">
-            <p>You may not use our service:</p>
+            <p>No puedes usar nuestro servicio:</p>
             <ul className="list-disc space-y-2 pl-6">
-              <li>For any unlawful purpose or to solicit others to perform unlawful acts</li>
               <li>
-                To violate any international, federal, provincial, or state regulations, rules,
-                laws, or local ordinances
+                Para cualquier propósito ilegal o para solicitar a otros que realicen actos ilegales
               </li>
               <li>
-                To infringe upon or violate our intellectual property rights or the intellectual
-                property rights of others
+                Para violar cualquier regulación, regla, ley internacional, federal, provincial o
+                estatal, u ordenanza local
               </li>
               <li>
-                To harass, abuse, insult, harm, defame, slander, disparage, intimidate, or
-                discriminate
+                Para infringir o violar nuestros derechos de propiedad intelectual o los derechos de
+                propiedad intelectual de otros
               </li>
-              <li>To submit false or misleading information</li>
+              <li>
+                Para acosar, abusar, insultar, dañar, difamar, calumniar, menospreciar, intimidar o
+                discriminar
+              </li>
+              <li>Para enviar información falsa o engañosa</li>
             </ul>
           </div>
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">9. Limitation of Liability</h2>
+          <h2 className="mb-4 text-2xl font-semibold">9. Limitación de responsabilidad</h2>
           <div className="space-y-4 text-muted-foreground">
             <p>
-              In no event shall Store or its suppliers be liable for any damages (including, without
-              limitation, damages for loss of data or profit, or due to business interruption)
-              arising out of the use or inability to use the materials on Store&#39;s website, even
-              if Store or a Store authorized representative has been notified orally or in writing
-              of the possibility of such damage.
+              En ningún caso la Tienda o sus proveedores serán responsables de ningún daño
+              (incluyendo, sin limitación, daños por pérdida de datos o ganancias, o debido a
+              interrupción del negocio) que surja del uso o la incapacidad de usar los materiales
+              del sitio web de la Tienda, incluso si la Tienda o un representante autorizado de la
+              Tienda ha sido notificado oralmente o por escrito de la posibilidad de tal daño.
             </p>
           </div>
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">10. Governing Law</h2>
+          <h2 className="mb-4 text-2xl font-semibold">10. Ley aplicable</h2>
           <div className="space-y-4 text-muted-foreground">
             <p>
-              These terms and conditions are governed by and construed in accordance with the laws
-              of [Your State/Country] and you irrevocably submit to the exclusive jurisdiction of
-              the courts in that state or location.
+              Estos términos y condiciones se rigen e interpretan de acuerdo con las leyes de [Tu
+              Estado/País] y te sometes irrevocablemente a la jurisdicción exclusiva de los
+              tribunales en ese estado o ubicación.
             </p>
           </div>
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">11. Changes to Terms</h2>
+          <h2 className="mb-4 text-2xl font-semibold">11. Cambios a los términos</h2>
           <div className="space-y-4 text-muted-foreground">
             <p>
-              We reserve the right to revise these terms of service at any time without notice. By
-              using this website, you are agreeing to be bound by the then current version of these
-              terms of service.
+              Nos reservamos el derecho de revisar estos términos de servicio en cualquier momento
+              sin previo aviso. Al usar este sitio web, aceptas estar sujeto a la versión actual de
+              estos términos de servicio.
             </p>
           </div>
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">12. Contact Information</h2>
+          <h2 className="mb-4 text-2xl font-semibold">12. Información de contacto</h2>
           <div className="space-y-4 text-muted-foreground">
-            <p>If you have any questions about these Terms of Service, please contact us:</p>
-            <div className="rounded-lg bg-card p-6">
+            <p>Si tienes alguna pregunta sobre estos términos de servicio, contáctanos:</p>
+            <div className="rounded-lg bg-card border p-6">
               <p>
                 <strong>Email:</strong> legal@store.com
               </p>
               <p>
-                <strong>Phone:</strong> 1-800-STORE-01
+                <strong>Teléfono:</strong> 1-800-STORE-01
               </p>
               <p>
-                <strong>Address:</strong> 123 Commerce Street, Business City, BC 12345
+                <strong>Dirección:</strong> 123 Commerce Street, Business City, BC 12345
               </p>
             </div>
           </div>

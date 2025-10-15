@@ -1,3 +1,5 @@
+import { CircleArrowUp, Info } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
@@ -7,34 +9,32 @@ export function Hero() {
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
         <div>
-          <h1 className="mb-6 text-4xl font-bold md:text-6xl">
-            Discover Premium
-            <span className="text-primary block">Products</span>
+          <h1 className="mb-6 text-4xl font-bold md:text-5xl">
+            Eleva tu Juego al
+            <span className="text-primary block">Siguiente Nivel</span>
           </h1>
-          <p className="mb-8 max-w-lg text-xl text-muted-foreground">
-            Experience exceptional quality and modern design. Shop our curated collection of premium
-            products crafted for the modern lifestyle.
+          <p className="mb-8 max-w-lg text-lg text-muted-foreground">
+            Descubre periféricos gaming de alta precisión y rendimiento. Teclados mecánicos, ratones
+            ultra rápidos y auriculares premium diseñados para dominar cada partida.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row">
-            <Link href="/productos">
-              <Button size="lg" className="w-full sm:w-auto">
-                Shop Now
-              </Button>
-            </Link>
-            <Link href="/about">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                Learn More
-              </Button>
-            </Link>
+            <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>
+              <Link href="/acerca-de">
+                <Info />
+                Saber Más
+              </Link>
+            </Button>
+            <Button size="lg" className="w-full sm:w-auto" asChild>
+              <Link href="/productos">
+                <CircleArrowUp />
+                Comprar ahora
+              </Link>
+            </Button>
           </div>
         </div>
         <div className="relative">
-          <div className="aspect-square overflow-hidden rounded-2xl bg-muted">
-            <img
-              src="https://images.unsplash.com/photo-1511892549826-a48122d9b258?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Hero Product"
-              className="h-full w-full object-cover"
-            />
+          <div className="relative aspect-square overflow-hidden rounded-2xl bg-muted">
+            <Image src="/images/hero.webp" alt="Producto Principal" className="object-cover" fill />
           </div>
           <div className="absolute -bottom-6 -left-6 rounded-xl bg-card border p-6">
             <div className="flex items-center space-x-4">
@@ -42,8 +42,8 @@ export function Hero() {
                 <span className="font-bold text-primary-foreground">50%</span>
               </div>
               <div>
-                <p className="font-semibold">Special Offer</p>
-                <p className="text-sm text-muted-foreground">Limited time only</p>
+                <p className="font-semibold">Oferta Especial</p>
+                <p className="text-sm text-muted-foreground">Por tiempo limitado</p>
               </div>
             </div>
           </div>

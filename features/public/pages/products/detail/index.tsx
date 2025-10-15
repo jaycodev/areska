@@ -50,7 +50,7 @@ export function ProductDetailPage({ product, relatedProducts }: Props) {
         <div className="space-y-4">
           <div className="aspect-square overflow-hidden rounded-xl bg-muted">
             <img
-              src={productImages[selectedImage] || '/placeholder.svg'}
+              src={productImages[selectedImage] || '/images/placeholder.svg'}
               alt={product.name}
               className="h-full w-full object-cover"
             />
@@ -65,7 +65,7 @@ export function ProductDetailPage({ product, relatedProducts }: Props) {
                 }`}
               >
                 <img
-                  src={image || '/placeholder.svg'}
+                  src={image || '/images/placeholder.svg'}
                   alt={`${product.name} ${index + 1}`}
                   className="h-full w-full object-cover"
                 />

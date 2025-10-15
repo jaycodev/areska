@@ -1,19 +1,19 @@
 'use client'
 
+import { CreditCard } from 'lucide-react'
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useForm } from '@/hooks/use-form'
-import { type CheckoutForm, CheckoutSchema } from '@/lib/schemas'
+import { CheckoutSchema } from '@/lib/schemas'
 import { useCartStore } from '@/stores/cart-store'
 
 export function CheckoutPage() {
   const { items, getTotal, clearCart } = useCartStore()
   const { data, errors, isSubmitting, setValue, handleSubmit } = useForm(CheckoutSchema)
 
-  const onSubmit = async (formData: CheckoutForm) => {
-    // Handle checkout logic here
-    await new Promise((resolve) => setTimeout(resolve, 2000)) // Simulate API call
-    alert('Order placed successfully!')
+  const onSubmit = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 2000))
     clearCart()
   }
 
@@ -24,10 +24,9 @@ export function CheckoutPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-      <h1 className="mb-8 text-3xl font-bold">Checkout</h1>
+      <h1 className="mb-8 text-3xl font-bold">Proceso de pago</h1>
 
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-        {/* Checkout Form */}
         <div>
           <form
             onSubmit={(e) => {
@@ -36,13 +35,12 @@ export function CheckoutPage() {
             }}
             className="space-y-6"
           >
-            {/* Contact Information */}
             <div>
-              <h2 className="mb-4 text-xl font-semibold">Contact Information</h2>
+              <h2 className="mb-4 text-lg">Información de contacto</h2>
               <div>
                 <Input
                   type="email"
-                  placeholder="Email address"
+                  placeholder="Correo electrónico"
                   value={data.email || ''}
                   onChange={(e) => setValue('email', e.target.value)}
                   className={errors.email ? 'border-destructive' : ''}
@@ -51,14 +49,13 @@ export function CheckoutPage() {
               </div>
             </div>
 
-            {/* Shipping Address */}
             <div>
-              <h2 className="mb-4 text-xl font-semibold">Shipping Address</h2>
+              <h2 className="mb-4 text-lg">Dirección de envío</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <Input
                     type="text"
-                    placeholder="First name"
+                    placeholder="Nombre"
                     value={data.firstName || ''}
                     onChange={(e) => setValue('firstName', e.target.value)}
                     className={errors.firstName ? 'border-destructive' : ''}
@@ -70,7 +67,7 @@ export function CheckoutPage() {
                 <div>
                   <Input
                     type="text"
-                    placeholder="Last name"
+                    placeholder="Apellido"
                     value={data.lastName || ''}
                     onChange={(e) => setValue('lastName', e.target.value)}
                     className={errors.lastName ? 'border-destructive' : ''}
@@ -83,7 +80,7 @@ export function CheckoutPage() {
               <div className="mt-4">
                 <Input
                   type="text"
-                  placeholder="Address"
+                  placeholder="Dirección"
                   value={data.address || ''}
                   onChange={(e) => setValue('address', e.target.value)}
                   className={errors.address ? 'border-destructive' : ''}
@@ -96,7 +93,7 @@ export function CheckoutPage() {
                 <div>
                   <Input
                     type="text"
-                    placeholder="City"
+                    placeholder="Ciudad"
                     value={data.city || ''}
                     onChange={(e) => setValue('city', e.target.value)}
                     className={errors.city ? 'border-destructive' : ''}
@@ -106,7 +103,7 @@ export function CheckoutPage() {
                 <div>
                   <Input
                     type="text"
-                    placeholder="State"
+                    placeholder="Provincia / Estado"
                     value={data.state || ''}
                     onChange={(e) => setValue('state', e.target.value)}
                     className={errors.state ? 'border-destructive' : ''}
@@ -116,7 +113,7 @@ export function CheckoutPage() {
                 <div>
                   <Input
                     type="text"
-                    placeholder="ZIP code"
+                    placeholder="Código postal"
                     value={data.zipCode || ''}
                     onChange={(e) => setValue('zipCode', e.target.value)}
                     className={errors.zipCode ? 'border-destructive' : ''}
@@ -128,14 +125,13 @@ export function CheckoutPage() {
               </div>
             </div>
 
-            {/* Payment Information */}
             <div>
-              <h2 className="mb-4 text-xl font-semibold">Payment Information</h2>
+              <h2 className="mb-4 text-lg">Información de pago</h2>
               <div className="space-y-4">
                 <div>
                   <Input
                     type="text"
-                    placeholder="Card number"
+                    placeholder="Número de tarjeta"
                     value={data.cardNumber || ''}
                     onChange={(e) => setValue('cardNumber', e.target.value)}
                     className={errors.cardNumber ? 'border-destructive' : ''}
@@ -148,7 +144,7 @@ export function CheckoutPage() {
                   <div>
                     <Input
                       type="text"
-                      placeholder="MM/YY"
+                      placeholder="MM/AA"
                       value={data.expiryDate || ''}
                       onChange={(e) => setValue('expiryDate', e.target.value)}
                       className={errors.expiryDate ? 'border-destructive' : ''}
@@ -172,27 +168,27 @@ export function CheckoutPage() {
             </div>
 
             <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
-              {isSubmitting ? 'Processing...' : 'Place Order'}
+              <CreditCard />
+              {isSubmitting ? 'Procesando...' : 'Realizar pedido'}
             </Button>
           </form>
         </div>
 
-        {/* Order Summary */}
         <div>
-          <div className="sticky top-18 rounded-xl bg-card border shadw-sm p-6">
-            <h2 className="mb-4 text-xl font-semibold">Order Summary</h2>
+          <div className="sticky top-18 rounded-xl bg-card border shadow-sm p-6">
+            <h2 className="mb-4 text-xl">Resumen del pedido</h2>
 
             <div className="mb-6 space-y-4">
               {items.map((item) => (
                 <div key={item.id} className="flex items-center space-x-4">
                   <img
-                    src={item.image || '/placeholder.svg'}
+                    src={item.image || '/images/placeholder.svg'}
                     alt={item.name}
                     className="h-16 w-16 rounded-lg object-cover"
                   />
                   <div className="flex-1">
                     <h3 className="font-medium">{item.name}</h3>
-                    <p className="text-muted-foreground text-sm">Qty: {item.quantity}</p>
+                    <p className="text-muted-foreground text-sm">Cantidad: {item.quantity}</p>
                   </div>
                   <p className="font-medium">${(item.price * item.quantity).toFixed(2)}</p>
                 </div>
@@ -205,13 +201,13 @@ export function CheckoutPage() {
                 <span className="text-muted-foreground">${subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Shipping</span>
+                <span className="text-muted-foreground">Envío</span>
                 <span className="text-muted-foreground">
-                  {shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}
+                  {shipping === 0 ? 'Gratis' : `$${shipping.toFixed(2)}`}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Tax</span>
+                <span className="text-muted-foreground">Impuestos</span>
                 <span className="text-muted-foreground">${tax.toFixed(2)}</span>
               </div>
               <div className="flex justify-between border-t pt-2 text-lg font-semibold">

@@ -10,10 +10,10 @@ export function FeaturedProducts() {
     <section className="py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold md:text-4xl">Featured Products</h2>
+          <h2 className="mb-4 text-3xl font-bold md:text-4xl">Productos Destacados</h2>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Discover our most popular items, carefully selected for their exceptional quality and
-            customer satisfaction.
+            Descubre nuestros artículos más populares, cuidadosamente seleccionados por su calidad
+            excepcional y satisfacción del cliente.
           </p>
         </div>
 

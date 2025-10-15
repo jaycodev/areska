@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   },
   description: 'E-commerce platform for buying and selling peripherals and computer components.',
   icons: {
-    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+    icon: [{ url: '/icons/favicon.svg', type: 'image/svg+xml' }],
   },
 }
 

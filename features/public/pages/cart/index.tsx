@@ -1,6 +1,6 @@
 'use client'
 
-import { Minus, Plus, Trash } from 'lucide-react'
+import { CircleArrowLeft, CreditCard, Minus, Plus, Trash } from 'lucide-react'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
@@ -12,12 +12,15 @@ export function CartPage() {
   if (items.length === 0) {
     return (
       <div className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 lg:px-8">
-        <h1 className="mb-4 text-3xl font-bold">Your Cart is Empty</h1>
+        <h1 className="mb-4 text-3xl font-bold">Tu carrito está vacío</h1>
         <p className="mb-8 text-muted-foreground">
-          Looks like you haven&#39;t added anything to your cart yet.
+          Parece que aún no has agregado nada a tu carrito.
         </p>
         <Link href="/productos">
-          <Button size="lg">Continue Shopping</Button>
+          <Button size="lg">
+            <CircleArrowLeft />
+            Seguir comprando
+          </Button>
         </Link>
       </div>
     )
@@ -25,16 +28,16 @@ export function CartPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-      <h1 className="mb-8 text-3xl font-bold">Shopping Cart</h1>
+      <h1 className="mb-8 text-3xl font-bold">Carrito de compras</h1>
 
       <div className="overflow-hidden rounded-xl bg-card border">
         <div className="divide-y divide-border">
           {items.map((item) => (
             <div key={item.id} className="flex items-center space-x-4 p-6">
               <img
-                src={item.image || '/placeholder.svg'}
+                src={item.image || '/images/placeholder.svg'}
                 alt={item.name}
-                className="h-20 w-20 rounded-lg object-cover"
+                className="size-20 rounded-lg object-cover bg-muted"
               />
 
               <div className="flex-1">
@@ -61,7 +64,7 @@ export function CartPage() {
               </div>
 
               <div className="text-right">
-                <p className="font-semibold">${(item.price * item.quantity).toFixed(2)}</p>
+                <p>${(item.price * item.quantity).toFixed(2)}</p>
               </div>
 
               <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)}>
@@ -80,11 +83,15 @@ export function CartPage() {
           <div className="flex flex-col gap-4 sm:flex-row">
             <Link href="/productos" className="flex-1">
               <Button variant="outline" className="w-full">
-                Continue Shopping
+                <CircleArrowLeft />
+                Seguir comprando
               </Button>
             </Link>
             <Link href="/pago" className="flex-1">
-              <Button className="w-full">Proceed to Checkout</Button>
+              <Button className="w-full">
+                <CreditCard />
+                Proceder al pago
+              </Button>
             </Link>
           </div>
         </div>

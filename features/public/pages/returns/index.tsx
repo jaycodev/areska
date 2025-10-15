@@ -2,54 +2,59 @@ export function ReturnsPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="prose prose-gray max-w-none">
-        <h1 className="mb-8 text-4xl font-bold">Returns & Exchanges</h1>
+        <h1 className="mb-8 text-4xl font-bold">Política de devoluciones</h1>
         <p className="text-muted-foreground mb-8 text-lg">
-          We want you to be completely satisfied with your purchase. If you&#39;re not happy with
-          your order, we&#39;re here to help with our hassle-free return policy.
+          Queremos que estés completamente satisfecho con tu compra. Si no estás contento con tu
+          pedido, estamos aquí para ayudarte con nuestra política de devoluciones sin
+          complicaciones.
         </p>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">Return Policy Overview</h2>
-          <div className="bg-primary/10 border-primary/20 mb-6 rounded-lg border p-6">
+          <h2 className="mb-4 text-2xl font-semibold">Resumen de política de devoluciones</h2>
+          <div className="bg-card mb-6 rounded-lg border p-6">
             <div className="grid grid-cols-1 gap-6 text-center md:grid-cols-3">
               <div>
                 <div className="text-primary mb-2 text-3xl font-bold">30</div>
-                <div className="text-muted-foreground text-sm">Days to Return</div>
+                <div className="text-muted-foreground text-sm">Días para devolver</div>
               </div>
               <div>
-                <div className="text-primary mb-2 text-3xl font-bold">FREE</div>
-                <div className="text-muted-foreground text-sm">Return Shipping</div>
+                <div className="text-primary mb-2 text-3xl font-bold">GRATIS</div>
+                <div className="text-muted-foreground text-sm">Envío de devolución</div>
               </div>
               <div>
                 <div className="text-primary mb-2 text-3xl font-bold">100%</div>
-                <div className="text-muted-foreground text-sm">Money Back Guarantee</div>
+                <div className="text-muted-foreground text-sm">Garantía de reembolso</div>
               </div>
             </div>
           </div>
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">What Can Be Returned</h2>
+          <h2 className="mb-4 text-2xl font-semibold">Qué se puede devolver</h2>
           <div className="space-y-4">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="rounded-lg border border-green-200 bg-green-50 p-4">
-                <h3 className="mb-3 text-lg font-semibold text-green-800">✓ Returnable Items</h3>
+                <h3 className="mb-3 text-lg font-semibold text-green-800">
+                  ✓ Artículos retornables
+                </h3>
                 <ul className="space-y-2 text-green-700">
-                  <li>• Items in original condition</li>
-                  <li>• Unused products with tags</li>
-                  <li>• Items in original packaging</li>
-                  <li>• Electronics with all accessories</li>
-                  <li>• Clothing and accessories</li>
+                  <li>• Artículos en condición original</li>
+                  <li>• Productos sin usar con etiquetas</li>
+                  <li>• Artículos en embalaje original</li>
+                  <li>• Electrónicos con todos los accesorios</li>
+                  <li>• Ropa y accesorios</li>
                 </ul>
               </div>
               <div className="rounded-lg border border-red-200 bg-red-50 p-4">
-                <h3 className="mb-3 text-lg font-semibold text-red-800">✗ Non-Returnable Items</h3>
+                <h3 className="mb-3 text-lg font-semibold text-red-800">
+                  ✗ Artículos no retornables
+                </h3>
                 <ul className="space-y-2 text-red-700">
-                  <li>• Personalized or custom items</li>
-                  <li>• Perishable goods</li>
-                  <li>• Intimate or sanitary goods</li>
-                  <li>• Items damaged by misuse</li>
-                  <li>• Digital downloads</li>
+                  <li>• Artículos personalizados o a medida</li>
+                  <li>• Productos perecederos</li>
+                  <li>• Artículos íntimos o sanitarios</li>
+                  <li>• Artículos dañados por mal uso</li>
+                  <li>• Descargas digitales</li>
                 </ul>
               </div>
             </div>
@@ -57,7 +62,7 @@ export function ReturnsPage() {
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">How to Return an Item</h2>
+          <h2 className="mb-4 text-2xl font-semibold">Cómo devolver un artículo</h2>
           <div className="space-y-6">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
               {[1, 2, 3, 4].map((step) => (
@@ -66,15 +71,22 @@ export function ReturnsPage() {
                     {step}
                   </div>
                   <h3 className="mb-2 font-semibold">
-                    {['Start Return', 'Print Label', 'Pack & Ship', 'Get Refund'][step - 1]}
+                    {
+                      [
+                        'Iniciar devolución',
+                        'Imprimir etiqueta',
+                        'Empacar y enviar',
+                        'Recibir reembolso',
+                      ][step - 1]
+                    }
                   </h3>
                   <p className="text-sm text-muted-foreground">
                     {
                       [
-                        'Log into your account and select the item you want to return',
-                        'Print the prepaid return shipping label we provide',
-                        'Pack the item securely and drop it off at any shipping location',
-                        'Receive your refund within 5-7 business days after we receive your return',
+                        'Inicia sesión en tu cuenta y selecciona el artículo que deseas devolver',
+                        'Imprime la etiqueta de envío de devolución prepagada que proporcionamos',
+                        'Empaca el artículo de forma segura y déjalo en cualquier punto de envío',
+                        'Recibe tu reembolso dentro de 5-7 días hábiles después de que recibamos tu devolución',
                       ][step - 1]
                     }
                   </p>
@@ -85,27 +97,27 @@ export function ReturnsPage() {
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">Return Timeframes</h2>
+          <h2 className="mb-4 text-2xl font-semibold">Plazos de devolución</h2>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-border">
-              <thead className="bg-card">
+              <thead>
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-muted-foreground uppercase">
-                    Item Type
+                    Tipo de Artículo
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-muted-foreground uppercase">
-                    Return Window
+                    Plazo de Devolución
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-muted-foreground uppercase">
-                    Refund Processing
+                    Procesamiento de Reembolso
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {[
-                  ['Standard Items', '30 days', '5-7 business days'],
-                  ['Electronics', '30 days', '7-10 business days'],
-                  ['Sale Items', '14 days', '5-7 business days'],
+                  ['Artículos Estándar', '30 días', '5-7 días hábiles'],
+                  ['Electrónicos', '30 días', '7-10 días hábiles'],
+                  ['Artículos en Oferta', '14 días', '5-7 días hábiles'],
                 ].map(([type, window, time]) => (
                   <tr key={type}>
                     <td className="px-6 py-4 text-sm font-medium">{type}</td>
@@ -119,80 +131,88 @@ export function ReturnsPage() {
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">Exchanges</h2>
+          <h2 className="mb-4 text-2xl font-semibold">Intercambios</h2>
           <div className="space-y-4">
             <p>
-              We currently don&#39;t offer direct exchanges. If you need a different size, color, or
-              model, please return your original item and place a new order for the item you want.
+              Actualmente no ofrecemos intercambios directos. Si necesitas un tamaño, color o modelo
+              diferente, por favor devuelve tu artículo original y realiza un nuevo pedido del
+              artículo que deseas.
             </p>
             <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
-              <h3 className="mb-2 font-semibold text-blue-800">💡 Pro Tip</h3>
+              <h3 className="mb-2 font-semibold text-blue-800">💡 Consejo</h3>
               <p className="text-blue-700">
-                To ensure you get the item you want quickly, place your new order first, then return
-                the original item. This way, you won&#39;t have to wait for the return to be
-                processed.
+                Para asegurarte de obtener el artículo que deseas rápidamente, realiza tu nuevo
+                pedido primero, luego devuelve el artículo original. De esta manera, no tendrás que
+                esperar a que se procese la devolución.
               </p>
             </div>
           </div>
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">International Returns</h2>
+          <h2 className="mb-4 text-2xl font-semibold">Devoluciones internacionales</h2>
           <div className="space-y-4">
-            <p>International customers can return items within 30 days of delivery. Please note:</p>
+            <p>
+              Los clientes internacionales pueden devolver artículos dentro de los 30 días de
+              entrega. Ten en cuenta:
+            </p>
             <ul className="list-disc space-y-2 pl-6 text-muted-foreground">
-              <li>Return shipping costs are the customer&#39;s responsibility</li>
-              <li>Items must be returned to our US warehouse</li>
-              <li>Customs duties and taxes are non-refundable</li>
-              <li>Processing may take 10-14 business days due to customs clearance</li>
+              <li>Los costos de envío de devolución son responsabilidad del cliente</li>
+              <li>Los artículos deben devolverse a nuestro almacén en EE. UU.</li>
+              <li>Los aranceles aduaneros e impuestos no son reembolsables</li>
+              <li>El procesamiento puede tardar 10-14 días hábiles debido al despacho aduanero</li>
             </ul>
           </div>
         </section>
 
         <section className="mb-8">
-          <h2 className="mb-4 text-2xl font-semibold">Damaged or Defective Items</h2>
+          <h2 className="mb-4 text-2xl font-semibold">Artículos dañados o defectuosos</h2>
           <div className="space-y-4">
             <p>
-              If you receive a damaged or defective item, please contact us immediately. We&#39;ll
-              provide:
+              Si recibes un artículo dañado o defectuoso, contáctanos inmediatamente. Te
+              proporcionaremos:
             </p>
             <ul className="list-disc space-y-2 pl-6 text-muted-foreground">
-              <li>Free return shipping</li>
-              <li>Full refund or replacement</li>
-              <li>Expedited processing</li>
-              <li>Additional compensation if applicable</li>
+              <li>Envío de devolución gratuito</li>
+              <li>Reembolso completo o reemplazo</li>
+              <li>Procesamiento acelerado</li>
+              <li>Compensación adicional si corresponde</li>
             </ul>
             <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4">
               <p className="text-yellow-800">
-                <strong>Important:</strong> Please take photos of damaged items and packaging before
-                returning. This helps us improve our packaging and shipping processes.
+                <strong>Importante:</strong> Por favor toma fotos de los artículos dañados y el
+                embalaje antes de devolverlos. Esto nos ayuda a mejorar nuestros procesos de
+                embalaje y envío.
               </p>
             </div>
           </div>
         </section>
 
         <section>
-          <h2 className="mb-4 text-2xl font-semibold">Need Help?</h2>
+          <h2 className="mb-4 text-2xl font-semibold">¿Necesitas ayuda?</h2>
           <div className="space-y-4">
-            <p>Our customer service team is here to help with any return questions:</p>
-            <div className="rounded-lg bg-card p-6">
+            <p>
+              Nuestro equipo de servicio al cliente está aquí para ayudarte con cualquier pregunta
+              sobre devoluciones:
+            </p>
+            <div className="rounded-lg bg-card border p-6">
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div>
-                  <h3 className="mb-2 font-semibold">Contact Information</h3>
+                  <h3 className="mb-2 font-semibold">Información de contacto</h3>
                   <p>
                     <strong>Email:</strong> returns@store.com
                   </p>
                   <p>
-                    <strong>Phone:</strong> 1-800-STORE-01
+                    <strong>Teléfono:</strong> 1-800-STORE-01
                   </p>
                   <p>
-                    <strong>Hours:</strong> Mon-Fri 9AM-6PM EST
+                    <strong>Horario:</strong> Lun-Vie 9AM-6PM EST
                   </p>
                 </div>
                 <div>
-                  <h3 className="mb-2 font-semibold">Return Address</h3>
+                  <h3 className="mb-2 font-semibold">Dirección de devoluciones</h3>
                   <p>
-                    Store Returns Department
+                    Departamento de devoluciones de tienda
                     <br />
                     123 Commerce Street
                     <br />

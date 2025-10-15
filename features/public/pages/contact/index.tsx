@@ -28,13 +28,13 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 
 const contactSchema = z.object({
-  firstName: z.string().min(2, 'First name must be at least 2 characters'),
-  lastName: z.string().min(2, 'Last name must be at least 2 characters'),
-  email: z.email('Please enter a valid email address'),
+  firstName: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
+  lastName: z.string().min(2, 'El apellido debe tener al menos 2 caracteres'),
+  email: z.email('Por favor, ingresa un correo electrónico válido'),
   phone: z.string().optional(),
-  subject: z.string().min(1, 'Please select a subject'),
+  subject: z.string().min(1, 'Por favor selecciona un asunto'),
   orderNumber: z.string().optional(),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
+  message: z.string().min(10, 'El mensaje debe tener al menos 10 caracteres'),
   newsletter: z.boolean(),
 })
 
@@ -59,7 +59,7 @@ export function ContactPage() {
 
   const onSubmit = async (data: ContactFormValues) => {
     await new Promise((resolve) => setTimeout(resolve, 2000))
-    console.warn('Contact form submitted:', data)
+    console.warn('Formulario de contacto enviado:', data)
     setIsSubmitted(true)
     form.reset()
   }
@@ -71,16 +71,16 @@ export function ContactPage() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
             <Send className="size-8" />
           </div>
-          <h2 className="mb-2 text-2xl font-bold">Message Sent Successfully!</h2>
+          <h2 className="mb-2 text-2xl font-bold">¡Mensaje enviado con éxito!</h2>
           <p className="mb-4 text-muted-foreground">
-            Thank you for contacting us. We&apos;ll get back to you within 24 hours.
+            Gracias por contactarnos. Te responderemos dentro de las próximas 24 horas.
           </p>
           <Button
             onClick={() => setIsSubmitted(false)}
             variant="outline"
             className="bg-transparent"
           >
-            Send Another Message
+            Enviar otro mensaje
           </Button>
         </div>
       </div>
@@ -90,17 +90,16 @@ export function ContactPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mb-12 text-center">
-        <h1 className="mb-4 text-4xl font-bold">Contact Us</h1>
+        <h1 className="mb-4 text-4xl font-bold">Contáctanos</h1>
         <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
-          We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as
-          possible.
+          Nos encantaría saber de ti. Envíanos un mensaje y te responderemos lo antes posible.
         </p>
       </div>
 
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
         <div className="lg:col-span-1">
           <div className="h-full rounded-xl border p-8 bg-card">
-            <h2 className="mb-6 text-2xl font-semibold">Get in Touch</h2>
+            <h2 className="mb-6 text-2xl font-semibold">Ponerse en contacto</h2>
 
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
@@ -108,13 +107,13 @@ export function ContactPage() {
                   <MapPin className="size-6" />
                 </div>
                 <div>
-                  <h3 className="mb-1 font-semibold">Address</h3>
+                  <h3 className="mb-1 font-semibold">Dirección</h3>
                   <p className="text-muted-foreground">
-                    123 Commerce Street
+                    123 Calle Comercio
                     <br />
-                    Business City, BC 12345
+                    Ciudad Empresarial, BC 12345
                     <br />
-                    United States
+                    Estados Unidos
                   </p>
                 </div>
               </div>
@@ -124,11 +123,11 @@ export function ContactPage() {
                   <Phone className="size-6" />
                 </div>
                 <div>
-                  <h3 className="mb-1 font-semibold">Phone</h3>
+                  <h3 className="mb-1 font-semibold">Teléfono</h3>
                   <p className="text-muted-foreground">
-                    Main: 1-800-STORE-01
+                    Principal: 1-800-STORE-01
                     <br />
-                    Support: 1-800-STORE-02
+                    Soporte: 1-800-STORE-02
                   </p>
                 </div>
               </div>
@@ -138,32 +137,36 @@ export function ContactPage() {
                   <Mail className="size-6" />
                 </div>
                 <div>
-                  <h3 className="mb-1 font-semibold">Email</h3>
+                  <h3 className="mb-1 font-semibold">Correo electrónico</h3>
                   <p className="text-muted-foreground">
                     General: info@store.com
                     <br />
-                    Support: support@store.com
+                    Soporte: support@store.com
                   </p>
                 </div>
               </div>
             </div>
 
             <div className="mt-8 border-t pt-8">
-              <h3 className="mb-4 font-semibold">Frequently Asked</h3>
+              <h3 className="mb-4 font-semibold">Preguntas frecuentes</h3>
               <div className="space-y-3">
                 <div>
-                  <h4 className="text-sm font-medium">Order Status</h4>
+                  <h4 className="text-sm font-medium">Estado del pedido</h4>
                   <p className="text-muted-foreground text-sm">
-                    Track your order in your account dashboard
+                    Rastrea tu pedido desde el panel de tu cuenta.
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium">Returns</h4>
-                  <p className="text-muted-foreground text-sm">30-day return policy on all items</p>
+                  <h4 className="text-sm font-medium">Devoluciones</h4>
+                  <p className="text-muted-foreground text-sm">
+                    Política de devolución de 30 días en todos los artículos.
+                  </p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium">Shipping</h4>
-                  <p className="text-muted-foreground text-sm">Free shipping on orders over $100</p>
+                  <h4 className="text-sm font-medium">Envíos</h4>
+                  <p className="text-muted-foreground text-sm">
+                    Envío gratuito en pedidos superiores a $100.
+                  </p>
                 </div>
               </div>
             </div>
@@ -172,7 +175,7 @@ export function ContactPage() {
 
         <div className="lg:col-span-2">
           <div className="rounded-xl border bg-card p-8 shadow-sm">
-            <h2 className="mb-6 text-2xl font-semibold">Send us a Message</h2>
+            <h2 className="mb-6 text-2xl font-semibold">Envíanos un mensaje</h2>
 
             <Form {...form}>
               <div className="space-y-6">
@@ -182,9 +185,9 @@ export function ContactPage() {
                     name="firstName"
                     render={({ field, fieldState }) => (
                       <FormItem>
-                        <FormLabel>First Name *</FormLabel>
+                        <FormLabel>Nombre *</FormLabel>
                         <FormControl>
-                          <Input placeholder="John" {...field} />
+                          <Input placeholder="Ingrese un nombre" {...field} />
                         </FormControl>
                         {fieldState.error && <FormMessage />}
                       </FormItem>
@@ -196,9 +199,9 @@ export function ContactPage() {
                     name="lastName"
                     render={({ field, fieldState }) => (
                       <FormItem>
-                        <FormLabel>Last Name *</FormLabel>
+                        <FormLabel>Apellido *</FormLabel>
                         <FormControl>
-                          <Input placeholder="Doe" {...field} />
+                          <Input placeholder="Ingrese un apellido" {...field} />
                         </FormControl>
                         {fieldState.error && <FormMessage />}
                       </FormItem>
@@ -212,9 +215,9 @@ export function ContactPage() {
                     name="email"
                     render={({ field, fieldState }) => (
                       <FormItem>
-                        <FormLabel>Email Address *</FormLabel>
+                        <FormLabel>Correo electrónico *</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="john@example.com" {...field} />
+                          <Input type="email" placeholder="correo@ejemplo.com" {...field} />
                         </FormControl>
                         {fieldState.error && <FormMessage />}
                       </FormItem>
@@ -226,7 +229,7 @@ export function ContactPage() {
                     name="phone"
                     render={({ field, fieldState }) => (
                       <FormItem>
-                        <FormLabel>Phone Number</FormLabel>
+                        <FormLabel>Teléfono</FormLabel>
                         <FormControl>
                           <Input type="tel" placeholder="(555) 123-4567" {...field} />
                         </FormControl>
@@ -242,20 +245,20 @@ export function ContactPage() {
                     name="subject"
                     render={({ field, fieldState }) => (
                       <FormItem>
-                        <FormLabel>Subject *</FormLabel>
+                        <FormLabel>Asunto *</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Select a subject" />
+                              <SelectValue placeholder="Selecciona un asunto" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="general">General Inquiry</SelectItem>
-                            <SelectItem value="order">Order Support</SelectItem>
-                            <SelectItem value="returns">Returns & Exchanges</SelectItem>
-                            <SelectItem value="technical">Technical Support</SelectItem>
-                            <SelectItem value="billing">Billing Question</SelectItem>
-                            <SelectItem value="partnership">Partnership Inquiry</SelectItem>
+                            <SelectItem value="general">Consulta general</SelectItem>
+                            <SelectItem value="order">Soporte de pedido</SelectItem>
+                            <SelectItem value="returns">Devoluciones y cambios</SelectItem>
+                            <SelectItem value="technical">Soporte técnico</SelectItem>
+                            <SelectItem value="billing">Consulta de facturación</SelectItem>
+                            <SelectItem value="partnership">Consulta de colaboración</SelectItem>
                           </SelectContent>
                         </Select>
                         {fieldState.error && <FormMessage />}
@@ -268,7 +271,7 @@ export function ContactPage() {
                     name="orderNumber"
                     render={({ field, fieldState }) => (
                       <FormItem>
-                        <FormLabel>Order Number (if applicable)</FormLabel>
+                        <FormLabel>Número de pedido (si aplica)</FormLabel>
                         <FormControl>
                           <Input placeholder="#12345" {...field} />
                         </FormControl>
@@ -283,10 +286,10 @@ export function ContactPage() {
                   name="message"
                   render={({ field, fieldState }) => (
                     <FormItem>
-                      <FormLabel>Message *</FormLabel>
+                      <FormLabel>Mensaje *</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Please describe your inquiry in detail..."
+                          placeholder="Describe tu consulta en detalle..."
                           className="resize-none min-h-[120px]"
                           {...field}
                         />
@@ -305,7 +308,7 @@ export function ContactPage() {
                         <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                       </FormControl>
                       <FormLabel className="font-normal">
-                        I&apos;d like to receive updates about new products and promotions
+                        Me gustaría recibir novedades sobre nuevos productos y promociones.
                       </FormLabel>
                     </FormItem>
                   )}
@@ -318,7 +321,8 @@ export function ContactPage() {
                   size="lg"
                   disabled={form.formState.isSubmitting}
                 >
-                  {form.formState.isSubmitting ? 'Sending...' : 'Send Message'}
+                  <Send />
+                  {form.formState.isSubmitting ? 'Enviando...' : 'Enviar mensaje'}
                 </Button>
               </div>
             </Form>
@@ -327,13 +331,15 @@ export function ContactPage() {
       </div>
 
       <div className="mt-16">
-        <h2 className="mb-6 text-center text-2xl font-semibold">Visit Our Store</h2>
+        <h2 className="mb-6 text-center text-2xl font-semibold">Visita nuestra tienda</h2>
         <div className="relative h-96 overflow-hidden rounded-xl bg-muted">
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
               <MapPin className="mx-auto mb-4 h-16 w-16 text-muted-foreground" />
-              <h3 className="text-muted-foreground mb-2 text-lg font-semibold">Interactive Map</h3>
-              <p className="text-muted-foreground">123 Commerce Street, Business City, BC 12345</p>
+              <h3 className="text-muted-foreground mb-2 text-lg font-semibold">Mapa interactivo</h3>
+              <p className="text-muted-foreground">
+                123 Calle Comercio, Ciudad Empresarial, BC 12345
+              </p>
               <Button
                 variant="outline"
                 className="mt-4"
@@ -344,7 +350,7 @@ export function ContactPage() {
                   )
                 }
               >
-                Open in Google Maps
+                Ver en Google Maps
               </Button>
             </div>
           </div>
@@ -356,9 +362,10 @@ export function ContactPage() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
             <Phone className="h-8 w-8" />
           </div>
-          <h3 className="mb-2 text-lg font-semibold">Call Us</h3>
+          <h3 className="mb-2 text-lg font-semibold">Llámanos</h3>
           <p className="text-muted-foreground text-balance">
-            Speak directly with our customer service team for immediate assistance.
+            Habla directamente con nuestro equipo de atención al cliente para recibir ayuda
+            inmediata.
           </p>
         </div>
 
@@ -366,9 +373,9 @@ export function ContactPage() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
             <Mail className="h-8 w-8" />
           </div>
-          <h3 className="mb-2 text-lg font-semibold">Email Support</h3>
+          <h3 className="mb-2 text-lg font-semibold">Soporte por correo electrónico</h3>
           <p className="text-muted-foreground text-balance">
-            Send us an email and we&apos;ll respond within 24 hours during business days.
+            Envíanos un correo y te responderemos dentro de 24 horas en días hábiles.
           </p>
         </div>
 
@@ -376,9 +383,9 @@ export function ContactPage() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
             <MapPin className="h-8 w-8" />
           </div>
-          <h3 className="mb-2 text-lg font-semibold">Visit Store</h3>
+          <h3 className="mb-2 text-lg font-semibold">Visítanos en tienda</h3>
           <p className="text-muted-foreground text-balance">
-            Come visit our physical location to see our products in person.
+            Ven a nuestra ubicación física para conocer nuestros productos en persona.
           </p>
         </div>
       </div>

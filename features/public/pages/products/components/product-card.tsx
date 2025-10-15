@@ -20,7 +20,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </button>
         <Link href={`/productos/${product.id}`}>
           <img
-            src={product.image || '/placeholder.svg'}
+            src={product.image || '/images/placeholder.svg'}
             alt={product.name}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />

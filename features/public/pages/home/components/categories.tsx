@@ -18,9 +18,9 @@ export function Categories() {
     <section className="border-t py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold md:text-4xl">Shop by Category</h2>
+          <h2 className="mb-4 text-3xl font-bold md:text-4xl">Comprar por categoría</h2>
           <p className="text-lg text-muted-foreground">
-            Find exactly what you&#39;re looking for in our organized categories
+            Encuentra exactamente lo que buscas en nuestras categorías organizadas
           </p>
         </div>
 
