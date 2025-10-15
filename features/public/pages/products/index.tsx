@@ -28,7 +28,6 @@ export function ProductsPage() {
     .sort((a, b) => {
       if (sortBy === 'price-low') return a.price - b.price
       if (sortBy === 'price-high') return b.price - a.price
-      if (sortBy === 'rating') return b.rating - a.rating
       if (sortBy === 'newest') return b.id.localeCompare(a.id)
       return 0
     })
@@ -119,7 +118,6 @@ export function ProductsPage() {
                 <option value="newest">Newest</option>
                 <option value="price-low">Price: Low to High</option>
                 <option value="price-high">Price: High to Low</option>
-                <option value="rating">Highest Rated</option>
               </select>
               <ChevronDown className="pointer-events-none absolute top-1/2 right-2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
             </div>
