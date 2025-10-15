@@ -21,7 +21,7 @@ export function ProductDetailPage({ product, relatedProducts }: Props) {
   if (!product) {
     return (
       <div className="mx-auto max-w-7xl px-4 py-16 text-center sm:px-6 lg:px-8">
-        Product not found
+        Producto no encontrado
       </div>
     )
   }
@@ -114,7 +114,7 @@ export function ProductDetailPage({ product, relatedProducts }: Props) {
 
           {/* Quantity */}
           <div>
-            <h3 className="mb-3 font-semibold">Quantity</h3>
+            <h3 className="mb-3 font-semibold">Cantidad</h3>
             <div className="flex items-center space-x-3">
               <Button
                 variant="outline"
@@ -134,11 +134,11 @@ export function ProductDetailPage({ product, relatedProducts }: Props) {
           <div className="flex flex-col gap-4 sm:flex-row">
             <Button onClick={handleAddToCart} size="lg">
               <ShoppingCart />
-              Add to Cart
+              Agregar al carrito
             </Button>
             <Button variant="outline" size="lg">
               <Heart />
-              Add to Wishlist
+              Agregar a favoritos
             </Button>
           </div>
 
@@ -147,15 +147,17 @@ export function ProductDetailPage({ product, relatedProducts }: Props) {
             <div className="flex items-center space-x-3">
               <Truck className="text-primary h-5 w-5" />
               <div>
-                <p className="font-medium">Free Shipping</p>
-                <p className="text-muted-foreground text-sm">On orders over $100</p>
+                <p className="font-medium">Envío gratis</p>
+                <p className="text-muted-foreground text-sm">En pedidos mayores a $100</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
               <RotateCcw className="text-primary h-5 w-5" />
               <div>
-                <p className="font-medium">30-Day Returns</p>
-                <p className="text-muted-foreground text-sm">Free returns within 30 days</p>
+                <p className="font-medium">Devoluciones de 30 días</p>
+                <p className="text-muted-foreground text-sm">
+                  Devoluciones gratis dentro de 30 días
+                </p>
               </div>
             </div>
           </div>
@@ -163,7 +165,7 @@ export function ProductDetailPage({ product, relatedProducts }: Props) {
           {/* Features */}
           {product.features && (
             <div className="border-t pt-6">
-              <h3 className="mb-3 font-semibold">Key Features</h3>
+              <h3 className="mb-3 font-semibold">Características principales</h3>
               <ul className="space-y-2">
                 {product.features.map((feature, index) => (
                   <li key={index} className="flex items-center space-x-2">
@@ -180,7 +182,7 @@ export function ProductDetailPage({ product, relatedProducts }: Props) {
       {/* Related Products */}
       {relatedProducts.length > 0 && (
         <div className="mt-16">
-          <h2 className="mb-8 text-2xl font-semibold">Related Products</h2>
+          <h2 className="mb-8 text-2xl font-semibold">Productos relacionados</h2>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {relatedProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
