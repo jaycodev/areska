@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://nextshadcn-starter.vercel.app">
+  <a href="https://areska.vercel.app" target="_blank" rel="noopener noreferrer">
     <img src="./public/images/readme.jpg" alt="Preview">
   </a>
   <p></p>
