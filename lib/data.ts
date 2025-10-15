@@ -8,7 +8,7 @@ export const sampleProducts = [
     originalPrice: 199.99,
     image: '/images/products/keyboards/teclado-mecanico-rgb-1.png',
     category: 'perifericos',
-    badge: 'Más Vendido',
+    badge: 'Más vendido',
     description:
       'Teclado mecánico gaming con switches azules, iluminación RGB personalizable y reposamuñecas magnético. Diseñado para gamers profesionales con teclas anti-ghosting y construcción de aluminio premium.',
     images: [
@@ -255,7 +255,7 @@ const sampleCategories = [
     description: 'Equipamiento profesional para creadores de contenido',
   },
   {
-    name: 'Muebles Gaming',
+    name: 'Muebles gaming',
     value: 'muebles',
     description: 'Sillas y escritorios ergonómicos para largas sesiones',
   },
