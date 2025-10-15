@@ -7,8 +7,6 @@ export const ProductSchema = z.object({
   price: z.number().positive(),
   originalPrice: z.number().positive().optional(),
   image: z.string(),
-  rating: z.number().min(0).max(5),
-  reviews: z.number().min(0),
   category: z.string().optional(),
   badge: z.string().optional(),
   description: z.string().optional(),
@@ -44,7 +42,7 @@ export const UserSchema = z.object({
 
 // Auth forms schemas
 export const SignInSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
+  email: z.email('Please enter a valid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
 })
 
@@ -83,7 +81,7 @@ export const CheckoutSchema = z.object({
 export const ContactSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
-  email: z.string().email('Please enter a valid email address'),
+  email: z.email('Please enter a valid email address'),
   phone: z.string().optional(),
   subject: z.string().min(1, 'Subject is required'),
   message: z.string().min(10, 'Message must be at least 10 characters'),

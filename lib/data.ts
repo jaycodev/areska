@@ -8,8 +8,6 @@ export const sampleProducts = [
     price: 299.99,
     originalPrice: 399.99,
     image: 'https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg',
-    rating: 4.8,
-    reviews: 124,
     category: 'audio',
     badge: 'Best Seller',
     description:
@@ -40,8 +38,6 @@ export const sampleProducts = [
     name: 'Smart Fitness Watch',
     price: 199.99,
     image: 'https://images.pexels.com/photos/22434765/pexels-photo-22434765.jpeg',
-    rating: 4.6,
-    reviews: 89,
     category: 'wearables',
     badge: 'New',
   },
@@ -51,8 +47,6 @@ export const sampleProducts = [
     price: 89.99,
     originalPrice: 119.99,
     image: 'https://burst.shopifycdn.com/photos/bright-purple-t-shirt.jpg',
-    rating: 4.9,
-    reviews: 156,
     category: 'accessories',
   },
   {
@@ -61,8 +55,6 @@ export const sampleProducts = [
     price: 49.99,
     image:
       'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    rating: 4.5,
-    reviews: 67,
     category: 'accessories',
   },
   {
@@ -71,8 +63,6 @@ export const sampleProducts = [
     price: 129.99,
     image:
       'https://images.unsplash.com/photo-1623998021446-45cd9b269056?q=80&w=1179&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    rating: 4.7,
-    reviews: 203,
     category: 'audio',
     badge: 'Popular',
   },
@@ -83,8 +73,6 @@ export const sampleProducts = [
     originalPrice: 99.99,
     image:
       'https://images.unsplash.com/photo-1511499767150-a48a237f0083?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    rating: 4.4,
-    reviews: 45,
     category: 'accessories',
   },
   {
@@ -94,8 +82,6 @@ export const sampleProducts = [
     originalPrice: 99.99,
     image:
       'https://plus.unsplash.com/premium_photo-1676914336000-f8b2f9edd56a?q=80&w=784&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    rating: 4.4,
-    reviews: 45,
     category: 'accessories',
   },
   {
@@ -105,8 +91,6 @@ export const sampleProducts = [
     originalPrice: 99.99,
     image:
       'https://plus.unsplash.com/premium_photo-1680859126131-d91874d9f5e8?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    rating: 4.4,
-    reviews: 45,
     category: 'accessories',
   },
   {
@@ -116,13 +100,10 @@ export const sampleProducts = [
     originalPrice: 99.99,
     image:
       'https://plus.unsplash.com/premium_photo-1681711647066-ef84575c0d95?q=80&w=700&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    rating: 4.4,
-    reviews: 45,
     category: 'accessories',
   },
 ] as const
 
-// Validate and export products with proper typing
 export const products: Product[] = sampleProducts.map((product) => ProductSchema.parse(product))
 
 // Categories data with inferred types
@@ -159,37 +140,5 @@ export const categories = [
   },
 ] as const
 
-// Testimonials data with inferred types
-export const testimonials = [
-  {
-    id: 1,
-    name: 'Sarah Johnson',
-    role: 'Designer',
-    content:
-      "Amazing quality products and exceptional customer service. I've been shopping here for over a year and never been disappointed.",
-    rating: 5,
-    avatar: '/placeholder.svg?height=60&width=60',
-  },
-  {
-    id: 2,
-    name: 'Michael Chen',
-    role: 'Developer',
-    content:
-      'Fast shipping, great prices, and the products always exceed my expectations. Highly recommend this store to everyone.',
-    rating: 5,
-    avatar: '/placeholder.svg?height=60&width=60',
-  },
-  {
-    id: 3,
-    name: 'Emily Davis',
-    role: 'Marketing Manager',
-    content:
-      'The attention to detail in both products and packaging is incredible. This is my go-to store for premium tech accessories.',
-    rating: 5,
-    avatar: '/placeholder.svg?height=60&width=60',
-  },
-] as const
-
 // Export inferred types
 export type Category = (typeof categories)[number]
-export type Testimonial = (typeof testimonials)[number]

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-import { Heart, Minus, Plus, RotateCcw, ShoppingCart, Star, Truck } from 'lucide-react'
+import { Heart, Minus, Plus, RotateCcw, ShoppingCart, Truck } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Product } from '@/lib/schemas'
@@ -78,21 +78,6 @@ export function ProductDetailPage({ product, relatedProducts }: Props) {
         <div className="space-y-6">
           <div>
             <h1 className="mb-2 text-3xl font-semibold">{product.name}</h1>
-            <div className="mb-4 flex items-center space-x-4">
-              <div className="flex items-center">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`h-5 w-5 ${
-                      i < Math.floor(product.rating)
-                        ? 'fill-current text-yellow-400'
-                        : 'text-muted-foreground/40'
-                    }`}
-                  />
-                ))}
-              </div>
-              <span className="text-muted-foreground text-sm">({product.reviews} reviews)</span>
-            </div>
             <div className="flex items-center space-x-4">
               <span className="text-3xl font-bold">${product.price.toFixed(2)}</span>
               {product.originalPrice && (
