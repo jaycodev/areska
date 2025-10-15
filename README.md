@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://areska.vercel.app" target="_blank" rel="noopener noreferrer">
+  <a href="https://areska.vercel.app">
     <img src="./public/images/readme.jpg" alt="Preview">
   </a>
   <p></p>
