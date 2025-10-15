@@ -2,11 +2,20 @@
 
 import { useState } from 'react'
 
-import { ChevronDown, Filter } from 'lucide-react'
+import { ArrowUpDown, Filter } from 'lucide-react'
 
 import { ProductCard } from '@public/pages/products/detail/product-card'
 
 import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { products } from '@/lib/data'
 
 export function ProductsPage() {
@@ -50,7 +59,7 @@ export function ProductsPage() {
               onClick={() => setShowFilters(!showFilters)}
               className="w-full"
             >
-              <Filter className="mr-2 h-4 w-4" />
+              <Filter />
               Filtros
             </Button>
           </div>
@@ -61,21 +70,20 @@ export function ProductsPage() {
               <h3 className="mb-3 text-xs tracking-widest uppercase text-muted-foreground">
                 Categoría
               </h3>
-              <div className="space-y-2">
+              <RadioGroup
+                value={selectedCategory}
+                onValueChange={setSelectedCategory}
+                className="space-y-2"
+              >
                 {['all', 'audio', 'wearables', 'accessories'].map((category) => (
-                  <label key={category} className="flex items-center">
-                    <input
-                      type="radio"
-                      name="category"
-                      value={category}
-                      checked={selectedCategory === category}
-                      onChange={(e) => setSelectedCategory(e.target.value)}
-                      className="mr-2 accent-primary"
-                    />
-                    <span className="capitalize">{categoryLabels[category] || category}</span>
-                  </label>
+                  <div key={category} className="flex items-center space-x-2">
+                    <RadioGroupItem value={category} id={`category-${category}`} />
+                    <Label htmlFor={`category-${category}`}>
+                      {categoryLabels[category] || category}
+                    </Label>
+                  </div>
                 ))}
-              </div>
+              </RadioGroup>
             </div>
 
             {/* Price Filter */}
@@ -83,7 +91,7 @@ export function ProductsPage() {
               <h3 className="mb-3 text-xs tracking-widest uppercase text-muted-foreground">
                 Rango de precios
               </h3>
-              <div className="space-y-2">
+              <RadioGroup value={priceRange} onValueChange={setPriceRange} className="space-y-2">
                 {[
                   { value: 'all', label: 'Todos los precios' },
                   { value: 'under-50', label: 'Menos de $50' },
@@ -91,40 +99,35 @@ export function ProductsPage() {
                   { value: '100-200', label: '$100 - $200' },
                   { value: 'over-200', label: 'Más de $200' },
                 ].map((option) => (
-                  <label key={option.value} className="flex items-center">
-                    <input
-                      type="radio"
-                      name="price"
-                      value={option.value}
-                      checked={priceRange === option.value}
-                      onChange={(e) => setPriceRange(e.target.value)}
-                      className="mr-2 accent-primary"
-                    />
-                    <span>{option.label}</span>
-                  </label>
+                  <div key={option.value} className="flex items-center space-x-2">
+                    <RadioGroupItem value={option.value} id={`price-${option.value}`} />
+                    <Label htmlFor={`price-${option.value}`}>{option.label}</Label>
+                  </div>
                 ))}
-              </div>
+              </RadioGroup>
             </div>
           </div>
         </div>
 
         {/* Products Grid */}
         <div className="flex-1">
-          <div className="mb-6 flex items-center justify-between">
+          <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center items-start justify-between">
             <h1 className="text-2xl font-bold">Productos ({filteredProducts.length})</h1>
-
-            <div className="relative">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="focus:ring-primary appearance-none rounded-lg border px-4 py-2 pr-8 focus:border-transparent focus:ring-2"
-              >
-                <option value="featured">Destacados</option>
-                <option value="newest">Más nuevos</option>
-                <option value="price-low">Precio: menor a mayor</option>
-                <option value="price-high">Precio: mayor a menor</option>
-              </select>
-              <ChevronDown className="pointer-events-none absolute top-1/2 right-2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
+            <div className="min-w-56 space-y-2">
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger className="relative w-full pl-9">
+                  <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 group-has-[select[disabled]]:opacity-50">
+                    <ArrowUpDown size={16} aria-hidden="true" />
+                  </div>
+                  <SelectValue placeholder="Ordenar por" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="featured">Destacados</SelectItem>
+                  <SelectItem value="newest">Más nuevos</SelectItem>
+                  <SelectItem value="price-low">Precio: menor a mayor</SelectItem>
+                  <SelectItem value="price-high">Precio: mayor a menor</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
