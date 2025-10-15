@@ -110,32 +110,32 @@ export const products: Product[] = sampleProducts.map((product) => ProductSchema
 export const categories = [
   {
     name: 'Audio',
-    href: '/productos?category=audio',
+    href: '/productos?categoria=audio',
     count: '120+ products',
   },
   {
     name: 'Wearables',
-    href: '/productos?category=wearables',
+    href: '/productos?categoria=wearables',
     count: '85+ products',
   },
   {
     name: 'Accessories',
-    href: '/productos?category=accessories',
+    href: '/productos?categoria=accessories',
     count: '200+ products',
   },
   {
     name: 'Mobile',
-    href: '/productos?category=mobile',
+    href: '/productos?categoria=mobile',
     count: '95+ products',
   },
   {
     name: 'Photography',
-    href: '/productos?category=photography',
+    href: '/productos?categoria=photography',
     count: '60+ products',
   },
   {
     name: 'Gaming',
-    href: '/productos?category=gaming',
+    href: '/productos?categoria=gaming',
     count: '150+ products',
   },
 ] as const
