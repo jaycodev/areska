@@ -1,4 +1,4 @@
-import { ProductCard } from '@public/pages/products/components/product-card'
+import { ProductCard } from '@public/pages/products/detail/product-card'
 
 import { products } from '@/lib/data'
 

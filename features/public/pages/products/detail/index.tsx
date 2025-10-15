@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Product } from '@/lib/schemas'
 import { useCartStore } from '@/stores/cart-store'
 
-import { ProductCard } from '../components/product-card'
+import { ProductCard } from './product-card'
 
 type Props = { product: Product; relatedProducts: Product[] }
 

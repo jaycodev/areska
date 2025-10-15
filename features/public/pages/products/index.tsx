@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 import { ChevronDown, Filter } from 'lucide-react'
 
-import { ProductCard } from '@public/pages/products/components/product-card'
+import { ProductCard } from '@public/pages/products/detail/product-card'
 
 import { Button } from '@/components/ui/button'
 import { products } from '@/lib/data'
