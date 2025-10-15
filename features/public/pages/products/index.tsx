@@ -15,6 +15,13 @@ export function ProductsPage() {
   const [sortBy, setSortBy] = useState('featured')
   const [showFilters, setShowFilters] = useState(false)
 
+  const categoryLabels: Record<string, string> = {
+    all: 'Todos los productos',
+    audio: 'Audio',
+    wearables: 'Wearables',
+    accessories: 'Accesorios',
+  }
+
   const filteredProducts = products
     .filter((product) => selectedCategory === 'all' || product.category === selectedCategory)
     .filter((product) => {
@@ -44,7 +51,7 @@ export function ProductsPage() {
               className="w-full"
             >
               <Filter className="mr-2 h-4 w-4" />
-              Filters
+              Filtros
             </Button>
           </div>
 
@@ -52,7 +59,7 @@ export function ProductsPage() {
             {/* Category Filter */}
             <div>
               <h3 className="mb-3 text-xs tracking-widest uppercase text-muted-foreground">
-                Category
+                Categoría
               </h3>
               <div className="space-y-2">
                 {['all', 'audio', 'wearables', 'accessories'].map((category) => (
@@ -65,9 +72,7 @@ export function ProductsPage() {
                       onChange={(e) => setSelectedCategory(e.target.value)}
                       className="mr-2 accent-primary"
                     />
-                    <span className="capitalize">
-                      {category === 'all' ? 'All Products' : category}
-                    </span>
+                    <span className="capitalize">{categoryLabels[category] || category}</span>
                   </label>
                 ))}
               </div>
@@ -76,15 +81,15 @@ export function ProductsPage() {
             {/* Price Filter */}
             <div>
               <h3 className="mb-3 text-xs tracking-widest uppercase text-muted-foreground">
-                Price Range
+                Rango de precios
               </h3>
               <div className="space-y-2">
                 {[
-                  { value: 'all', label: 'All Prices' },
-                  { value: 'under-50', label: 'Under $50' },
+                  { value: 'all', label: 'Todos los precios' },
+                  { value: 'under-50', label: 'Menos de $50' },
                   { value: '50-100', label: '$50 - $100' },
                   { value: '100-200', label: '$100 - $200' },
-                  { value: 'over-200', label: 'Over $200' },
+                  { value: 'over-200', label: 'Más de $200' },
                 ].map((option) => (
                   <label key={option.value} className="flex items-center">
                     <input
@@ -106,7 +111,7 @@ export function ProductsPage() {
         {/* Products Grid */}
         <div className="flex-1">
           <div className="mb-6 flex items-center justify-between">
-            <h1 className="text-2xl font-bold">Products ({filteredProducts.length})</h1>
+            <h1 className="text-2xl font-bold">Productos ({filteredProducts.length})</h1>
 
             <div className="relative">
               <select
@@ -114,10 +119,10 @@ export function ProductsPage() {
                 onChange={(e) => setSortBy(e.target.value)}
                 className="focus:ring-primary appearance-none rounded-lg border px-4 py-2 pr-8 focus:border-transparent focus:ring-2"
               >
-                <option value="featured">Featured</option>
-                <option value="newest">Newest</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
+                <option value="featured">Destacados</option>
+                <option value="newest">Más nuevos</option>
+                <option value="price-low">Precio: menor a mayor</option>
+                <option value="price-high">Precio: mayor a menor</option>
               </select>
               <ChevronDown className="pointer-events-none absolute top-1/2 right-2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
             </div>
@@ -131,7 +136,9 @@ export function ProductsPage() {
 
           {filteredProducts.length === 0 && (
             <div className="py-12 text-center">
-              <p className="text-muted-foreground">No products found matching your criteria.</p>
+              <p className="text-muted-foreground">
+                No se encontraron productos que coincidan con tus criterios.
+              </p>
             </div>
           )}
         </div>
