@@ -2,11 +2,21 @@
 
 import { useState } from 'react'
 
-import { Menu, Search, ShoppingCart, User, X } from 'lucide-react'
+import { LogOut, Menu, Search, ShoppingCart, User, X } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
+import { ConfirmDialog } from '@/components/shared/confirm-dialog'
 import { Logo } from '@/components/shared/logo'
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
 import { useAuthStore } from '@/stores/auth-store'
@@ -17,6 +27,21 @@ import { Navigation } from './navigation'
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { user, logout } = useAuthStore()
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
+  const router = useRouter()
+
+  const handleLogoutClick = () => {
+    setDropdownOpen(false)
+    setTimeout(() => {
+      setConfirmDialogOpen(true)
+    }, 50)
+  }
+
+  const handleConfirmLogout = () => {
+    logout()
+    router.push('/iniciar-sesion')
+  }
 
   return (
     <nav className="sticky top-0 z-50 border-b bg-background">
@@ -55,25 +80,47 @@ export function Navbar() {
 
             {/* User Menu */}
             {user ? (
-              <div className="group relative">
-                <Button variant="outline" size="icon">
-                  <User />
-                </Button>
-                <div className="invisible absolute right-0 mt-2 w-48 rounded-md border bg-popover py-1 opacity-0 shadow-md transition-all group-hover:visible group-hover:opacity-100">
-                  <Link
-                    href="/perfil"
-                    className="block px-4 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
+              <>
+                <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="icon">
+                      <User />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    className="w-[--radix-dropdown-menu-trigger-width] min-w-44 rounded-lg"
+                    align="end"
+                    sideOffset={4}
                   >
-                    Perfil
-                  </Link>
-                  <button
-                    onClick={logout}
-                    className="block w-full px-4 py-2 text-left text-sm hover:bg-accent hover:text-accent-foreground"
-                  >
-                    Cerrar sesión
-                  </button>
-                </div>
-              </div>
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem asChild>
+                        <Link href="/perfil">
+                          <User className="text-current" />
+                          Perfil
+                        </Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem variant="destructive" onClick={handleLogoutClick}>
+                      <LogOut />
+                      Cerrar sesión
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                <ConfirmDialog
+                  title="¿Estás seguro?"
+                  description="Esto cerrará tu sesión y te redirigirá a la pantalla de inicio de sesión."
+                  actionButton={{
+                    label: 'Cerrar sesión',
+                    variant: 'destructive',
+                    icon: <LogOut />,
+                  }}
+                  onOpenChange={setConfirmDialogOpen}
+                  open={confirmDialogOpen}
+                  onConfirm={handleConfirmLogout}
+                />
+              </>
             ) : (
               <Link href="/iniciar-sesion">
                 <Button>Iniciar sesión</Button>
