@@ -34,9 +34,14 @@ export function ProductsPage() {
 
     if (categoriaParam) {
       setSelectedCategory(categoriaParam)
+    } else {
+      setSelectedCategory('todos')
     }
+
     if (rangoParam) {
       setPriceRange(rangoParam)
+    } else {
+      setPriceRange('todos')
     }
   }, [searchParams])
 

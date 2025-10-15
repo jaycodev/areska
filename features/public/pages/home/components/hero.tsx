@@ -10,8 +10,8 @@ export function Hero() {
       <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
         <div>
           <h1 className="mb-6 text-4xl font-bold md:text-5xl">
-            Eleva tu Juego al
-            <span className="text-primary block">Siguiente Nivel</span>
+            Eleva tu juego al
+            <span className="text-primary block">siguiente nivel</span>
           </h1>
           <p className="mb-8 max-w-lg text-lg text-muted-foreground">
             Descubre periféricos gaming de alta precisión y rendimiento. Teclados mecánicos, ratones
@@ -21,7 +21,7 @@ export function Hero() {
             <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>
               <Link href="/acerca-de">
                 <Info />
-                Saber Más
+                Saber más
               </Link>
             </Button>
             <Button size="lg" className="w-full sm:w-auto" asChild>
@@ -42,7 +42,7 @@ export function Hero() {
                 <span className="font-bold text-primary-foreground">50%</span>
               </div>
               <div>
-                <p className="font-semibold">Oferta Especial</p>
+                <p className="font-semibold">Oferta especial</p>
                 <p className="text-sm text-muted-foreground">Por tiempo limitado</p>
               </div>
             </div>

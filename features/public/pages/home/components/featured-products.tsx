@@ -3,14 +3,13 @@ import { ProductCard } from '@public/pages/products/detail/product-card'
 import { products } from '@/lib/data'
 
 export function FeaturedProducts() {
-  // Take first 6 products as featured
-  const featuredProducts = products.slice(0, 6)
+  const featuredProducts = products.slice(0, 9)
 
   return (
     <section className="py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold md:text-4xl">Productos destacados</h2>
+          <h2 className="mb-4 text-2xl font-bold md:text-3xl">Productos destacados</h2>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             Descubre nuestros artículos más populares, cuidadosamente seleccionados por su calidad
             excepcional y satisfacción del cliente.

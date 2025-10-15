@@ -3,7 +3,7 @@ import { z } from 'zod'
 export const CategorySchema = z.object({
   name: z.string(),
   value: z.string(),
-  count: z.string(),
+  description: z.string(),
 })
 
 export const ProductSchema = z.object({

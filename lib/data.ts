@@ -237,37 +237,37 @@ const sampleCategories = [
   {
     name: 'Periféricos',
     value: 'perifericos',
-    count: '150+ productos',
+    description: 'Teclados, ratones y accesorios gaming de alta precisión',
   },
   {
     name: 'Audio',
     value: 'audio',
-    count: '85+ productos',
+    description: 'Auriculares y sistemas de sonido envolvente',
   },
   {
     name: 'Monitores',
     value: 'monitores',
-    count: '60+ productos',
+    description: 'Pantallas de alto rendimiento con tasas de refresco elevadas',
   },
   {
     name: 'Streaming',
     value: 'streaming',
-    count: '45+ productos',
+    description: 'Equipamiento profesional para creadores de contenido',
   },
   {
     name: 'Muebles Gaming',
     value: 'muebles',
-    count: '30+ productos',
+    description: 'Sillas y escritorios ergonómicos para largas sesiones',
   },
   {
     name: 'Iluminación',
     value: 'iluminacion',
-    count: '40+ productos',
+    description: 'Iluminación RGB y ambientes personalizables',
   },
   {
     name: 'Accesorios',
     value: 'accesorios',
-    count: '200+ productos',
+    description: 'Complementos esenciales para tu setup gaming',
   },
 ] as const
 

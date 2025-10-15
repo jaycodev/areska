@@ -7,8 +7,8 @@ export function Newsletter() {
   return (
     <section className="py-16 border-t">
       <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-        <h2 className="mb-4 text-3xl font-bold md:text-4xl">Mantente actualizado</h2>
-        <p className="mb-8 text-xl text-muted-foreground">
+        <h2 className="mb-4 text-2xl font-bold md:text-3xl">Mantente actualizado</h2>
+        <p className="mb-8 text-lg text-muted-foreground">
           Suscríbete a nuestro boletín y sé el primero en conocer nuevos productos, ofertas
           exclusivas y promociones especiales.
         </p>

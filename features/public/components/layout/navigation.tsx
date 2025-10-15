@@ -40,29 +40,29 @@ export function Navigation() {
           <NavigationMenuTrigger>Tienda</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
+              <li className="row-span-3 overflow-hidden rounded-md">
                 <NavigationMenuLink asChild>
                   <Link
-                    className="flex h-full w-full flex-col justify-end rounded-md bg-[url('https://bundui-images.netlify.app/products/01.jpeg')] bg-cover p-0! no-underline outline-hidden select-none focus:shadow-md"
-                    href="/"
+                    className="flex h-full w-full flex-col justify-end bg-gradient-to-br from-purple-600 via-pink-600 to-blue-600 no-underline outline-hidden select-none focus:shadow-md"
+                    href="/productos"
                   >
-                    <div className="bg-foreground/30 space-y-2 p-4 text-primary-foreground backdrop-blur-md">
-                      <div className="font-medium">Nuevos productos</div>
+                    <div className="bg-foreground/30 space-y-2 p-4 text-primary-foreground backdrop-blur-md rounded-md">
+                      <div className="font-medium">Nuevos lanzamientos</div>
                       <p className="text-sm leading-tight">
-                        Descubre los estilos de nuestra última colección.
+                        Descubre lo último en periféricos gaming de alta gama.
                       </p>
                     </div>
                   </Link>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="#" title="Colección de verano">
-                Esenciales ligeros perfectos para la temporada cálida.
+              <ListItem href="/productos?destacados=true" title="Más vendidos">
+                Los productos favoritos de nuestra comunidad gamer.
               </ListItem>
-              <ListItem href="#" title="Accesorios">
-                Completa tu look con nuestros bolsos elegantes, joyería y más.
+              <ListItem href="/productos?oferta=true" title="Ofertas especiales">
+                Equipamiento premium con descuentos exclusivos.
               </ListItem>
-              <ListItem href="#" title="Ofertas">
-                Compra artículos con descuento antes de que se agoten.
+              <ListItem href="/productos?nuevo=true" title="Recién llegados">
+                Las últimas novedades en tecnología gaming.
               </ListItem>
             </ul>
           </NavigationMenuContent>
@@ -78,7 +78,7 @@ export function Navigation() {
                   title={category.name}
                   href={`/productos?categoria=${category.value}`}
                 >
-                  {category.count}
+                  {category.description}
                 </ListItem>
               ))}
             </ul>
@@ -86,29 +86,31 @@ export function Navigation() {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Enlaces rápidos</NavigationMenuTrigger>
+          <NavigationMenuTrigger>Soporte</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[300px] gap-4">
               <li>
                 <NavigationMenuLink asChild>
-                  <Link href="#">
-                    <span className="font-medium">Todos los productos</span>
+                  <Link href="/envios">
+                    <span className="font-medium">Envíos y entregas</span>
                     <span className="text-muted-foreground">
-                      Navega nuestro catálogo completo de productos.
+                      Información sobre tiempos y costos de envío.
                     </span>
                   </Link>
                 </NavigationMenuLink>
                 <NavigationMenuLink asChild>
-                  <Link href="#">
-                    <span className="font-medium">Preguntas frecuentes</span>
-                    <span className="text-muted-foreground">Respuestas a preguntas comunes.</span>
+                  <Link href="/devoluciones">
+                    <span className="font-medium">Devoluciones y garantía</span>
+                    <span className="text-muted-foreground">
+                      Política de devoluciones y servicio técnico.
+                    </span>
                   </Link>
                 </NavigationMenuLink>
                 <NavigationMenuLink asChild>
-                  <Link href="#">
-                    <span className="font-medium">Blog</span>
+                  <Link href="/contacto">
+                    <span className="font-medium">Contacto</span>
                     <span className="text-muted-foreground">
-                      Inspírate con nuestras últimas publicaciones.
+                      ¿Necesitas ayuda? Estamos aquí para ti.
                     </span>
                   </Link>
                 </NavigationMenuLink>
