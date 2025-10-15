@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { ArrowUpDown, Filter } from 'lucide-react'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 import { ProductCard } from '@public/pages/products/detail/product-card'
 
@@ -19,26 +20,70 @@ import {
 import { products } from '@/lib/data'
 
 export function ProductsPage() {
-  const [selectedCategory, setSelectedCategory] = useState('all')
-  const [priceRange, setPriceRange] = useState('all')
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const [selectedCategory, setSelectedCategory] = useState('todos')
+  const [priceRange, setPriceRange] = useState('todos')
   const [sortBy, setSortBy] = useState('featured')
   const [showFilters, setShowFilters] = useState(false)
 
-  const categoryLabels: Record<string, string> = {
-    all: 'Todos los productos',
-    audio: 'Audio',
-    wearables: 'Wearables',
-    accessories: 'Accesorios',
+  useEffect(() => {
+    const categoriaParam = searchParams.get('categoria')
+    const rangoParam = searchParams.get('rango')
+
+    if (categoriaParam) {
+      setSelectedCategory(categoriaParam)
+    }
+    if (rangoParam) {
+      setPriceRange(rangoParam)
+    }
+  }, [searchParams])
+
+  const updateURL = (categoria: string, rango: string) => {
+    const params = new URLSearchParams()
+
+    if (categoria !== 'todos') {
+      params.set('categoria', categoria)
+    }
+    if (rango !== 'todos') {
+      params.set('rango', rango)
+    }
+
+    const queryString = params.toString()
+    const newUrl = queryString ? `?${queryString}` : window.location.pathname
+    router.push(newUrl, { scroll: false })
   }
 
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value)
+    updateURL(value, priceRange)
+  }
+
+  const handlePriceRangeChange = (value: string) => {
+    setPriceRange(value)
+    updateURL(selectedCategory, value)
+  }
+
+  const categories = {
+    todos: { label: 'Todos los productos', value: null },
+    audio: { label: 'Audio', value: 'audio' },
+    wearables: { label: 'Wearables', value: 'wearables' },
+    accesorios: { label: 'Accesorios', value: 'accessories' },
+  } as const
+
   const filteredProducts = products
-    .filter((product) => selectedCategory === 'all' || product.category === selectedCategory)
     .filter((product) => {
-      if (priceRange === 'all') return true
-      if (priceRange === 'under-50') return product.price < 50
+      if (selectedCategory === 'todos') return true
+      const categoryData = categories[selectedCategory as keyof typeof categories]
+      return product.category === categoryData?.value
+    })
+    .filter((product) => {
+      if (priceRange === 'todos') return true
+      if (priceRange === 'menos-50') return product.price < 50
       if (priceRange === '50-100') return product.price >= 50 && product.price <= 100
       if (priceRange === '100-200') return product.price >= 100 && product.price <= 200
-      if (priceRange === 'over-200') return product.price > 200
+      if (priceRange === 'mas-200') return product.price > 200
       return true
     })
     .sort((a, b) => {
@@ -72,15 +117,13 @@ export function ProductsPage() {
               </h3>
               <RadioGroup
                 value={selectedCategory}
-                onValueChange={setSelectedCategory}
+                onValueChange={handleCategoryChange}
                 className="space-y-2"
               >
-                {['all', 'audio', 'wearables', 'accessories'].map((category) => (
+                {(Object.keys(categories) as Array<keyof typeof categories>).map((category) => (
                   <div key={category} className="flex items-center space-x-2">
                     <RadioGroupItem value={category} id={`category-${category}`} />
-                    <Label htmlFor={`category-${category}`}>
-                      {categoryLabels[category] || category}
-                    </Label>
+                    <Label htmlFor={`category-${category}`}>{categories[category].label}</Label>
                   </div>
                 ))}
               </RadioGroup>
@@ -91,13 +134,17 @@ export function ProductsPage() {
               <h3 className="mb-3 text-xs tracking-widest uppercase text-muted-foreground">
                 Rango de precios
               </h3>
-              <RadioGroup value={priceRange} onValueChange={setPriceRange} className="space-y-2">
+              <RadioGroup
+                value={priceRange}
+                onValueChange={handlePriceRangeChange}
+                className="space-y-2"
+              >
                 {[
-                  { value: 'all', label: 'Todos los precios' },
-                  { value: 'under-50', label: 'Menos de $50' },
+                  { value: 'todos', label: 'Todos los precios' },
+                  { value: 'menos-50', label: 'Menos de $50' },
                   { value: '50-100', label: '$50 - $100' },
                   { value: '100-200', label: '$100 - $200' },
-                  { value: 'over-200', label: 'Más de $200' },
+                  { value: 'mas-200', label: 'Más de $200' },
                 ].map((option) => (
                   <div key={option.value} className="flex items-center space-x-2">
                     <RadioGroupItem value={option.value} id={`price-${option.value}`} />
