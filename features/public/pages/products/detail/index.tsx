@@ -4,13 +4,15 @@ import { useState } from 'react'
 
 import { Heart, Minus, Plus, RotateCcw, ShoppingCart, Truck } from 'lucide-react'
 
+import { ProductDetail } from '@public/schemas/product-detail-schema'
+import { ProductList } from '@public/schemas/product-list-schema'
+
 import { Button } from '@/components/ui/button'
-import { Product } from '@/lib/schemas'
 import { useCartStore } from '@/stores/cart-store'
 
 import { ProductCard } from './product-card'
 
-type Props = { product: Product; relatedProducts: Product[] }
+type Props = { product: ProductDetail; relatedProducts: ProductList[] }
 
 export function ProductDetailPage({ product, relatedProducts }: Props) {
   const [selectedImage, setSelectedImage] = useState(0)
@@ -28,19 +30,19 @@ export function ProductDetailPage({ product, relatedProducts }: Props) {
 
   const handleAddToCart = () => {
     addItem({
-      id: product.id,
+      id: product.id.toString(),
       name: product.name,
       price: product.price,
-      image: product.images?.[0] || product.image,
+      image: product.images?.[0]?.imageUrl || product.mainImage,
       quantity: quantity,
     })
   }
 
-  const productImages = product.images || [
-    product.image,
-    product.image,
-    product.image,
-    product.image,
+  const productImages = product.images?.map((img) => img.imageUrl) || [
+    product.mainImage,
+    product.mainImage,
+    product.mainImage,
+    product.mainImage,
   ]
 
   return (
@@ -93,7 +95,7 @@ export function ProductDetailPage({ product, relatedProducts }: Props) {
           )}
 
           {/* Color Selection */}
-          {product.colors && (
+          {product.colors && product.colors.length > 0 && (
             <div>
               <h3 className="mb-3 font-semibold">Color</h3>
               <div className="flex space-x-3">
@@ -104,7 +106,7 @@ export function ProductDetailPage({ product, relatedProducts }: Props) {
                     className={`size-10 rounded-full border-2 cursor-pointer ${
                       selectedColor?.name === color.name ? 'border-primary border-3' : ''
                     }`}
-                    style={{ backgroundColor: color.value }}
+                    style={{ backgroundColor: color.hexValue }}
                     title={color.name}
                   />
                 ))}
@@ -163,14 +165,14 @@ export function ProductDetailPage({ product, relatedProducts }: Props) {
           </div>
 
           {/* Features */}
-          {product.features && (
+          {product.features && product.features.length > 0 && (
             <div className="border-t pt-6">
               <h3 className="mb-3 font-semibold">Características principales</h3>
               <ul className="space-y-2">
                 {product.features.map((feature, index) => (
                   <li key={index} className="flex items-center space-x-2">
                     <div className="bg-primary h-2 w-2 rounded-full" />
-                    <span className="text-muted-foreground">{feature}</span>
+                    <span className="text-muted-foreground">{feature.featureText}</span>
                   </li>
                 ))}
               </ul>

@@ -12,7 +12,44 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu'
-import { categories } from '@/lib/data'
+
+const categories = [
+  {
+    name: 'Periféricos',
+    slug: 'perifericos',
+    description: 'Teclados, ratones y accesorios gaming de alta precisión',
+  },
+  {
+    name: 'Audio',
+    slug: 'audio',
+    description: 'Auriculares y sistemas de sonido envolvente',
+  },
+  {
+    name: 'Monitores',
+    slug: 'monitores',
+    description: 'Pantallas de alto rendimiento con tasas de refresco elevadas',
+  },
+  {
+    name: 'Streaming',
+    slug: 'streaming',
+    description: 'Equipamiento profesional para creadores de contenido',
+  },
+  {
+    name: 'Muebles gaming',
+    slug: 'muebles',
+    description: 'Sillas y escritorios ergonómicos para largas sesiones',
+  },
+  {
+    name: 'Iluminación',
+    slug: 'iluminacion',
+    description: 'Iluminación RGB y ambientes personalizables',
+  },
+  {
+    name: 'Accesorios',
+    slug: 'accesorios',
+    description: 'Complementos esenciales para tu setup gaming',
+  },
+] as const
 
 function ListItem({
   title,
@@ -76,7 +113,7 @@ export function Navigation() {
                 <ListItem
                   key={category.name}
                   title={category.name}
-                  href={`/productos?categoria=${category.value}`}
+                  href={`/productos?categoria=${category.slug}`}
                 >
                   {category.description}
                 </ListItem>

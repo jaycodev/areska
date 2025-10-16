@@ -3,11 +3,12 @@
 import { Heart } from 'lucide-react'
 import Link from 'next/link'
 
+import { ProductList } from '@public/schemas/product-list-schema'
+
 import { Badge } from '@/components/ui/badge'
-import type { Product } from '@/lib/schemas'
 
 interface ProductCardProps {
-  product: Product
+  product: ProductList
 }
 
 export function ProductCard({ product }: ProductCardProps) {
@@ -20,7 +21,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </button>
         <Link href={`/productos/${product.id}`}>
           <img
-            src={product.image || '/images/placeholder.svg'}
+            src={product.mainImage || '/images/placeholder.svg'}
             alt={product.name}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />

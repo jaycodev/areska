@@ -1,21 +1,28 @@
 import { ProductDetailPage } from '@public/pages/products/detail'
 
-import { products } from '@/lib/data'
+import { productsApi } from '@/lib/api/products'
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const product = products.find((p) => p.id === id)
-  const relatedProducts = products
-    .filter((p) => p.id !== id && p.category === product?.category)
-    .slice(0, 3)
 
-  if (!product) {
+  try {
+    const product = await productsApi.getById(Number(id))
+
+    const allProducts = await productsApi.getAll()
+    const relatedProducts = allProducts
+      .filter((p) => p.id !== product.id && p.category.name === product.category.name)
+      .slice(0, 3)
+
+    return <ProductDetailPage product={product} relatedProducts={relatedProducts} />
+  } catch (error) {
+    console.error('Error loading product:', error)
     return (
       <div className="mx-auto max-w-7xl px-4 py-16 text-center sm:px-6 lg:px-8">
-        Producto no encontrado
+        <h1 className="mb-4 text-2xl font-bold">Producto no encontrado</h1>
+        <p className="text-muted-foreground">
+          El producto que buscas no existe o no está disponible.
+        </p>
       </div>
     )
   }
-
-  return <ProductDetailPage product={product} relatedProducts={relatedProducts} />
 }

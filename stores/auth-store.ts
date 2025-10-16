@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-import type { User } from '@/lib/schemas'
+import { User } from '@auth/schemas/user-schema'
 
 interface AuthStore {
   user: User | null
@@ -19,31 +19,40 @@ export const useAuthStore = create<AuthStore>()(
 
       login: async (email, password) => {
         set({ isLoading: true })
-
-        // Mock login - in a real app, you'd make an API call
         await new Promise((resolve) => setTimeout(resolve, 1000))
 
-        const mockUser: User = {
-          id: '1',
-          email,
-          firstName: 'Admin',
-          lastName: 'Test',
-        }
+        if (email === 'admin@example.com' && password === 'password123') {
+          const mockUser: User = {
+            id: 1,
+            firstName: 'Admin',
+            lastName: 'User',
+            email,
+            password,
+            phone: '+51 999 999 999',
+            address: 'Av. Los Olivos 123, Lima, Perú',
+            createdAt: new Date().toISOString(),
+          }
 
-        set({ user: mockUser, isLoading: false })
+          set({ user: mockUser, isLoading: false })
+        } else {
+          set({ isLoading: false })
+          throw new Error('Credenciales inválidas')
+        }
       },
 
       signup: async (email, password, firstName, lastName) => {
         set({ isLoading: true })
-
-        // Mock signup - in a real app, you'd make an API call
         await new Promise((resolve) => setTimeout(resolve, 1000))
 
         const mockUser: User = {
-          id: '1',
-          email,
+          id: Math.floor(Math.random() * 1000) + 1,
           firstName,
           lastName,
+          email,
+          password,
+          phone: '',
+          address: '',
+          createdAt: new Date().toISOString(),
         }
 
         set({ user: mockUser, isLoading: false })
