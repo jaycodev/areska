@@ -21,23 +21,21 @@ export const useAuthStore = create<AuthStore>()(
         set({ isLoading: true })
         await new Promise((resolve) => setTimeout(resolve, 1000))
 
-        if (email === 'admin@example.com' && password === 'password123') {
-          const mockUser: User = {
-            id: 1,
-            firstName: 'Admin',
-            lastName: 'User',
-            email,
-            password,
-            phone: '+51 999 999 999',
-            address: 'Av. Los Olivos 123, Lima, Perú',
-            createdAt: new Date().toISOString(),
-          }
+        const emailName = email.split('@')[0]
+        const firstName = emailName.charAt(0).toUpperCase() + emailName.slice(1)
 
-          set({ user: mockUser, isLoading: false })
-        } else {
-          set({ isLoading: false })
-          throw new Error('Credenciales inválidas')
+        const mockUser: User = {
+          id: Math.floor(Math.random() * 1000) + 1,
+          firstName,
+          lastName: 'Usuario',
+          email,
+          password,
+          phone: '+51 999 999 999',
+          address: 'Av. Los Olivos 123, Lima, Perú',
+          createdAt: new Date().toISOString(),
         }
+
+        set({ user: mockUser, isLoading: false })
       },
 
       signup: async (email, password, firstName, lastName) => {
