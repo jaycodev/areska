@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { LogOut, Menu, Search, ShoppingCart, User, X } from 'lucide-react'
 import Link from 'next/link'
@@ -26,7 +26,10 @@ import { Navigation } from './navigation'
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { user, logout } = useAuthStore()
+  const { user, logout, init } = useAuthStore()
+  useEffect(() => {
+    init()
+  }, [init])
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
   const router = useRouter()
@@ -38,8 +41,8 @@ export function Navbar() {
     }, 50)
   }
 
-  const handleConfirmLogout = () => {
-    logout()
+  const handleConfirmLogout = async () => {
+    await logout()
     router.push('/iniciar-sesion')
   }
 

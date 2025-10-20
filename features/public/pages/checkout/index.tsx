@@ -56,7 +56,9 @@ export function CheckoutPage() {
 
   const onSubmit = async (data: CheckoutFormValues) => {
     await new Promise((resolve) => setTimeout(resolve, 2000))
-    console.warn('Pedido realizado:', data)
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn('Pedido realizado:', data)
+    }
     clearCart()
     setIsSubmitted(true)
   }

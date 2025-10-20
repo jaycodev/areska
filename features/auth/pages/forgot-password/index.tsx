@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -19,6 +21,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
+import { useAuthStore } from '@/stores/auth-store'
 
 const forgotPasswordSchema = z.object({
   email: z.email({ message: 'Correo electrónico inválido' }).trim(),
@@ -28,6 +31,13 @@ type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>
 
 export function ForgotPasswordPage({ className, ...props }: React.ComponentProps<'div'>) {
   const router = useRouter()
+  const { resetPasswordEmail, init } = useAuthStore()
+  const [sent, setSent] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    init()
+  }, [init])
 
   const form = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -37,9 +47,15 @@ export function ForgotPasswordPage({ className, ...props }: React.ComponentProps
     },
   })
 
-  const onSubmit = (data: ForgotPasswordFormValues) => {
-    console.warn('Enviar enlace a:', data)
-    router.push('/iniciar-sesion')
+  const onSubmit = async (data: ForgotPasswordFormValues) => {
+    try {
+      setError(null)
+      await resetPasswordEmail(data.email)
+      setSent(true)
+      setTimeout(() => router.push('/iniciar-sesion'), 2000)
+    } catch (e: any) {
+      setError(e?.message ?? 'No se pudo enviar el correo')
+    }
   }
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
@@ -73,7 +89,8 @@ export function ForgotPasswordPage({ className, ...props }: React.ComponentProps
                     </FormItem>
                   )}
                 />
-                <Button type="submit">Enviar enlace</Button>
+                {error && <p className="text-sm text-destructive">{error}</p>}
+                <Button type="submit">{sent ? 'Enviado' : 'Enviar enlace'}</Button>
                 <Button variant="outline" asChild>
                   <Link href="/iniciar-sesion">Volver al inicio de sesión</Link>
                 </Button>

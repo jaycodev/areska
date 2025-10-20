@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -19,6 +21,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/ui/password-input'
 import { cn } from '@/lib/utils'
+import { useAuthStore } from '@/stores/auth-store'
 
 const signupSchema = z
   .object({
@@ -49,6 +52,12 @@ type SignupFormValues = z.infer<typeof signupSchema>
 
 export function SignUpPage({ className, ...props }: React.ComponentProps<'div'>) {
   const router = useRouter()
+  const { signup, init, isLoading } = useAuthStore()
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    init()
+  }, [init])
 
   const form = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
@@ -61,9 +70,14 @@ export function SignUpPage({ className, ...props }: React.ComponentProps<'div'>)
     },
   })
 
-  const onSubmit = (data: SignupFormValues) => {
-    console.warn('Datos de registro:', data)
-    router.push('/')
+  const onSubmit = async (data: SignupFormValues) => {
+    setError(null)
+    try {
+      await signup(data.email, data.password, data.name)
+      router.push('/')
+    } catch (e: any) {
+      setError(e?.message ?? 'No se pudo crear la cuenta')
+    }
   }
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
@@ -147,7 +161,10 @@ export function SignUpPage({ className, ...props }: React.ComponentProps<'div'>)
                   )}
                 />
                 <Field>
-                  <Button type="submit">Crear cuenta</Button>
+                  {error && <p className="text-sm text-destructive">{error}</p>}
+                  <Button type="submit" disabled={isLoading}>
+                    {isLoading ? 'Creando cuenta...' : 'Crear cuenta'}
+                  </Button>
                   <FieldDescription className="text-center">
                     ¿Ya tienes una cuenta? <a href="/iniciar-sesion">Inicia sesión</a>
                   </FieldDescription>

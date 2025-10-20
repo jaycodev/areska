@@ -59,7 +59,9 @@ export function ContactPage() {
 
   const onSubmit = async (data: ContactFormValues) => {
     await new Promise((resolve) => setTimeout(resolve, 2000))
-    console.warn('Formulario de contacto enviado:', data)
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn('Formulario de contacto enviado:', data)
+    }
     setIsSubmitted(true)
     form.reset()
   }
