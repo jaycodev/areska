@@ -41,8 +41,8 @@ export function SettingsLayout({ children }: Props) {
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-1 p-5 gap-4 flex-col overflow-hidden">
       <div className="flex h-full flex-col">
         <div className="space-y-0.5 flex-none">
-          <h1 className="text-2xl font-bold flex items-center gap-2">
-            <Settings strokeWidth={2.5} />
+          <h1 className="text-2xl flex items-center gap-2">
+            <Settings />
             Ajustes
           </h1>
           <p className="text-muted-foreground">
