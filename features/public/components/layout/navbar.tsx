@@ -98,7 +98,7 @@ export function Navbar() {
                   >
                     <DropdownMenuGroup>
                       <DropdownMenuItem asChild>
-                        <Link href="/perfil">
+                        <Link href="/ajustes">
                           <User className="text-current" />
                           Perfil
                         </Link>
