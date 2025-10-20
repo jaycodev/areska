@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-import { LogOut, Menu, Search, ShoppingCart, User, X } from 'lucide-react'
+import { LogOut, Menu, Search, Settings, ShoppingCart, Store, User, X } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -97,9 +97,15 @@ export function Navbar() {
                   >
                     <DropdownMenuGroup>
                       <DropdownMenuItem asChild>
+                        <Link href="/mis-compras">
+                          <Store className="text-current" />
+                          Mis compras
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
                         <Link href="/ajustes">
-                          <User className="text-current" />
-                          Perfil
+                          <Settings className="text-current" />
+                          Ajustes
                         </Link>
                       </DropdownMenuItem>
                     </DropdownMenuGroup>
