@@ -57,7 +57,6 @@ export function CheckoutPage() {
   const onSubmit = async (data: CheckoutFormValues) => {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     if (process.env.NODE_ENV !== 'production') {
-      // eslint-disable-next-line no-console
       console.warn('Pedido realizado:', data)
     }
     clearCart()

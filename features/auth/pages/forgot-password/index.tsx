@@ -1,8 +1,9 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -51,11 +52,9 @@ export function ForgotPasswordPage({ className, ...props }: React.ComponentProps
       setError(null)
       await resetPasswordEmail(data.email)
       setSent(true)
-  // analytics removido
       setTimeout(() => router.push('/iniciar-sesion'), 2000)
     } catch (e: any) {
       setError(e?.message ?? 'No se pudo enviar el correo')
-  // analytics removido
     }
   }
   return (

@@ -1,15 +1,15 @@
-"use client"
-import { create } from 'zustand'
+'use client'
 import { onAuthStateChanged } from 'firebase/auth'
+import { create } from 'zustand'
 
-import { getAuthClient } from '@/lib/firebase/client'
 import {
   loginWithEmail,
-  signupWithEmail,
-  logoutFirebase,
   loginWithGoogle as loginWithGoogleFn,
+  logoutFirebase,
   requestPasswordReset,
+  signupWithEmail,
 } from '@/lib/firebase/auth'
+import { getAuthClient } from '@/lib/firebase/client'
 
 type User = {
   uid: string
@@ -55,7 +55,6 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
         }
       })
     } catch (e) {
-      // Si faltan envs u otra causa, no bloquear la app
       if (process.env.NODE_ENV !== 'production') {
         console.warn('[Auth] Inicialización omitida (posible falta de variables de entorno).', e)
       }

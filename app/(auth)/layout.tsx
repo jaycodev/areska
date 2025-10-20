@@ -1,7 +1,9 @@
-"use client"
+'use client'
+
 import { ReactNode, useEffect } from 'react'
 
 import { AuthLayout } from '@auth/layout'
+
 import { useAuthStore } from '@/stores/auth-store'
 
 interface Props {

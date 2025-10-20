@@ -59,9 +59,7 @@ export function ContactPage() {
 
   const onSubmit = async (data: ContactFormValues) => {
     await new Promise((resolve) => setTimeout(resolve, 2000))
-    // Aquí integrar envío real (API/Email). Evitar logs en producción.
     if (process.env.NODE_ENV !== 'production') {
-      // eslint-disable-next-line no-console
       console.warn('Formulario de contacto enviado:', data)
     }
     setIsSubmitted(true)

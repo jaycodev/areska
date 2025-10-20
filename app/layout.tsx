@@ -62,7 +62,6 @@ export default function RootLayout({
           enableColorScheme
         >
           <NextTopLoader color="var(--ring)" height={2} easing="linear" showSpinner={false} />
-          {/* Analytics removido */}
           {children}
         </ThemeProvider>
       </body>

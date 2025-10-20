@@ -43,7 +43,6 @@ export function Navbar() {
 
   const handleConfirmLogout = async () => {
     await logout()
-  // analytics removido
     router.push('/iniciar-sesion')
   }
 

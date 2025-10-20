@@ -1,8 +1,9 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -73,11 +74,9 @@ export function SignUpPage({ className, ...props }: React.ComponentProps<'div'>)
     setError(null)
     try {
       await signup(data.email, data.password, data.name)
-  // analytics removido
       router.push('/')
     } catch (e: any) {
       setError(e?.message ?? 'No se pudo crear la cuenta')
-  // analytics removido
     }
   }
   return (

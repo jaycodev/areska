@@ -1,9 +1,8 @@
-// Inicialización de Firebase (solo cliente)
-"use client"
-import { initializeApp, getApps, getApp } from 'firebase/app'
+'use client'
+
+import { getApp, getApps, initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider } from 'firebase/auth'
 
-// Usar variables de entorno públicas para el cliente
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN!,
@@ -11,10 +10,8 @@ const firebaseConfig = {
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET!,
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID!,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID!,
-  // Analytics deshabilitado
 }
 
-// Validación de configuración (solo cliente)
 function assertFirebaseEnv() {
   const required: Array<keyof typeof firebaseConfig> = [
     'apiKey',
@@ -42,15 +39,12 @@ function assertFirebaseEnv() {
   }
 }
 
-// Evitar reinicializar en dev/hmr
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig)
 
-// Obtiene Auth sólo en cliente para evitar SSR
 export function getAuthClient() {
   if (typeof window === 'undefined') {
     throw new Error('Firebase Auth sólo está disponible en el cliente')
   }
-  // Validación en punto de uso para mostrar mensajes claros en diagnóstico
   assertFirebaseEnv()
   return getAuth(app)
 }

@@ -1,9 +1,11 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { useSearchParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { confirmPasswordReset, verifyPasswordResetCode } from 'firebase/auth'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -17,9 +19,8 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { PasswordInput } from '@/components/ui/password-input'
-import { cn } from '@/lib/utils'
-import { confirmPasswordReset, verifyPasswordResetCode } from 'firebase/auth'
 import { getAuthClient } from '@/lib/firebase/client'
+import { cn } from '@/lib/utils'
 
 const resetPasswordSchema = z
   .object({
@@ -59,7 +60,7 @@ export function ResetPasswordPage({ className, ...props }: React.ComponentPropsW
   useEffect(() => {
     let mounted = true
     if (oobCode) {
-  verifyPasswordResetCode(getAuthClient(), oobCode)
+      verifyPasswordResetCode(getAuthClient(), oobCode)
         .then(() => {
           if (mounted) setValidCode(true)
         })
@@ -87,12 +88,10 @@ export function ResetPasswordPage({ className, ...props }: React.ComponentPropsW
     }
     setError(null)
     try {
-  await confirmPasswordReset(getAuthClient(), oobCode, data.newPassword)
-  // analytics removido
+      await confirmPasswordReset(getAuthClient(), oobCode, data.newPassword)
       router.push('/iniciar-sesion')
     } catch (e: any) {
       setError(e?.message ?? 'No se pudo restablecer la contraseña')
-  // analytics removido
     }
   }
 
