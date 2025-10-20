@@ -1,67 +1,124 @@
+"use client"
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { onAuthStateChanged } from 'firebase/auth'
 
-import { User } from '@auth/schemas/user-schema'
+import { getAuthClient } from '@/lib/firebase/client'
+import {
+  loginWithEmail,
+  signupWithEmail,
+  logoutFirebase,
+  loginWithGoogle as loginWithGoogleFn,
+  requestPasswordReset,
+} from '@/lib/firebase/auth'
+
+type User = {
+  uid: string
+  email: string | null
+  displayName: string | null
+  photoURL: string | null
+}
 
 interface AuthStore {
   user: User | null
   isLoading: boolean
+  initialized: boolean
+  init: () => void
   login: (email: string, password: string) => Promise<void>
-  signup: (email: string, password: string, firstName: string, lastName: string) => Promise<void>
-  logout: () => void
+  signup: (email: string, password: string, name?: string) => Promise<void>
+  loginWithGoogle: () => Promise<void>
+  resetPasswordEmail: (email: string) => Promise<void>
+  logout: () => Promise<void>
 }
 
-export const useAuthStore = create<AuthStore>()(
-  persist(
-    (set) => ({
-      user: null,
-      isLoading: false,
+export const useAuthStore = create<AuthStore>()((set, get) => ({
+  user: null,
+  isLoading: false,
+  initialized: false,
 
-      login: async (email, password) => {
-        set({ isLoading: true })
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-
-        const emailName = email.split('@')[0]
-        const firstName = emailName.charAt(0).toUpperCase() + emailName.slice(1)
-
-        const mockUser: User = {
-          id: Math.floor(Math.random() * 1000) + 1,
-          firstName,
-          lastName: 'Usuario',
-          email,
-          password,
-          phone: '+51 999 999 999',
-          address: 'Av. Los Olivos 123, Lima, Perú',
-          createdAt: new Date().toISOString(),
+  init: (): void => {
+    if (get().initialized) return
+    set({ initialized: true })
+    try {
+      const auth = getAuthClient()
+      onAuthStateChanged(auth, (u) => {
+        if (!u) {
+          set({ user: null })
+        } else {
+          set({
+            user: {
+              uid: u.uid,
+              email: u.email,
+              displayName: u.displayName,
+              photoURL: u.photoURL,
+            },
+          })
         }
-
-        set({ user: mockUser, isLoading: false })
-      },
-
-      signup: async (email, password, firstName, lastName) => {
-        set({ isLoading: true })
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-
-        const mockUser: User = {
-          id: Math.floor(Math.random() * 1000) + 1,
-          firstName,
-          lastName,
-          email,
-          password,
-          phone: '',
-          address: '',
-          createdAt: new Date().toISOString(),
-        }
-
-        set({ user: mockUser, isLoading: false })
-      },
-
-      logout: () => {
-        set({ user: null })
-      },
-    }),
-    {
-      name: 'auth-storage',
+      })
+    } catch (e) {
+      // Si faltan envs u otra causa, no bloquear la app
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('[Auth] Inicialización omitida (posible falta de variables de entorno).', e)
+      }
     }
-  )
-)
+  },
+
+  login: async (email: string, password: string): Promise<void> => {
+    set({ isLoading: true })
+    try {
+      const u = await loginWithEmail(email, password)
+      set({
+        user: {
+          uid: u.uid,
+          email: u.email ?? null,
+          displayName: u.displayName ?? null,
+          photoURL: u.photoURL ?? null,
+        },
+      })
+    } finally {
+      set({ isLoading: false })
+    }
+  },
+
+  signup: async (email: string, password: string, name?: string): Promise<void> => {
+    set({ isLoading: true })
+    try {
+      const u = await signupWithEmail(email, password, name)
+      set({
+        user: {
+          uid: u.uid,
+          email: u.email ?? null,
+          displayName: u.displayName ?? null,
+          photoURL: u.photoURL ?? null,
+        },
+      })
+    } finally {
+      set({ isLoading: false })
+    }
+  },
+
+  loginWithGoogle: async (): Promise<void> => {
+    set({ isLoading: true })
+    try {
+      const u = await loginWithGoogleFn()
+      set({
+        user: {
+          uid: u.uid,
+          email: u.email ?? null,
+          displayName: u.displayName ?? null,
+          photoURL: u.photoURL ?? null,
+        },
+      })
+    } finally {
+      set({ isLoading: false })
+    }
+  },
+
+  resetPasswordEmail: async (email: string): Promise<void> => {
+    await requestPasswordReset(email)
+  },
+
+  logout: async (): Promise<void> => {
+    await logoutFirebase()
+    set({ user: null })
+  },
+}))

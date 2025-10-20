@@ -2,6 +2,8 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -16,6 +18,8 @@ import {
 } from '@/components/ui/form'
 import { PasswordInput } from '@/components/ui/password-input'
 import { cn } from '@/lib/utils'
+import { confirmPasswordReset, verifyPasswordResetCode } from 'firebase/auth'
+import { getAuthClient } from '@/lib/firebase/client'
 
 const resetPasswordSchema = z
   .object({
@@ -46,6 +50,27 @@ const resetPasswordSchema = z
 type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>
 
 export function ResetPasswordPage({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+  const search = useSearchParams()
+  const router = useRouter()
+  const oobCode = search.get('oobCode')
+  const [error, setError] = useState<string | null>(null)
+  const [validCode, setValidCode] = useState(false)
+
+  useEffect(() => {
+    let mounted = true
+    if (oobCode) {
+  verifyPasswordResetCode(getAuthClient(), oobCode)
+        .then(() => {
+          if (mounted) setValidCode(true)
+        })
+        .catch(() => {
+          if (mounted) setError('Enlace inválido o expirado')
+        })
+    }
+    return () => {
+      mounted = false
+    }
+  }, [oobCode])
   const form = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(resetPasswordSchema),
     mode: 'onChange',
@@ -55,8 +80,20 @@ export function ResetPasswordPage({ className, ...props }: React.ComponentPropsW
     },
   })
 
-  const onSubmit = (data: ResetPasswordFormValues) => {
-    console.warn('Datos para crear contraseña nueva:', data)
+  const onSubmit = async (data: ResetPasswordFormValues) => {
+    if (!oobCode) {
+      setError('Enlace inválido')
+      return
+    }
+    setError(null)
+    try {
+  await confirmPasswordReset(getAuthClient(), oobCode, data.newPassword)
+  // analytics removido
+      router.push('/iniciar-sesion')
+    } catch (e: any) {
+      setError(e?.message ?? 'No se pudo restablecer la contraseña')
+  // analytics removido
+    }
   }
 
   return (
@@ -69,6 +106,7 @@ export function ResetPasswordPage({ className, ...props }: React.ComponentPropsW
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="flex flex-col gap-6">
