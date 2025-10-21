@@ -1,11 +1,7 @@
 import { z } from 'zod'
 
-// Regex de password según DTO de Spring:
-// - Mínimo 8 caracteres
-// - Al menos una mayúscula, una minúscula, un dígito y un carácter especial (@$!%*?&)
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 
-// Respuesta del backend para un usuario (DTO UserResponse)
 export const UserResponseSchema = z.object({
   userId: z.number(),
   firstName: z.string(),
@@ -16,7 +12,6 @@ export const UserResponseSchema = z.object({
   createdAt: z.string(),
 })
 
-// Payload para crear usuario (DTO UserCreateRequest)
 export const UserCreateRequestSchema = z.object({
   firstName: z.string().max(255),
   lastName: z.string().max(255),
@@ -32,7 +27,6 @@ export const UserCreateRequestSchema = z.object({
   address: z.string().max(255),
 })
 
-// Payload para actualizar usuario (DTO UserUpdateRequest)
 export const UserUpdateRequestSchema = z.object({
   firstName: z.string().max(255),
   lastName: z.string().max(255),
@@ -40,7 +34,6 @@ export const UserUpdateRequestSchema = z.object({
   address: z.string().max(255),
 })
 
-// Payload para cambio de contraseña (DTO ChangePasswordRequest)
 export const ChangePasswordRequestSchema = z.object({
   oldPassword: z.string(),
   newPassword: z

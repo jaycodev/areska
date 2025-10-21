@@ -1,12 +1,12 @@
-import { apiClient } from './client'
 import type {
-  UserResponse,
-  UserCreateRequest,
-  UserUpdateRequest,
   ChangePasswordRequest,
+  UserCreateRequest,
+  UserResponse,
+  UserUpdateRequest,
 } from '@public/schemas/user-schema'
 
-// DTO: creación de usuario desde Firebase (según backend UserCreateFromFirebaseRequest)
+import { apiClient } from './client'
+
 export interface UserCreateFromFirebaseRequest {
   firebaseUid: string
   email: string
@@ -14,7 +14,7 @@ export interface UserCreateFromFirebaseRequest {
   lastName: string
   phone?: string
   address?: string
-  authProvider: string // p.ej. google | password | apple | facebook
+  authProvider: string
   emailVerified: boolean
   photoUrl?: string
 }
