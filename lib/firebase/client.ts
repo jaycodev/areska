@@ -1,7 +1,7 @@
 'use client'
 
 import { getApp, getApps, initializeApp } from 'firebase/app'
-import { getAuth, GoogleAuthProvider } from 'firebase/auth'
+import { getAuth, GoogleAuthProvider, GithubAuthProvider } from 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
@@ -51,6 +51,10 @@ export function getAuthClient() {
 
 export function getGoogleProvider() {
   return new GoogleAuthProvider()
+}
+
+export function getGithubProvider() {
+  return new GithubAuthProvider()
 }
 
 export default app
