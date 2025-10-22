@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation'
 
 import { AuthLayout } from '@auth/layout'
 
-import { LoadingScreen } from '@/components/shared/loading-screen'
 import { useAuthStore } from '@/stores/auth-store'
 
 interface Props {
@@ -28,7 +27,7 @@ export default function Layout({ children }: Props) {
   }, [isLoadingInitial, user, router])
 
   if (isLoadingInitial) {
-    return <LoadingScreen />
+    return null
   }
 
   if (user) {
