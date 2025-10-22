@@ -141,7 +141,7 @@ export function LoginPage({ className, ...props }: React.ComponentProps<'div'>) 
                 />
                 <Field>
                   <Button type="submit" disabled={isLoading}>
-                    {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+                    {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
                   </Button>
                   <FieldDescription className="text-center">
                     ¿No tienes una cuenta? <a href="/registrarse">Regístrate</a>

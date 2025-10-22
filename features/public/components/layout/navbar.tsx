@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-import { LogOut, Menu, Search, Settings, ShoppingCart, Store, User, X } from 'lucide-react'
+import { LogIn, LogOut, Menu, Search, Settings, ShoppingCart, Store, User, X } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -26,7 +26,7 @@ import { Navigation } from './navigation'
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { user, logout, init } = useAuthStore()
+  const { user, logout, init, isLoadingInitial } = useAuthStore()
   useEffect(() => {
     init()
   }, [init])
@@ -81,8 +81,9 @@ export function Navbar() {
               </Link>
             </Button>
 
-            {/* User Menu */}
-            {user ? (
+            {isLoadingInitial ? (
+              <div className="h-10 w-10 animate-pulse rounded-md bg-muted" />
+            ) : user ? (
               <>
                 <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
                   <DropdownMenuTrigger asChild>
@@ -132,7 +133,9 @@ export function Navbar() {
               </>
             ) : (
               <Link href="/iniciar-sesion">
-                <Button>Iniciar sesión</Button>
+                <Button>
+                  <LogIn /> Iniciar sesión
+                </Button>
               </Link>
             )}
 

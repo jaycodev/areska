@@ -21,6 +21,7 @@ type User = {
 interface AuthStore {
   user: User | null
   isLoading: boolean
+  isLoadingInitial: boolean
   initialized: boolean
   init: () => void
   login: (email: string, password: string) => Promise<void>
@@ -33,16 +34,17 @@ interface AuthStore {
 export const useAuthStore = create<AuthStore>()((set, get) => ({
   user: null,
   isLoading: false,
+  isLoadingInitial: true,
   initialized: false,
 
   init: (): void => {
     if (get().initialized) return
-    set({ initialized: true })
+    set({ initialized: true, isLoadingInitial: true })
     try {
       const auth = getAuthClient()
       onAuthStateChanged(auth, (u) => {
         if (!u) {
-          set({ user: null })
+          set({ user: null, isLoadingInitial: false })
         } else {
           set({
             user: {
@@ -51,6 +53,7 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
               displayName: u.displayName,
               photoURL: u.photoURL,
             },
+            isLoadingInitial: false,
           })
         }
       })
@@ -58,6 +61,7 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
       if (process.env.NODE_ENV !== 'production') {
         console.warn('[Auth] Inicialización omitida (posible falta de variables de entorno).', e)
       }
+      set({ isLoadingInitial: false })
     }
   },
 
