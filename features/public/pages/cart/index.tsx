@@ -1,8 +1,9 @@
 'use client'
 
-import { CircleArrowLeft, CreditCard, Minus, Plus, Trash } from 'lucide-react'
+import { CircleArrowLeft, CreditCard, Minus, Plus, ShoppingCart, Trash } from 'lucide-react'
 import Link from 'next/link'
 
+import { EmptyState } from '@/components/shared/empty-state'
 import { Button } from '@/components/ui/button'
 import { useCartStore } from '@/stores/cart-store'
 
@@ -11,18 +12,16 @@ export function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 lg:px-8">
-        <h1 className="mb-4 text-3xl font-bold">Tu carrito está vacío</h1>
-        <p className="mb-8 text-muted-foreground">
-          Parece que aún no has agregado nada a tu carrito.
-        </p>
-        <Link href="/productos">
-          <Button size="lg">
-            <CircleArrowLeft />
-            Seguir comprando
-          </Button>
-        </Link>
-      </div>
+      <EmptyState
+        title="Tu carrito está vacío"
+        description="Parece que aún no has agregado nada a tu carrito."
+        icon={ShoppingCart}
+        action={{
+          label: 'Seguir comprando',
+          href: '/productos',
+          icon: CircleArrowLeft,
+        }}
+      />
     )
   }
 
