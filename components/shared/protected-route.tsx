@@ -5,6 +5,7 @@ import { ReactNode, useEffect } from 'react'
 import { LogIn, LucideIcon } from 'lucide-react'
 
 import { EmptyState } from '@/components/shared/empty-state'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useAuthStore } from '@/stores/auth-store'
 
 interface Props {
@@ -22,11 +23,15 @@ export function ProtectedRoute({
   message = 'Por favor, inicia sesión para acceder a este contenido.',
   icon = LogIn,
 }: Props) {
-  const { init, user } = useAuthStore()
+  const { init, user, isLoadingInitial } = useAuthStore()
 
   useEffect(() => {
     init()
   }, [init])
+
+  if (isLoadingInitial) {
+    return <Skeleton className="h-96 w-full" />
+  }
 
   if (!user) {
     return (
