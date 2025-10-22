@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 
 import { LogIn, LogOut, Menu, Search, Settings, ShoppingCart, Store, User, X } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 
 import { ConfirmDialog } from '@/components/shared/confirm-dialog'
 import { Logo } from '@/components/shared/logo'
@@ -32,7 +31,6 @@ export function Navbar() {
   }, [init])
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
-  const router = useRouter()
 
   const handleLogoutClick = () => {
     setDropdownOpen(false)
@@ -43,7 +41,6 @@ export function Navbar() {
 
   const handleConfirmLogout = async () => {
     await logout()
-    router.push('/iniciar-sesion')
   }
 
   return (
