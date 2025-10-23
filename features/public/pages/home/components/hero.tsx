@@ -19,7 +19,7 @@ export function Hero() {
           </p>
           <div className="flex flex-col gap-4 sm:flex-row">
             <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>
-              <Link href="/acerca-de">
+              <Link href="/sobre-nosotros">
                 <Info />
                 Saber más
               </Link>
