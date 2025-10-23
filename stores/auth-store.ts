@@ -93,22 +93,40 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
     set({ isLoading: true })
     try {
       const u = await loginWithEmail(email, password)
-      const userFromDB = await usersApi.getByFirebaseUid(u.uid)
-      set({
-        user: {
-          userId: userFromDB.userId,
-          firstName: userFromDB.firstName,
-          lastName: userFromDB.lastName,
-          email: userFromDB.email,
-          phone: userFromDB.phone,
-          address: userFromDB.address,
-          firebaseUid: userFromDB.firebaseUid,
-          authProvider: userFromDB.authProvider,
-          emailVerified: userFromDB.emailVerified,
-          photoUrl: userFromDB.photoUrl,
-          createdAt: userFromDB.createdAt,
-        },
-      })
+
+      let userFromDB: User | null = null
+      let attempts = 0
+      const maxAttempts = 5
+
+      while (!userFromDB && attempts < maxAttempts) {
+        try {
+          const data = await usersApi.getByFirebaseUid(u.uid)
+          userFromDB = {
+            userId: data.userId,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            phone: data.phone,
+            address: data.address,
+            firebaseUid: data.firebaseUid,
+            authProvider: data.authProvider,
+            emailVerified: data.emailVerified,
+            photoUrl: data.photoUrl,
+            createdAt: data.createdAt,
+          }
+        } catch {
+          attempts++
+          if (attempts < maxAttempts) {
+            await new Promise((resolve) => setTimeout(resolve, 500 * attempts))
+          }
+        }
+      }
+
+      if (!userFromDB) {
+        throw new Error('No se pudo cargar los datos del usuario después de varias tentativas')
+      }
+
+      set({ user: userFromDB })
     } finally {
       set({ isLoading: false })
     }
@@ -118,23 +136,40 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
     set({ isLoading: true })
     try {
       const u = await signupWithEmail(email, password, name)
-      // Cargar datos completos del usuario desde la BD
-      const userFromDB = await usersApi.getByFirebaseUid(u.uid)
-      set({
-        user: {
-          userId: userFromDB.userId,
-          firstName: userFromDB.firstName,
-          lastName: userFromDB.lastName,
-          email: userFromDB.email,
-          phone: userFromDB.phone,
-          address: userFromDB.address,
-          firebaseUid: userFromDB.firebaseUid,
-          authProvider: userFromDB.authProvider,
-          emailVerified: userFromDB.emailVerified,
-          photoUrl: userFromDB.photoUrl,
-          createdAt: userFromDB.createdAt,
-        },
-      })
+
+      let userFromDB: User | null = null
+      let attempts = 0
+      const maxAttempts = 5
+
+      while (!userFromDB && attempts < maxAttempts) {
+        try {
+          const data = await usersApi.getByFirebaseUid(u.uid)
+          userFromDB = {
+            userId: data.userId,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            phone: data.phone,
+            address: data.address,
+            firebaseUid: data.firebaseUid,
+            authProvider: data.authProvider,
+            emailVerified: data.emailVerified,
+            photoUrl: data.photoUrl,
+            createdAt: data.createdAt,
+          }
+        } catch {
+          attempts++
+          if (attempts < maxAttempts) {
+            await new Promise((resolve) => setTimeout(resolve, 500 * attempts))
+          }
+        }
+      }
+
+      if (!userFromDB) {
+        throw new Error('No se pudo cargar los datos del usuario después de varias tentativas')
+      }
+
+      set({ user: userFromDB })
     } finally {
       set({ isLoading: false })
     }
@@ -144,22 +179,40 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
     set({ isLoading: true })
     try {
       const u = await loginWithGoogleFn()
-      const userFromDB = await usersApi.getByFirebaseUid(u.uid)
-      set({
-        user: {
-          userId: userFromDB.userId,
-          firstName: userFromDB.firstName,
-          lastName: userFromDB.lastName,
-          email: userFromDB.email,
-          phone: userFromDB.phone,
-          address: userFromDB.address,
-          firebaseUid: userFromDB.firebaseUid,
-          authProvider: userFromDB.authProvider,
-          emailVerified: userFromDB.emailVerified,
-          photoUrl: userFromDB.photoUrl,
-          createdAt: userFromDB.createdAt,
-        },
-      })
+
+      let userFromDB: User | null = null
+      let attempts = 0
+      const maxAttempts = 5
+
+      while (!userFromDB && attempts < maxAttempts) {
+        try {
+          const data = await usersApi.getByFirebaseUid(u.uid)
+          userFromDB = {
+            userId: data.userId,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            phone: data.phone,
+            address: data.address,
+            firebaseUid: data.firebaseUid,
+            authProvider: data.authProvider,
+            emailVerified: data.emailVerified,
+            photoUrl: data.photoUrl,
+            createdAt: data.createdAt,
+          }
+        } catch {
+          attempts++
+          if (attempts < maxAttempts) {
+            await new Promise((resolve) => setTimeout(resolve, 500 * attempts))
+          }
+        }
+      }
+
+      if (!userFromDB) {
+        throw new Error('No se pudo cargar los datos del usuario después de varias tentativas')
+      }
+
+      set({ user: userFromDB })
     } finally {
       set({ isLoading: false })
     }

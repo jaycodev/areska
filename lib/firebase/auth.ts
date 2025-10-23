@@ -35,7 +35,7 @@ function detectProviderFromUser(u: FirebaseUser, fallback: string): string {
   return fallback
 }
 
-async function syncUserToBackend(u: FirebaseUser, authProvider: string) {
+async function syncUserToBackend(u: FirebaseUser, authProvider: string, maxRetries = 3) {
   const { firstName, lastName } = splitName(u.displayName ?? undefined)
   const payload = {
     firebaseUid: u.uid,
@@ -51,11 +51,26 @@ async function syncUserToBackend(u: FirebaseUser, authProvider: string) {
 
   if (!payload.email) return
 
-  try {
-    await usersApi.createFromFirebase(payload)
-  } catch (err) {
-    console.error('usersApi.createFromFirebase failed:', err)
+  let lastError: unknown
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      await usersApi.createFromFirebase(payload)
+
+      try {
+        const user = await usersApi.getByFirebaseUid(u.uid)
+        if (user?.userId) {
+          return
+        }
+      } catch {}
+    } catch (err) {
+      lastError = err
+      if (attempt < maxRetries - 1) {
+        await new Promise((resolve) => setTimeout(resolve, 500 * (attempt + 1)))
+      }
+    }
   }
+
+  console.error('usersApi.createFromFirebase failed after retries:', lastError)
 }
 
 export async function loginWithEmail(email: string, password: string): Promise<AuthUser> {
