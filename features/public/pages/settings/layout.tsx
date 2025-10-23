@@ -29,11 +29,6 @@ const sidebarNavItems = [
     href: '/ajustes/notificaciones',
     icon: <Bell size={18} />,
   },
-  {
-    title: 'Visualización',
-    href: '/ajustes/visualizacion',
-    icon: <Monitor size={18} />,
-  },
 ]
 
 export function SettingsLayout({ children }: Props) {
