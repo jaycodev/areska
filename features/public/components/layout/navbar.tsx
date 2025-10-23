@@ -88,8 +88,8 @@ export function Navbar() {
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="icon" className="rounded-full">
                       <Avatar className="size-8">
-                        {user.photoURL ? (
-                          <AvatarImage src={user.photoURL} alt="Foto de perfil" />
+                        {user.photoUrl ? (
+                          <AvatarImage src={user.photoUrl} alt="Foto de perfil" />
                         ) : (
                           <AvatarFallback className="text-xs">
                             {getInitials(user.firstName, user.lastName)}

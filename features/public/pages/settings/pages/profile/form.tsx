@@ -149,9 +149,9 @@ export function ProfileForm() {
             <Skeleton className="w-32 h-32 rounded-full" />
           ) : (
             <Avatar className="w-32 h-32">
-              {avatarUrl || user?.photoURL ? (
+              {avatarUrl || user?.photoUrl ? (
                 <AvatarImage
-                  src={avatarUrl || user?.photoURL || ''}
+                  src={avatarUrl || user?.photoUrl || ''}
                   alt="Foto de perfil"
                   className="object-cover"
                 />
