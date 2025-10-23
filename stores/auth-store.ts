@@ -3,6 +3,7 @@
 import { onAuthStateChanged } from 'firebase/auth'
 import { create } from 'zustand'
 
+import { usersApi } from '@/lib/api/users'
 import {
   loginWithEmail,
   loginWithGoogle as loginWithGoogleFn,
@@ -13,12 +14,22 @@ import {
 import { getAuthClient } from '@/lib/firebase/client'
 
 type User = {
+  // Firebase data
   uid: string
   email: string | null
   displayName: string | null
   photoURL: string | null
+  // Backend database data
+  userId?: number
   firstName: string | null
   lastName: string | null
+  phone?: string | null
+  address?: string | null
+  firebaseUid?: string
+  authProvider?: string
+  emailVerified?: boolean
+  photoUrl?: string | null
+  createdAt?: string
 }
 
 interface AuthStore {
@@ -45,23 +56,48 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
     set({ initialized: true, isLoadingInitial: true })
     try {
       const auth = getAuthClient()
-      onAuthStateChanged(auth, (u) => {
+      onAuthStateChanged(auth, async (u) => {
         if (!u) {
           set({ user: null, isLoadingInitial: false })
         } else {
-          const [firstName, ...lastNameParts] = (u.displayName || '').split(' ')
-          const lastName = lastNameParts.join(' ')
-          set({
-            user: {
-              uid: u.uid,
-              email: u.email,
-              displayName: u.displayName,
-              photoURL: u.photoURL,
-              firstName: firstName || null,
-              lastName: lastName || null,
-            },
-            isLoadingInitial: false,
-          })
+          try {
+            // Cargar datos completos del usuario desde la BD
+            const userFromDB = await usersApi.getByFirebaseUid(u.uid)
+            set({
+              user: {
+                uid: u.uid,
+                email: u.email,
+                displayName: u.displayName,
+                photoURL: u.photoURL,
+                userId: userFromDB.userId,
+                firstName: userFromDB.firstName || null,
+                lastName: userFromDB.lastName || null,
+                phone: userFromDB.phone || null,
+                address: userFromDB.address || null,
+                firebaseUid: userFromDB.firebaseUid,
+                authProvider: userFromDB.authProvider,
+                emailVerified: userFromDB.emailVerified,
+                photoUrl: userFromDB.photoUrl || null,
+                createdAt: userFromDB.createdAt,
+              },
+              isLoadingInitial: false,
+            })
+          } catch {
+            // Si no existe en BD, usar datos de Firebase
+            const [firstName, ...lastNameParts] = (u.displayName || '').split(' ')
+            const lastName = lastNameParts.join(' ')
+            set({
+              user: {
+                uid: u.uid,
+                email: u.email,
+                displayName: u.displayName,
+                photoURL: u.photoURL,
+                firstName: firstName || null,
+                lastName: lastName || null,
+              },
+              isLoadingInitial: false,
+            })
+          }
         }
       })
     } catch (e) {
@@ -76,18 +112,42 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
     set({ isLoading: true })
     try {
       const u = await loginWithEmail(email, password)
-      const [firstName, ...lastNameParts] = (u.displayName || '').split(' ')
-      const lastName = lastNameParts.join(' ')
-      set({
-        user: {
-          uid: u.uid,
-          email: u.email ?? null,
-          displayName: u.displayName ?? null,
-          photoURL: u.photoURL ?? null,
-          firstName: firstName || null,
-          lastName: lastName || null,
-        },
-      })
+      try {
+        // Cargar datos completos del usuario desde la BD
+        const userFromDB = await usersApi.getByFirebaseUid(u.uid)
+        set({
+          user: {
+            uid: u.uid,
+            email: u.email ?? null,
+            displayName: u.displayName ?? null,
+            photoURL: u.photoURL ?? null,
+            userId: userFromDB.userId,
+            firstName: userFromDB.firstName || null,
+            lastName: userFromDB.lastName || null,
+            phone: userFromDB.phone || null,
+            address: userFromDB.address || null,
+            firebaseUid: userFromDB.firebaseUid,
+            authProvider: userFromDB.authProvider,
+            emailVerified: userFromDB.emailVerified,
+            photoUrl: userFromDB.photoUrl || null,
+            createdAt: userFromDB.createdAt,
+          },
+        })
+      } catch {
+        // Si no existe en BD, usar datos de Firebase
+        const [firstName, ...lastNameParts] = (u.displayName || '').split(' ')
+        const lastName = lastNameParts.join(' ')
+        set({
+          user: {
+            uid: u.uid,
+            email: u.email ?? null,
+            displayName: u.displayName ?? null,
+            photoURL: u.photoURL ?? null,
+            firstName: firstName || null,
+            lastName: lastName || null,
+          },
+        })
+      }
     } finally {
       set({ isLoading: false })
     }
@@ -97,18 +157,42 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
     set({ isLoading: true })
     try {
       const u = await signupWithEmail(email, password, name)
-      const [firstName, ...lastNameParts] = (u.displayName || '').split(' ')
-      const lastName = lastNameParts.join(' ')
-      set({
-        user: {
-          uid: u.uid,
-          email: u.email ?? null,
-          displayName: u.displayName ?? null,
-          photoURL: u.photoURL ?? null,
-          firstName: firstName || null,
-          lastName: lastName || null,
-        },
-      })
+      try {
+        // Cargar datos completos del usuario desde la BD
+        const userFromDB = await usersApi.getByFirebaseUid(u.uid)
+        set({
+          user: {
+            uid: u.uid,
+            email: u.email ?? null,
+            displayName: u.displayName ?? null,
+            photoURL: u.photoURL ?? null,
+            userId: userFromDB.userId,
+            firstName: userFromDB.firstName || null,
+            lastName: userFromDB.lastName || null,
+            phone: userFromDB.phone || null,
+            address: userFromDB.address || null,
+            firebaseUid: userFromDB.firebaseUid,
+            authProvider: userFromDB.authProvider,
+            emailVerified: userFromDB.emailVerified,
+            photoUrl: userFromDB.photoUrl || null,
+            createdAt: userFromDB.createdAt,
+          },
+        })
+      } catch {
+        // Si no existe en BD, usar datos de Firebase
+        const [firstName, ...lastNameParts] = (u.displayName || '').split(' ')
+        const lastName = lastNameParts.join(' ')
+        set({
+          user: {
+            uid: u.uid,
+            email: u.email ?? null,
+            displayName: u.displayName ?? null,
+            photoURL: u.photoURL ?? null,
+            firstName: firstName || null,
+            lastName: lastName || null,
+          },
+        })
+      }
     } finally {
       set({ isLoading: false })
     }
@@ -118,18 +202,42 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
     set({ isLoading: true })
     try {
       const u = await loginWithGoogleFn()
-      const [firstName, ...lastNameParts] = (u.displayName || '').split(' ')
-      const lastName = lastNameParts.join(' ')
-      set({
-        user: {
-          uid: u.uid,
-          email: u.email ?? null,
-          displayName: u.displayName ?? null,
-          photoURL: u.photoURL ?? null,
-          firstName: firstName || null,
-          lastName: lastName || null,
-        },
-      })
+      try {
+        // Cargar datos completos del usuario desde la BD
+        const userFromDB = await usersApi.getByFirebaseUid(u.uid)
+        set({
+          user: {
+            uid: u.uid,
+            email: u.email ?? null,
+            displayName: u.displayName ?? null,
+            photoURL: u.photoURL ?? null,
+            userId: userFromDB.userId,
+            firstName: userFromDB.firstName || null,
+            lastName: userFromDB.lastName || null,
+            phone: userFromDB.phone || null,
+            address: userFromDB.address || null,
+            firebaseUid: userFromDB.firebaseUid,
+            authProvider: userFromDB.authProvider,
+            emailVerified: userFromDB.emailVerified,
+            photoUrl: userFromDB.photoUrl || null,
+            createdAt: userFromDB.createdAt,
+          },
+        })
+      } catch {
+        // Si no existe en BD, usar datos de Firebase
+        const [firstName, ...lastNameParts] = (u.displayName || '').split(' ')
+        const lastName = lastNameParts.join(' ')
+        set({
+          user: {
+            uid: u.uid,
+            email: u.email ?? null,
+            displayName: u.displayName ?? null,
+            photoURL: u.photoURL ?? null,
+            firstName: firstName || null,
+            lastName: lastName || null,
+          },
+        })
+      }
     } finally {
       set({ isLoading: false })
     }

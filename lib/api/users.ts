@@ -28,6 +28,10 @@ export const usersApi = {
     return apiClient.get<UserResponse>(`/users/${id}`)
   },
 
+  async getByFirebaseUid(firebaseUid: string): Promise<UserResponse> {
+    return apiClient.get<UserResponse>(`/users/firebase/${firebaseUid}`)
+  },
+
   async create(payload: UserCreateRequest): Promise<void> {
     return apiClient.post<void>('/users', payload)
   },

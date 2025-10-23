@@ -9,6 +9,10 @@ export const UserResponseSchema = z.object({
   email: z.string().email(),
   phone: z.string(),
   address: z.string(),
+  firebaseUid: z.string(),
+  authProvider: z.string(),
+  emailVerified: z.boolean(),
+  photoUrl: z.string().nullable(),
   createdAt: z.string(),
 })
 
