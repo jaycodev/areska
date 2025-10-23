@@ -13,6 +13,7 @@ import { Field, FieldDescription, FieldGroup, FieldSeparator } from '@/component
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/ui/password-input'
+import { Spinner } from '@/components/ui/spinner'
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/stores/auth-store'
 
@@ -132,7 +133,8 @@ export function LoginPage({ className, ...props }: React.ComponentProps<'div'>) 
                 />
                 <Field>
                   <Button type="submit" disabled={isLoading}>
-                    {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+                    {isLoading && <Spinner />}
+                    {isLoading ? 'Iniciando sesión' : 'Iniciar sesión'}
                   </Button>
                   <FieldDescription className="text-center">
                     ¿No tienes una cuenta? <a href="/registrarse">Regístrate</a>

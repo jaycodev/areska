@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from 'react'
 
-import { LogIn, LogOut, Menu, Search, Settings, ShoppingCart, Store, User, X } from 'lucide-react'
+import { LogIn, LogOut, Menu, Search, Settings, ShoppingCart, Store, X } from 'lucide-react'
 import Link from 'next/link'
 
 import { ConfirmDialog } from '@/components/shared/confirm-dialog'
 import { Logo } from '@/components/shared/logo'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -18,6 +19,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
+import { getInitials } from '@/lib/utils'
 import { useAuthStore } from '@/stores/auth-store'
 
 import { CartCount } from './cart-count'
@@ -84,8 +86,16 @@ export function Navbar() {
               <>
                 <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="icon">
-                      <User />
+                    <Button variant="outline" size="icon" className="rounded-full">
+                      <Avatar className="size-8">
+                        {user.photoURL ? (
+                          <AvatarImage src={user.photoURL} alt="Foto de perfil" />
+                        ) : (
+                          <AvatarFallback className="text-xs">
+                            {getInitials(user.firstName, user.lastName)}
+                          </AvatarFallback>
+                        )}
+                      </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
