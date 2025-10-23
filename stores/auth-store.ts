@@ -1,4 +1,5 @@
 'use client'
+
 import { onAuthStateChanged } from 'firebase/auth'
 import { create } from 'zustand'
 
@@ -16,6 +17,8 @@ type User = {
   email: string | null
   displayName: string | null
   photoURL: string | null
+  firstName: string | null
+  lastName: string | null
 }
 
 interface AuthStore {
@@ -46,12 +49,16 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
         if (!u) {
           set({ user: null, isLoadingInitial: false })
         } else {
+          const [firstName, ...lastNameParts] = (u.displayName || '').split(' ')
+          const lastName = lastNameParts.join(' ')
           set({
             user: {
               uid: u.uid,
               email: u.email,
               displayName: u.displayName,
               photoURL: u.photoURL,
+              firstName: firstName || null,
+              lastName: lastName || null,
             },
             isLoadingInitial: false,
           })
@@ -69,12 +76,16 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
     set({ isLoading: true })
     try {
       const u = await loginWithEmail(email, password)
+      const [firstName, ...lastNameParts] = (u.displayName || '').split(' ')
+      const lastName = lastNameParts.join(' ')
       set({
         user: {
           uid: u.uid,
           email: u.email ?? null,
           displayName: u.displayName ?? null,
           photoURL: u.photoURL ?? null,
+          firstName: firstName || null,
+          lastName: lastName || null,
         },
       })
     } finally {
@@ -86,12 +97,16 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
     set({ isLoading: true })
     try {
       const u = await signupWithEmail(email, password, name)
+      const [firstName, ...lastNameParts] = (u.displayName || '').split(' ')
+      const lastName = lastNameParts.join(' ')
       set({
         user: {
           uid: u.uid,
           email: u.email ?? null,
           displayName: u.displayName ?? null,
           photoURL: u.photoURL ?? null,
+          firstName: firstName || null,
+          lastName: lastName || null,
         },
       })
     } finally {
@@ -103,12 +118,16 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
     set({ isLoading: true })
     try {
       const u = await loginWithGoogleFn()
+      const [firstName, ...lastNameParts] = (u.displayName || '').split(' ')
+      const lastName = lastNameParts.join(' ')
       set({
         user: {
           uid: u.uid,
           email: u.email ?? null,
           displayName: u.displayName ?? null,
           photoURL: u.photoURL ?? null,
+          firstName: firstName || null,
+          lastName: lastName || null,
         },
       })
     } finally {
