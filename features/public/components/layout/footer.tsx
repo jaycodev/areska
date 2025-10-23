@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group'
 
 const quickLinks = [
-  { href: '/acerca-de', label: 'Sobre nosotros' },
+  { href: '/sobre-nosotros', label: 'Sobre nosotros' },
   { href: '/contacto', label: 'Contacto' },
   { href: '/envios', label: 'Información de envíos' },
 ]
