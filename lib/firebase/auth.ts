@@ -1,5 +1,6 @@
 import {
   createUserWithEmailAndPassword,
+  deleteUser,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -70,7 +71,14 @@ async function syncUserToBackend(u: FirebaseUser, authProvider: string, maxRetri
     }
   }
 
-  console.error('usersApi.createFromFirebase failed after retries:', lastError)
+  try {
+    await deleteUser(u)
+    console.error('Usuario borrado de Firebase debido a error en BD:', lastError)
+  } catch (deleteError) {
+    console.error('Error al borrar usuario de Firebase:', deleteError)
+  }
+
+  throw new Error('No se pudo crear el usuario en la base de datos')
 }
 
 export async function loginWithEmail(email: string, password: string): Promise<AuthUser> {
