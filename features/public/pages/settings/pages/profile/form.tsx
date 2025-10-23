@@ -24,7 +24,10 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Skeleton } from '@/components/ui/skeleton'
 import { showSubmittedData } from '@/lib/show-submitted-data'
+import { getInitials } from '@/lib/utils'
+import { useAuthStore } from '@/stores/auth-store'
 
 const photoSchema = z.object({
   photo: z
@@ -65,13 +68,8 @@ const personalSchema = z.object({
 type PhotoFormValues = z.infer<typeof photoSchema>
 type PersonalFormValues = z.infer<typeof personalSchema>
 
-const personalDefaults: Partial<PersonalFormValues> = {
-  email: 'jason.vilac@gmail.com',
-  firstName: 'Jason',
-  lastName: 'Vila',
-}
-
 export function ProfileForm() {
+  const { user, init, isLoadingInitial } = useAuthStore()
   const photoForm = useForm<PhotoFormValues>({
     resolver: zodResolver(photoSchema),
     defaultValues: { photo: null },
@@ -80,7 +78,11 @@ export function ProfileForm() {
 
   const personalForm = useForm<PersonalFormValues>({
     resolver: zodResolver(personalSchema),
-    defaultValues: personalDefaults,
+    defaultValues: {
+      email: '',
+      firstName: '',
+      lastName: '',
+    },
     mode: 'onChange',
   })
 
@@ -88,6 +90,10 @@ export function ProfileForm() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
   const [photoError, setPhotoError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    init()
+  }, [init])
 
   const handleUploadPhoto = () => fileInputRef.current?.click()
   const handleDeletePhoto = () => {
@@ -103,6 +109,14 @@ export function ProfileForm() {
   const handlePersonalSubmit = (data: PersonalFormValues) => {
     showSubmittedData(data)
   }
+
+  useEffect(() => {
+    if (user) {
+      personalForm.setValue('email', user.email || '')
+      personalForm.setValue('firstName', user.firstName || '')
+      personalForm.setValue('lastName', user.lastName || '')
+    }
+  }, [user, personalForm])
 
   useEffect(() => {
     if (photoValue instanceof File) {
@@ -124,20 +138,28 @@ export function ProfileForm() {
 
   const getFallback = () => {
     const { firstName, lastName } = personalForm.getValues()
-    return `${firstName?.[0] || ''}${lastName?.[0] || ''}`.toUpperCase()
+    return getInitials(firstName, lastName)
   }
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div className="flex flex-col items-center relative">
         <div className="relative">
-          <Avatar key={avatarUrl ?? 'fallback'} className="w-32 h-32">
-            {avatarUrl ? (
-              <AvatarImage src={avatarUrl} alt="Foto de perfil" className="object-cover" />
-            ) : (
-              <AvatarFallback className="text-5xl">{getFallback()}</AvatarFallback>
-            )}
-          </Avatar>
+          {isLoadingInitial ? (
+            <Skeleton className="w-32 h-32 rounded-full" />
+          ) : (
+            <Avatar className="w-32 h-32">
+              {avatarUrl || user?.photoURL ? (
+                <AvatarImage
+                  src={avatarUrl || user?.photoURL || ''}
+                  alt="Foto de perfil"
+                  className="object-cover"
+                />
+              ) : (
+                <AvatarFallback className="text-5xl">{getFallback()}</AvatarFallback>
+              )}
+            </Avatar>
+          )}
           <div className="absolute bottom-0 right-0">
             <DropdownMenu>
               <div className="absolute bottom-0 right-0 w-8 h-8 rounded-full flex items-center justify-center bg-background">
