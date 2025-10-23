@@ -7,5 +7,9 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
-  return <ComingSoon />
+  return (
+    <div className="flex items-center justify-center py-20 px-6">
+      <ComingSoon />
+    </div>
+  )
 }
