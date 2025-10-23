@@ -123,10 +123,15 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
       }
 
       if (!userFromDB) {
+        await logoutFirebase()
+        set({ user: null })
         throw new Error('No se pudo cargar los datos del usuario después de varias tentativas')
       }
 
       set({ user: userFromDB })
+    } catch (error) {
+      set({ user: null })
+      throw error
     } finally {
       set({ isLoading: false })
     }
@@ -166,10 +171,15 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
       }
 
       if (!userFromDB) {
+        await logoutFirebase()
+        set({ user: null })
         throw new Error('No se pudo cargar los datos del usuario después de varias tentativas')
       }
 
       set({ user: userFromDB })
+    } catch (error) {
+      set({ user: null })
+      throw error
     } finally {
       set({ isLoading: false })
     }
@@ -209,10 +219,15 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
       }
 
       if (!userFromDB) {
+        await logoutFirebase()
+        set({ user: null })
         throw new Error('No se pudo cargar los datos del usuario después de varias tentativas')
       }
 
       set({ user: userFromDB })
+    } catch (error) {
+      set({ user: null })
+      throw error
     } finally {
       set({ isLoading: false })
     }
