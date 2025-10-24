@@ -1,10 +1,13 @@
 import {
   createUserWithEmailAndPassword,
   deleteUser,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updatePassword,
   updateProfile,
   User as FirebaseUser,
 } from 'firebase/auth'
@@ -156,4 +159,19 @@ export async function updatePhotoAndSync(photoURL: string, fallbackProvider: str
   if (!u) return
   await updateProfile(u, { photoURL })
   await syncUserToBackend(u, fallbackProvider)
+}
+
+export async function changePassword(currentPassword: string, newPassword: string): Promise<void> {
+  const auth = getAuthClient()
+  const user = auth.currentUser
+  if (!user || !user.email) throw new Error('Usuario no autenticado')
+
+  const provider = detectProviderFromUser(user, 'password')
+  if (provider !== 'password') {
+    throw new Error('No se puede cambiar la contraseña para usuarios autenticados con ' + provider)
+  }
+
+  const credential = EmailAuthProvider.credential(user.email, currentPassword)
+  await reauthenticateWithCredential(user, credential)
+  await updatePassword(user, newPassword)
 }

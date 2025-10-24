@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import NextTopLoader from 'nextjs-toploader'
 
+import { Toaster } from '@/components/ui/sonner'
+
 import './globals.css'
 
 const inter = Inter({
@@ -62,6 +64,7 @@ export default function RootLayout({
           enableColorScheme
         >
           <NextTopLoader color="var(--primary)" height={2} easing="linear" showSpinner={false} />
+          <Toaster />
           {children}
         </ThemeProvider>
       </body>
