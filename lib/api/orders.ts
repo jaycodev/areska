@@ -63,7 +63,7 @@ export const ordersApi = {
       const url = `/orders/user-by-firebase-uid/${firebaseUid}`
       const data = await apiClient.get<OrderResponse[]>(url)
       return data || []
-    } catch (error) {
+    } catch {
       return []
     }
   },

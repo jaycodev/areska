@@ -1,14 +1,15 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
-import { useCartStore } from '@/stores/cart-store'
-import { useAuthStore } from '@/stores/auth-store'
 import { ordersApi } from '@/lib/api/orders'
 import { usersApi } from '@/lib/api/users'
+import { useAuthStore } from '@/stores/auth-store'
+import { useCartStore } from '@/stores/cart-store'
 
 const supportEmail = 'ventasweb@areskastore.com'
 
@@ -20,7 +21,7 @@ const mapItemsForApi = (items: any[]) =>
     priceTotal: it.price * it.quantity,
   }))
 
-export default function YapePage() {
+export function YapePage() {
   const { clearCart } = useCartStore()
   const [data, setData] = useState<any>(null)
   const [saving, setSaving] = useState(false)

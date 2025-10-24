@@ -1,18 +1,20 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { z } from 'zod'
-import { useForm, type FieldPath } from 'react-hook-form'
+
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
+import { type FieldPath, useForm } from 'react-hook-form'
+import { z } from 'zod'
+
 import { Button } from '@/components/ui/button'
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  FormControl,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useCartStore } from '@/stores/cart-store'
@@ -48,7 +50,7 @@ const schema = z
 type FormInput = z.input<typeof schema>
 type FormOutput = z.output<typeof schema>
 
-export default function CheckoutPage() {
+export function CheckoutPage() {
   const router = useRouter()
   const { items, getTotal } = useCartStore()
   const [step, setStep] = useState<1 | 2 | 3>(1)
