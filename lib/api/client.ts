@@ -38,7 +38,13 @@ export class ApiClient {
         ...options,
       })
 
-      const data: ApiResponse<T> = await response.json()
+      const text = await response.text()
+
+      if (!text || text.trim() === '') {
+        return [] as T
+      }
+
+      const data: ApiResponse<T> = JSON.parse(text)
 
       if (!data.success) {
         throw ApiClientError.fromApiError(data)
@@ -50,7 +56,6 @@ export class ApiClient {
         throw error
       }
 
-      // Network or parsing error
       throw new Error(error instanceof Error ? error.message : 'An unexpected error occurred')
     }
   }
