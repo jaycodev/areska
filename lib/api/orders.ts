@@ -34,10 +34,9 @@ export interface OrderResponse {
 export async function fetchOrdersByFirebaseUid(firebaseUid: string): Promise<OrderResponse[]> {
   try {
     // Usamos el endpoint que creamos en el backend que acepta el String UID
-    const response = await apiClient.get<OrderResponse[]>(
+    return await apiClient.get<OrderResponse[]>(
       `/orders/user-by-firebase-uid/${firebaseUid}`
     )
-    return response.data
   } catch (error) {
     // Captura el error para manejar el caso de "no hay órdenes" o problemas de red
     if (error instanceof Error) {
