@@ -5,6 +5,7 @@ import { create } from 'zustand'
 
 import { usersApi } from '@/lib/api/users'
 import {
+  changePassword,
   loginWithEmail,
   loginWithGoogle as loginWithGoogleFn,
   logoutFirebase,
@@ -37,6 +38,7 @@ interface AuthStore {
   signup: (email: string, password: string, name?: string) => Promise<void>
   loginWithGoogle: () => Promise<void>
   resetPasswordEmail: (email: string) => Promise<void>
+  changePassword: (currentPassword: string, newPassword: string) => Promise<void>
   logout: () => Promise<void>
 }
 
@@ -235,6 +237,15 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
 
   resetPasswordEmail: async (email: string): Promise<void> => {
     await requestPasswordReset(email)
+  },
+
+  changePassword: async (currentPassword: string, newPassword: string): Promise<void> => {
+    set({ isLoading: true })
+    try {
+      await changePassword(currentPassword, newPassword)
+    } finally {
+      set({ isLoading: false })
+    }
   },
 
   logout: async (): Promise<void> => {

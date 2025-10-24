@@ -1,37 +1,63 @@
+'use client'
+
 interface Props {
   children?: React.ReactNode
 }
 
-import { Bell, Monitor, Palette, Settings, User, Wrench } from 'lucide-react'
+import { Bell, Palette, Settings, User, Wrench } from 'lucide-react'
 
 import { SidebarNav } from '@public/pages/settings/components/sidebar-nav'
 
 import { Separator } from '@/components/ui/separator'
-
-const sidebarNavItems = [
-  {
-    title: 'Perfil',
-    href: '/ajustes',
-    icon: <User size={18} />,
-  },
-  {
-    title: 'Cuenta',
-    href: '/ajustes/cuenta',
-    icon: <Wrench size={18} />,
-  },
-  {
-    title: 'Apariencia',
-    href: '/ajustes/apariencia',
-    icon: <Palette size={18} />,
-  },
-  {
-    title: 'Notificaciones',
-    href: '/ajustes/notificaciones',
-    icon: <Bell size={18} />,
-  },
-]
+import { useAuthStore } from '@/stores/auth-store'
 
 export function SettingsLayout({ children }: Props) {
+  const { user } = useAuthStore()
+
+  const baseSidebarItems = [
+    {
+      title: 'Perfil',
+      href: '/ajustes',
+      icon: <User size={18} />,
+    },
+    {
+      title: 'Apariencia',
+      href: '/ajustes/apariencia',
+      icon: <Palette size={18} />,
+    },
+    {
+      title: 'Notificaciones',
+      href: '/ajustes/notificaciones',
+      icon: <Bell size={18} />,
+    },
+  ]
+
+  const sidebarNavItems =
+    user?.authProvider === 'password'
+      ? [
+          {
+            title: 'Perfil',
+            href: '/ajustes',
+            icon: <User size={18} />,
+          },
+          {
+            title: 'Cuenta',
+            href: '/ajustes/cuenta',
+            icon: <Wrench size={18} />,
+          },
+          {
+            title: 'Apariencia',
+            href: '/ajustes/apariencia',
+            icon: <Palette size={18} />,
+          },
+          {
+            title: 'Notificaciones',
+            href: '/ajustes/notificaciones',
+            icon: <Bell size={18} />,
+          },
+        ]
+      : baseSidebarItems
+
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-1 p-5 gap-4 flex-col overflow-hidden">
       <div className="flex h-full flex-col">
