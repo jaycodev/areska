@@ -1,7 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+
 import { Store } from 'lucide-react'
+
+import { ordersApi } from '@/lib/api/orders'
 import { useAuthStore } from '@/stores/auth-store'
 
 type OrderItem = {
@@ -34,24 +37,12 @@ export function MyPurchasesPage() {
 
     const fetchOrders = async () => {
       try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/orders/user-by-firebase-uid/${user.firebaseUid}`
-        )
-
-        if (!res.ok) {
-          if (res.status === 204) {
-            setOrders([])
-            return
-          }
-          const errText = await res.text()
-          throw new Error(`Error al cargar las órdenes: ${res.status} - ${errText}`)
-        }
-
-        const data = await res.json()
-        console.log('📦 Órdenes recibidas:', data)
-        setOrders(Array.isArray(data) ? data : [data])
+        const data = await ordersApi.getByFirebaseUid(user.firebaseUid)
+        console.warn('📦 Órdenes recibidas:', data)
+        setOrders(data)
       } catch (error) {
         console.error('Error al obtener órdenes:', error)
+        setOrders([])
       } finally {
         setLoading(false)
       }
