@@ -78,11 +78,7 @@ export function AccountForm() {
     }
   }
 
-  if (!user) {
-    return <p className="text-muted-foreground">Usuario no autenticado</p>
-  }
-
-  if (user.authProvider !== 'password') {
+  if (user!.authProvider !== 'password') {
     return (
       <Alert variant="warning">
         <TriangleAlert />
@@ -91,7 +87,7 @@ export function AccountForm() {
           <p>
             Esta función requiere cuenta con contraseña.
             <br />
-            Tu cuenta actual es de {user.authProvider}.
+            Tu cuenta actual es de {user!.authProvider}.
           </p>
           <ul className="list-inside list-disc text-sm">
             <li>Contacta con soporte para más ayuda</li>
