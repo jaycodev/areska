@@ -58,11 +58,11 @@ export function YapePage() {
     try {
       const userProfile = await usersApi.getByFirebaseUid(user!.firebaseUid)
 
-      if (!userProfile || !userProfile.userId) {
+      if (!userProfile || !userProfile.id) {
         throw new Error('Error: No se encontró el ID del usuario.')
       }
 
-      const realUserId = userProfile.userId
+      const realUserId = userProfile.id
 
       await ordersApi.createOrder({
         status: 'pending',

@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateEmail,
   updatePassword,
   updateProfile,
   User as FirebaseUser,
@@ -46,11 +47,9 @@ async function syncUserToBackend(u: FirebaseUser, authProvider: string, maxRetri
     email: u.email ?? '',
     firstName,
     lastName,
-    phone: undefined as string | undefined,
-    address: undefined as string | undefined,
     authProvider: detectProviderFromUser(u, authProvider),
     emailVerified: !!u.emailVerified,
-    photoUrl: u.photoURL ?? undefined,
+    photoUrl: u.photoURL ?? null,
   }
 
   if (!payload.email) return
@@ -58,11 +57,11 @@ async function syncUserToBackend(u: FirebaseUser, authProvider: string, maxRetri
   let lastError: unknown
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
-      await usersApi.createFromFirebase(payload)
+      await usersApi.syncWithFirebase(payload)
 
       try {
         const user = await usersApi.getByFirebaseUid(u.uid)
-        if (user?.userId) {
+        if (user?.id) {
           return
         }
       } catch {}
@@ -144,21 +143,14 @@ export async function syncCurrentUserWithBackend(
 
 export async function updateProfileAndSync(
   displayName: string,
-  fallbackProvider: string = 'password'
-) {
+  _phone?: string,
+  _address?: string
+): Promise<void> {
   const auth = getAuthClient()
   const u = auth.currentUser
-  if (!u) return
-  await updateProfile(u, { displayName })
-  await syncUserToBackend(u, fallbackProvider)
-}
+  if (!u) throw new Error('Usuario no autenticado')
 
-export async function updatePhotoAndSync(photoURL: string, fallbackProvider: string = 'password') {
-  const auth = getAuthClient()
-  const u = auth.currentUser
-  if (!u) return
-  await updateProfile(u, { photoURL })
-  await syncUserToBackend(u, fallbackProvider)
+  await updateProfile(u, { displayName })
 }
 
 export async function changePassword(currentPassword: string, newPassword: string): Promise<void> {
@@ -174,4 +166,25 @@ export async function changePassword(currentPassword: string, newPassword: strin
   const credential = EmailAuthProvider.credential(user.email, currentPassword)
   await reauthenticateWithCredential(user, credential)
   await updatePassword(user, newPassword)
+}
+
+export async function changeEmail(currentPassword: string, newEmail: string): Promise<void> {
+  const auth = getAuthClient()
+  const user = auth.currentUser
+  if (!user || !user.email) throw new Error('Usuario no autenticado')
+
+  const provider = detectProviderFromUser(user, 'password')
+  if (provider !== 'password') {
+    throw new Error('No se puede cambiar el correo para usuarios autenticados con ' + provider)
+  }
+
+  try {
+    const credential = EmailAuthProvider.credential(user.email, currentPassword)
+    await reauthenticateWithCredential(user, credential)
+
+    await updateEmail(user, newEmail)
+  } catch (error) {
+    console.warn('Error al cambiar email en Firebase:', error)
+    throw error
+  }
 }
