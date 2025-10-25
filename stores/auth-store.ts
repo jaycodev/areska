@@ -5,6 +5,7 @@ import { create } from 'zustand'
 
 import { usersApi } from '@/lib/api/users'
 import {
+  changeEmail,
   changePassword,
   loginWithEmail,
   loginWithGoogle as loginWithGoogleFn,
@@ -15,7 +16,7 @@ import {
 import { getAuthClient } from '@/lib/firebase/client'
 
 type User = {
-  userId: number
+  id: number
   firstName: string
   lastName: string
   email: string
@@ -39,6 +40,13 @@ interface AuthStore {
   loginWithGoogle: () => Promise<void>
   resetPasswordEmail: (email: string) => Promise<void>
   changePassword: (currentPassword: string, newPassword: string) => Promise<void>
+  changeEmail: (currentPassword: string, newEmail: string) => Promise<void>
+  updateProfile: (
+    firstName: string,
+    lastName: string,
+    phone: string,
+    address?: string
+  ) => Promise<void>
   logout: () => Promise<void>
 }
 
@@ -61,7 +69,7 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
             const userFromDB = await usersApi.getByFirebaseUid(u.uid)
             set({
               user: {
-                userId: userFromDB.userId,
+                id: userFromDB.id,
                 firstName: userFromDB.firstName,
                 lastName: userFromDB.lastName,
                 email: userFromDB.email,
@@ -104,7 +112,7 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
         try {
           const data = await usersApi.getByFirebaseUid(u.uid)
           userFromDB = {
-            userId: data.userId,
+            id: data.id,
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email,
@@ -152,7 +160,7 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
         try {
           const data = await usersApi.getByFirebaseUid(u.uid)
           userFromDB = {
-            userId: data.userId,
+            id: data.id,
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email,
@@ -200,7 +208,7 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
         try {
           const data = await usersApi.getByFirebaseUid(u.uid)
           userFromDB = {
-            userId: data.userId,
+            id: data.id,
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email,
@@ -243,6 +251,77 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
     set({ isLoading: true })
     try {
       await changePassword(currentPassword, newPassword)
+    } finally {
+      set({ isLoading: false })
+    }
+  },
+
+  changeEmail: async (currentPassword: string, newEmail: string): Promise<void> => {
+    set({ isLoading: true })
+    try {
+      const auth = getAuthClient()
+      const currentUser = auth.currentUser
+      if (!currentUser) throw new Error('Usuario no autenticado')
+
+      await changeEmail(currentPassword, newEmail)
+
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      await currentUser.reload()
+
+      const userFromDB = await usersApi.updateEmail(currentUser.uid, { email: newEmail })
+      const updatedUser: User = {
+        id: userFromDB.id,
+        firstName: userFromDB.firstName,
+        lastName: userFromDB.lastName,
+        email: userFromDB.email,
+        phone: userFromDB.phone,
+        address: userFromDB.address,
+        firebaseUid: userFromDB.firebaseUid,
+        authProvider: userFromDB.authProvider,
+        emailVerified: userFromDB.emailVerified,
+        photoUrl: userFromDB.photoUrl,
+        createdAt: userFromDB.createdAt,
+      }
+      set({ user: updatedUser })
+    } finally {
+      set({ isLoading: false })
+    }
+  },
+
+  updateProfile: async (
+    firstName: string,
+    lastName: string,
+    phone: string,
+    address?: string
+  ): Promise<void> => {
+    set({ isLoading: true })
+    try {
+      const auth = getAuthClient()
+      const currentUser = auth.currentUser
+      if (!currentUser) throw new Error('Usuario no autenticado')
+
+      const userFromDB = await usersApi.updateProfile(currentUser.uid, {
+        firstName,
+        lastName,
+        phone,
+        address,
+      })
+
+      const updatedUser: User = {
+        id: userFromDB.id,
+        firstName: userFromDB.firstName,
+        lastName: userFromDB.lastName,
+        email: userFromDB.email,
+        phone: userFromDB.phone,
+        address: userFromDB.address,
+        firebaseUid: userFromDB.firebaseUid,
+        authProvider: userFromDB.authProvider,
+        emailVerified: userFromDB.emailVerified,
+        photoUrl: userFromDB.photoUrl,
+        createdAt: userFromDB.createdAt,
+      }
+      set({ user: updatedUser })
     } finally {
       set({ isLoading: false })
     }

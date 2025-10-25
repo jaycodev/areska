@@ -3,10 +3,11 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Pencil, Trash, Upload } from 'lucide-react'
+import { AlertCircle, CheckCircle2, Pencil, Trash, Upload } from 'lucide-react'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
 
+import { Alert, AlertTitle } from '@/components/ui/alert'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -25,7 +26,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
-import { showSubmittedData } from '@/lib/show-submitted-data'
+import { Spinner } from '@/components/ui/spinner'
 import { getInitials } from '@/lib/utils'
 import { useAuthStore } from '@/stores/auth-store'
 
@@ -45,8 +46,7 @@ const photoSchema = z.object({
     .nullable(),
 })
 
-const personalSchema = z.object({
-  email: z.email({ message: 'Introduce un correo electrónico válido.' }).trim(),
+const nameSchema = z.object({
   firstName: z
     .string()
     .min(2, { message: 'El nombre debe tener al menos 2 caracteres.' })
@@ -63,25 +63,42 @@ const personalSchema = z.object({
     .refine((val) => /^[A-Za-zÀ-ÿ\s-]+$/.test(val), {
       message: 'El apellido solo puede contener letras, espacios y guiones (-).',
     }),
+  phone: z
+    .string()
+    .min(1, { message: 'El teléfono es obligatorio.' })
+    .max(20, { message: 'El teléfono no puede tener más de 20 caracteres.' })
+    .refine((val) => /^9\d{8}$/.test(val), {
+      message: 'El teléfono debe tener exactamente 9 dígitos y comenzar con 9.',
+    }),
+  address: z
+    .string()
+    .optional()
+    .refine((val) => !val || val.length <= 200, {
+      message: 'La dirección no puede tener más de 200 caracteres.',
+    }),
 })
 
 type PhotoFormValues = z.infer<typeof photoSchema>
-type PersonalFormValues = z.infer<typeof personalSchema>
+type NameFormValues = z.infer<typeof nameSchema>
 
 export function ProfileForm() {
-  const { user, init, isLoadingInitial } = useAuthStore()
+  const { user, init, isLoadingInitial, isLoading, updateProfile } = useAuthStore()
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
   const photoForm = useForm<PhotoFormValues>({
     resolver: zodResolver(photoSchema),
     defaultValues: { photo: null },
     mode: 'onChange',
   })
 
-  const personalForm = useForm<PersonalFormValues>({
-    resolver: zodResolver(personalSchema),
+  const nameForm = useForm<NameFormValues>({
+    resolver: zodResolver(nameSchema),
     defaultValues: {
-      email: '',
       firstName: '',
       lastName: '',
+      phone: '',
+      address: '',
     },
     mode: 'onChange',
   })
@@ -102,21 +119,30 @@ export function ProfileForm() {
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
-  const handlePhotoSubmit = (data: PhotoFormValues) => {
-    showSubmittedData(data)
-  }
+  const handlePhotoSubmit = (_data: PhotoFormValues) => {}
 
-  const handlePersonalSubmit = (data: PersonalFormValues) => {
-    showSubmittedData(data)
+  const handleNameSubmit = async (data: NameFormValues) => {
+    setSuccessMessage(null)
+    setErrorMessage(null)
+
+    try {
+      await updateProfile(data.firstName, data.lastName, data.phone, data.address || '')
+      setSuccessMessage('Perfil actualizado exitosamente')
+      nameForm.reset(data)
+    } catch (error: unknown) {
+      const err = error as { message?: string }
+      setErrorMessage(err?.message || 'Error al actualizar el perfil')
+    }
   }
 
   useEffect(() => {
     if (user) {
-      personalForm.setValue('email', user.email || '')
-      personalForm.setValue('firstName', user.firstName || '')
-      personalForm.setValue('lastName', user.lastName || '')
+      nameForm.setValue('firstName', user.firstName || '')
+      nameForm.setValue('lastName', user.lastName || '')
+      nameForm.setValue('phone', user.phone || '')
+      nameForm.setValue('address', user.address || '')
     }
-  }, [user, personalForm])
+  }, [user, nameForm])
 
   useEffect(() => {
     if (photoValue instanceof File) {
@@ -137,7 +163,7 @@ export function ProfileForm() {
   }, [photoValue, photoForm])
 
   const getFallback = () => {
-    const { firstName, lastName } = personalForm.getValues()
+    const { firstName, lastName } = nameForm.getValues()
     return getInitials(firstName, lastName)
   }
 
@@ -209,25 +235,42 @@ export function ProfileForm() {
         {photoError && <p className="text-xs text-destructive mt-2 text-center">{photoError}</p>}
       </div>
 
-      <Form {...personalForm}>
-        <form onSubmit={personalForm.handleSubmit(handlePersonalSubmit)} className="space-y-8">
+      <Form {...nameForm}>
+        <form onSubmit={nameForm.handleSubmit(handleNameSubmit)} className="space-y-8">
+          {successMessage && (
+            <Alert variant="success">
+              <CheckCircle2 />
+              <AlertTitle>{successMessage}</AlertTitle>
+            </Alert>
+          )}
+          {errorMessage && (
+            <Alert variant="destructive">
+              <AlertCircle />
+              <AlertTitle>{errorMessage}</AlertTitle>
+            </Alert>
+          )}
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
               <FormField
-                control={personalForm.control}
+                control={nameForm.control}
                 name="firstName"
                 render={({ field, fieldState }) => (
                   <FormItem>
                     <FormLabel>Nombre</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ingrese su nombre" autoComplete="given-name" {...field} />
+                      <Input
+                        placeholder="Ingrese su nombre"
+                        autoComplete="given-name"
+                        disabled={isLoading}
+                        {...field}
+                      />
                     </FormControl>
                     {fieldState.error && <FormMessage />}
                   </FormItem>
                 )}
               />
               <FormField
-                control={personalForm.control}
+                control={nameForm.control}
                 name="lastName"
                 render={({ field, fieldState }) => (
                   <FormItem>
@@ -236,6 +279,7 @@ export function ProfileForm() {
                       <Input
                         placeholder="Ingrese su apellido"
                         autoComplete="family-name"
+                        disabled={isLoading}
                         {...field}
                       />
                     </FormControl>
@@ -244,27 +288,50 @@ export function ProfileForm() {
                 )}
               />
             </div>
-            <FormField
-              control={personalForm.control}
-              name="email"
-              render={({ field, fieldState }) => (
-                <FormItem>
-                  <FormLabel>Correo electrónico</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="ejemplo@correo.com"
-                      autoComplete="email"
-                      {...field}
-                    />
-                  </FormControl>
-                  {fieldState.error && <FormMessage />}
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+              <FormField
+                control={nameForm.control}
+                name="phone"
+                render={({ field, fieldState }) => (
+                  <FormItem>
+                    <FormLabel>Teléfono</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Ingrese su teléfono"
+                        autoComplete="tel"
+                        disabled={isLoading}
+                        {...field}
+                      />
+                    </FormControl>
+                    {fieldState.error && <FormMessage />}
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={nameForm.control}
+                name="address"
+                render={({ field, fieldState }) => (
+                  <FormItem>
+                    <FormLabel>Dirección</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Ingrese su dirección"
+                        autoComplete="address"
+                        disabled={isLoading}
+                        {...field}
+                      />
+                    </FormControl>
+                    {fieldState.error && <FormMessage />}
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
           <div className="flex justify-center sm:justify-start">
-            <Button type="submit">Actualizar perfil</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading && <Spinner />}
+              {isLoading ? 'Actualizando perfil' : 'Actualizar perfil'}
+            </Button>
           </div>
         </form>
       </Form>

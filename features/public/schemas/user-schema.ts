@@ -1,9 +1,7 @@
 import { z } from 'zod'
 
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-
-export const UserResponseSchema = z.object({
-  userId: z.number(),
+export const UserDetailResponseSchema = z.object({
+  id: z.number(),
   firstName: z.string(),
   lastName: z.string(),
   email: z.string().email(),
@@ -16,40 +14,56 @@ export const UserResponseSchema = z.object({
   createdAt: z.string(),
 })
 
-export const UserCreateRequestSchema = z.object({
-  firstName: z.string().max(255),
-  lastName: z.string().max(255),
+export const UserListResponseSchema = z.object({
+  id: z.number(),
+  photoUrl: z.string().nullable(),
+  fullName: z.string(),
   email: z.string().email(),
-  password: z
+  phone: z.string(),
+  address: z.string(),
+  authProvider: z.string(),
+})
+
+export const FirebaseUserRequestSchema = z.object({
+  firstName: z
     .string()
-    .min(8, 'New password must be at least 8 characters long')
-    .regex(
-      passwordRegex,
-      'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&)'
-    ),
-  phone: z.string().regex(/^9\d{8}$/, 'Phone number must have 9 digits and start with 9'),
-  address: z.string().max(255),
-})
-
-export const UserUpdateRequestSchema = z.object({
-  firstName: z.string().max(255),
-  lastName: z.string().max(255),
-  phone: z.string().regex(/^9\d{8}$/, 'Phone number must have 9 digits and start with 9'),
-  address: z.string().max(255),
-})
-
-export const ChangePasswordRequestSchema = z.object({
-  oldPassword: z.string(),
-  newPassword: z
+    .min(1, 'First name is required')
+    .max(255, 'First name must not exceed 255 characters'),
+  lastName: z
     .string()
-    .min(8, 'New password must be at least 8 characters long')
-    .regex(
-      passwordRegex,
-      'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&)'
-    ),
+    .min(1, 'Last name is required')
+    .max(255, 'Last name must not exceed 255 characters'),
+  email: z.string().email('Email must be valid'),
+  firebaseUid: z.string().min(1, 'Firebase UID is required'),
+  authProvider: z.string().min(1, 'Auth provider is required'),
+  emailVerified: z.boolean(),
+  photoUrl: z.string().nullable().optional(),
 })
 
-export type UserResponse = z.infer<typeof UserResponseSchema>
-export type UserCreateRequest = z.infer<typeof UserCreateRequestSchema>
-export type UserUpdateRequest = z.infer<typeof UserUpdateRequestSchema>
-export type ChangePasswordRequest = z.infer<typeof ChangePasswordRequestSchema>
+export const UpdateUserEmailRequestSchema = z.object({
+  email: z.string().email('Email must be valid'),
+})
+
+export const UpdateUserPhotoRequestSchema = z.object({
+  photoUrl: z.string().max(500, 'Photo URL must not exceed 500 characters').nullable().optional(),
+})
+
+export const UpdateUserProfileRequestSchema = z.object({
+  firstName: z
+    .string()
+    .min(1, 'First name is required')
+    .max(255, 'First name must not exceed 255 characters'),
+  lastName: z
+    .string()
+    .min(1, 'Last name is required')
+    .max(255, 'Last name must not exceed 255 characters'),
+  phone: z.string().regex(/^9\d{8}$|^$/, 'Phone number must have 9 digits and start with 9'),
+  address: z.string().max(255, 'Address must not exceed 255 characters').optional(),
+})
+
+export type UserDetailResponse = z.infer<typeof UserDetailResponseSchema>
+export type UserListResponse = z.infer<typeof UserListResponseSchema>
+export type FirebaseUserRequest = z.infer<typeof FirebaseUserRequestSchema>
+export type UpdateUserEmailRequest = z.infer<typeof UpdateUserEmailRequestSchema>
+export type UpdateUserPhotoRequest = z.infer<typeof UpdateUserPhotoRequestSchema>
+export type UpdateUserProfileRequest = z.infer<typeof UpdateUserProfileRequestSchema>

@@ -1,54 +1,49 @@
 import type {
-  ChangePasswordRequest,
-  UserCreateRequest,
-  UserResponse,
-  UserUpdateRequest,
-} from '@public/schemas/user-schema'
+  FirebaseUserRequest,
+  UpdateUserEmailRequest,
+  UpdateUserPhotoRequest,
+  UpdateUserProfileRequest,
+  UserDetailResponse,
+  UserListResponse,
+} from '@/features/public/schemas/user-schema'
 
 import { apiClient } from './client'
 
-export interface UserCreateFromFirebaseRequest {
-  firebaseUid: string
-  email: string
-  firstName: string
-  lastName: string
-  phone?: string
-  address?: string
-  authProvider: string
-  emailVerified: boolean
-  photoUrl?: string
-}
-
 export const usersApi = {
-  async getAll(): Promise<UserResponse[]> {
-    return apiClient.get<UserResponse[]>('/users')
+  async getAll(): Promise<UserListResponse[]> {
+    return apiClient.get<UserListResponse[]>('/users')
   },
 
-  async getById(id: number): Promise<UserResponse> {
-    return apiClient.get<UserResponse>(`/users/${id}`)
+  async getById(id: number): Promise<UserDetailResponse> {
+    return apiClient.get<UserDetailResponse>(`/users/${id}`)
   },
 
-  async getByFirebaseUid(firebaseUid: string): Promise<UserResponse> {
-    return apiClient.get<UserResponse>(`/users/firebase/${firebaseUid}`)
+  async getByFirebaseUid(firebaseUid: string): Promise<UserDetailResponse> {
+    return apiClient.get<UserDetailResponse>(`/users/firebase/${firebaseUid}`)
   },
 
-  async create(payload: UserCreateRequest): Promise<void> {
-    return apiClient.post<void>('/users', payload)
+  async syncWithFirebase(payload: FirebaseUserRequest): Promise<UserDetailResponse> {
+    return apiClient.post<UserDetailResponse>('/users/firebase/sync', payload)
   },
 
-  async createFromFirebase(payload: UserCreateFromFirebaseRequest): Promise<void> {
-    return apiClient.post<void>('/users/firebase', payload)
+  async updateEmail(
+    firebaseUid: string,
+    payload: UpdateUserEmailRequest
+  ): Promise<UserDetailResponse> {
+    return apiClient.put<UserDetailResponse>(`/users/${firebaseUid}/email`, payload)
   },
 
-  async update(id: number, payload: UserUpdateRequest): Promise<void> {
-    return apiClient.put<void>(`/users/${id}`, payload)
+  async updateProfile(
+    firebaseUid: string,
+    payload: UpdateUserProfileRequest
+  ): Promise<UserDetailResponse> {
+    return apiClient.put<UserDetailResponse>(`/users/${firebaseUid}/profile`, payload)
   },
 
-  async delete(id: number): Promise<void> {
-    return apiClient.delete<void>(`/users/${id}`)
-  },
-
-  async changePassword(id: number, payload: ChangePasswordRequest): Promise<void> {
-    return apiClient.put<void>(`/users/${id}/change-password`, payload)
+  async updatePhoto(
+    firebaseUid: string,
+    payload: UpdateUserPhotoRequest
+  ): Promise<UserDetailResponse> {
+    return apiClient.put<UserDetailResponse>(`/users/${firebaseUid}/photo`, payload)
   },
 }
