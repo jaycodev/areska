@@ -12,6 +12,7 @@ import {
   logoutFirebase,
   requestPasswordReset,
   signupWithEmail,
+  updateProfileAndSync,
 } from '@/lib/firebase/auth'
 import { getAuthClient } from '@/lib/firebase/client'
 
@@ -300,6 +301,9 @@ export const useAuthStore = create<AuthStore>()((set, get) => ({
       const auth = getAuthClient()
       const currentUser = auth.currentUser
       if (!currentUser) throw new Error('Usuario no autenticado')
+
+      const displayName = `${firstName} ${lastName}`.trim()
+      await updateProfileAndSync(displayName, phone, address)
 
       const userFromDB = await usersApi.updateProfile(currentUser.uid, {
         firstName,
