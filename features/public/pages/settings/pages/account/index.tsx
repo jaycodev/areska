@@ -6,7 +6,7 @@ export function SettingsAccountPage() {
   return (
     <ContentSection
       title="Cuenta"
-      desc="Actualiza la contraseña de tu cuenta. Configura tu idioma preferido."
+      desc="Actualiza el correo electrónico y la contraseña de tu cuenta."
     >
       <AccountForm />
     </ContentSection>
