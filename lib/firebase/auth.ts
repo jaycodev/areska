@@ -151,6 +151,7 @@ export async function updateProfileAndSync(
   if (!u) throw new Error('Usuario no autenticado')
 
   await updateProfile(u, { displayName })
+  await u.reload()
 }
 
 export async function changePassword(currentPassword: string, newPassword: string): Promise<void> {
