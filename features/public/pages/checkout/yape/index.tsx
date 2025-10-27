@@ -28,11 +28,30 @@ export function YapePage() {
   const [saved, setSaved] = useState(false)
   const { user } = useAuthStore()
   const router = useRouter()
+  const [remaining, setRemaining] = useState(300)
 
   useEffect(() => {
     const raw = sessionStorage.getItem('checkout-data')
     if (raw) setData(JSON.parse(raw))
   }, [])
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setRemaining((s) => {
+        if (s <= 1) {
+          clearInterval(id)
+          Promise.resolve().then(() => router.push('/productos'))
+          return 0
+        }
+        return s - 1
+      })
+    }, 1000)
+    return () => clearInterval(id)
+  }, [router])
+
+  const mmss = `${String(Math.floor(remaining / 60)).padStart(2, '0')}:${String(
+    remaining % 60
+  ).padStart(2, '0')}`
 
   const mailto = useMemo(() => {
     if (!data) return '#'
@@ -125,7 +144,7 @@ export function YapePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:items-stretch">
           <div className="relative w-full md:h-full aspect-[3/4]">
             <Image
-              src="/images/yape/yapeQR.jpg"
+              src="/images/yape/yapeQRandy.jpg"
               alt="Pago con Yape - QR"
               fill
               className="rounded-xl border object-cover md:object-contain"
@@ -169,6 +188,11 @@ export function YapePage() {
             >
               <a href={mailto}>Abrir correo con asunto</a>
             </Button>
+
+            <div className="rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm px-3 py-2">
+              Tienes <b>{mmss}</b> para completar el pago con Yape y confirmar la compra. Al
+              finalizar el tiempo te enviaremos a la página principal.
+            </div>
           </div>
         </div>
 
