@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import NextTopLoader from 'nextjs-toploader'
 
+import { ThemeScript } from '@/components/shared/theme-script'
 import { Toaster } from '@/components/ui/sonner'
 
 import './globals.css'
@@ -39,22 +40,7 @@ export default function RootLayout({
   return (
     <html lang="es" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-            // Prevent theme flash on first load
-            const theme =
-            localStorage.getItem('theme') ||
-            (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-            document.documentElement.classList.add(theme);
-            
-            const meta = document.querySelector('meta[name="theme-color"]');
-            if (meta) {
-              meta.content = theme === 'dark' ? 'oklch(0.141 0.005 285.823)' : 'oklch(1 0 0)';
-              }
-              `,
-          }}
-        />
+        <ThemeScript />
       </head>
       <body className={`${inter.className} antialiased`}>
         <ThemeProvider
