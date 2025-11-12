@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 
 export function generateViewport() {
   return {
-    themeColor: [{ color: 'oklch(1 0 0)' }],
+    themeColor: [{ color: 'oklch(0.141 0.005 285.823)' }],
   }
 }
 
@@ -45,7 +45,7 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="dark"
           disableTransitionOnChange
           enableColorScheme
         >
